@@ -6,7 +6,8 @@ import com.huanghaibin.rqm.R;
 
 import net.OnDataGetListener;
 
-import base.BaseActivity2;
+import base.BaseActivity;
+import base.MainActivity;
 import butterknife.BindView;
 import data.CheckVersionController;
 import utils.GoPageUtil;
@@ -15,7 +16,7 @@ import utils.WeakHandler;
 import widgets.SystemBarTintManager;
 
 
-public class Welcome extends BaseActivity2 {
+public class Welcome extends BaseActivity {
 
     protected SystemBarTintManager tintManager;
     CheckVersionController mCheckVersionController;
@@ -30,7 +31,7 @@ public class Welcome extends BaseActivity2 {
     @Override
     public void initView() {
         super.initView();
-        getVersionInfo();
+        GoPageUtil.goPage(Welcome.this, MainActivity.class);
     }
 
 

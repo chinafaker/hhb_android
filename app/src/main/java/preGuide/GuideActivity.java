@@ -5,11 +5,11 @@ import android.widget.TextView;
 
 import com.huanghaibin.rqm.R;
 
-import base.BaseActivity2;
+import base.BaseActivity;
 import butterknife.BindView;
 import utils.GoPageUtil;
 
-public class GuideActivity extends BaseActivity2 {
+public class GuideActivity extends BaseActivity {
 
     @BindView(R.id.click)
     TextView click;

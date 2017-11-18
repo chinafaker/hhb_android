@@ -13,9 +13,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.huanghaibin.rqm.R;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +30,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import base.App;
-import base.BaseActivity2;
+import base.BaseActivity;
 import utils.JsonUtil;
 import utils.Logger;
 import utils.StringUtils;
@@ -253,8 +251,8 @@ public class BaseDataController {
                     @Override
                     public void onResponse(String result) {
                         if (StringUtils.isEmpty(result)) {
-                            if (mContext instanceof BaseActivity2) {
-                                ((BaseActivity2) mContext).disProDialog();
+                            if (mContext instanceof BaseActivity) {
+                                ((BaseActivity) mContext).disProDialog();
                             }
                             listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.tip_no_response));
                             return;
@@ -282,8 +280,8 @@ public class BaseDataController {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error == null || error.networkResponse == null) {
-                            if (mContext instanceof BaseActivity2) {
-                                ((BaseActivity2) mContext).disProDialog();
+                            if (mContext instanceof BaseActivity) {
+                                ((BaseActivity) mContext).disProDialog();
                             }
                             listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
                             return;

@@ -38,7 +38,7 @@ import widgets.SystemBarTintManager;
  * @ClassName: BaseActivity
  * @Description: 基类
  */
-public abstract class BaseActivity2 extends MainbaseActivity {
+public abstract class BaseActivity extends MainbaseActivity {
     public static int STATUS_BAR_HEIGHT = 0;
     protected int initWidth = 0;
     protected int initHeight = 0;
@@ -66,7 +66,6 @@ public abstract class BaseActivity2 extends MainbaseActivity {
     LinearLayout titleWrapperLin;
     @BindView(R.id.titleRe)
     RelativeLayout titleRe;
-
 
 
     protected AppCompatActivity activity;
@@ -206,9 +205,6 @@ public abstract class BaseActivity2 extends MainbaseActivity {
     protected void onPause() {
         super.onPause();
     }
-
-
-
 
 
     /**

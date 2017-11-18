@@ -3,8 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="bg_F3F5F6">#F2F2F2</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="black">#ff333333</color>
+    <color name="bg_F2F2F2">#F2F2F2</color>
+    <color name="bg_e3e3e3">#e3e3e3</color>
 
-
+    
+    <color name="line_E1EbEF">#E1EbEF</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_purple">#686868</color>
     <color name="dark_purple_light">#686868</color>
@@ -18,4 +24,7 @@
     <color name="txt_999999">#999999</color>
     <color name="bg_229EFF">#229EFF</color>
     <color name="bg_F2062740">#F2062740</color>
+
+    <color name="colorTabNormal">#b0b0b0</color>
+    <color name="colorTabSelected">@color/bg_229EFF</color>
 </resources>

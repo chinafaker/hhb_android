@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 
-import base.BaseActivity2;
+import base.BaseActivity;
 import butterknife.BindView;
 import preGuide.GuideActivity;
 import utils.GoPageUtil;
@@ -33,7 +33,7 @@ import utils.Logger;
 import utils.StringUtils;
 import utils.Utils;
 
-public class BaseWebview extends BaseActivity2 {
+public class BaseWebview extends BaseActivity {
     @BindView(R.id.webView)
     protected WebView webView;
     @BindView(R.id.swipeLayout)
