@@ -136,20 +136,17 @@
                 android:clickable="true"
                />
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/checkSave"
-                android:background="@null"
                 android:gravity="center_vertical|left"
-                android:hint="Save user ID"
+                android:text="Save user ID"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textColorHint="@color/hint_C2C2C2"
+                android:textColor="@color/hint_C2C2C2"
                 android:textSize="17sp" />
 
 
