@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="270dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp">
+
+            <ImageView
+                android:id="@+id/iv_user"
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_user" />
+
+            <EditText
+                android:id="@+id/userEdi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_toLeftOf="@+id/iv_clear"
+                android:layout_toRightOf="@+id/iv_user"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="Please enter your account"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/txt_333333"
+                android:textColorHint="@color/hint_C2C2C2"
+                android:textSize="17sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:scaleType="center"
+                android:src="@mipmap/icon_closed"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/line_F5F5F5"></View>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp">
+
+            <ImageView
+                android:id="@+id/iv_password"
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_lock" />
+
+            <EditText
+                android:id="@+id/passwordEdi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_toLeftOf="@+id/iv_clear1"
+                android:layout_toRightOf="@+id/iv_password"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="Please enter your password"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/txt_333333"
+                android:textColorHint="@color/hint_C2C2C2"
+                android:textSize="17sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_clear1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:scaleType="center"
+                android:src="@mipmap/icon_closed"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/line_F5F5F5"></View>
+
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp">
+
+            <CheckBox
+                android:id="@+id/checkSave"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/save_checkbox_bg"
+                android:checked="true"
+                android:button="@null"
+                android:clickable="true"
+               />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/checkSave"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="Save user ID"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hint_C2C2C2"
+                android:textSize="17sp" />
+
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

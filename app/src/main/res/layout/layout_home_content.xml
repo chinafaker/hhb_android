@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/layout_title_gradientcolor"
+        android:visibility="gone" />
+
+
+    <ImageView
+        android:id="@+id/iv_activity"
+        android:layout_width="match_parent"
+        android:layout_height="208dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/login_pic" />
+
+    <ImageView
+        android:id="@+id/pic_cont"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/pic_cont" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/white"
+        app:tabBackground="@drawable/selector_btn_tablayout"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/transparent"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/blueColor"
+        app:tabTextColor="@color/txt_999999" />
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="270dp" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/selector_bg_normal_press"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textColor="@color/txt_333333"
+        android:textSize="18sp" />
+
+</LinearLayout>

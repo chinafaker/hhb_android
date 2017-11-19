@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
+    <color name="blueColor">#4199FA</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="bg_F3F5F6">#F2F2F2</color>
@@ -8,8 +9,20 @@
     <color name="black">#ff333333</color>
     <color name="bg_F2F2F2">#F2F2F2</color>
     <color name="bg_e3e3e3">#e3e3e3</color>
+    <color name="hint_C2C2C2">#C2C2C2</color>
 
-    
+    <color name="bg_gray">#F3F5F6</color>
+    <color name="bg_F7F7F7">#F7F7F7</color>
+    <color name="gray">#ffD1D1D1</color>
+
+    <color name="line_F5F5F5">#F5F5F5</color>
+    <color name="gray_dark">#ffc5c5c5</color>
+    <color name="gray_light">#ffefefef</color>
+    <color name="gray_lighter">#E2E5E7</color>
+    <color name="gray_lightest">#EEEEEE</color>
+    <color name="gray_bg">#50000000</color>
+    <color name="gray_bankcard_bg">#EFEFEF</color>
+    <color name="gray_line">#E7E7E7</color>
     <color name="line_E1EbEF">#E1EbEF</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_purple">#686868</color>
@@ -18,13 +31,22 @@
     <color name="blue_dark">#0096D4</color>
 
     <color name="bg_e7e7e7">#e7e7e7</color>
+    <color name="bg_E4E4E4">#E4E4E4</color>
     <color name="txt_6A7D8C">#6A7D8C</color>
     <color name="txt_333333">#333333</color>
     <color name="txt_666666">#666666</color>
     <color name="txt_999999">#999999</color>
     <color name="bg_229EFF">#229EFF</color>
+    <color name="bg_51B1FB">#51B1FB</color>
+
+
     <color name="bg_F2062740">#F2062740</color>
+    <color name="bg_6651B1FB">#6651B1FB</color>
+    <color name="bg_66229EFF">#66229EFF</color> c
 
     <color name="colorTabNormal">#b0b0b0</color>
     <color name="colorTabSelected">@color/bg_229EFF</color>
+    <color name="yellow">#FFFF00</color><!--黄色 -->
+    <color name="btn_yellow">#45494A</color><!--黄色 -->
+
 </resources>

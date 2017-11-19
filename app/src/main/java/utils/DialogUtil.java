@@ -346,4 +346,10 @@ public class DialogUtil {
             dialogTitle.setText(title);
         }
     }
+
+
+    public static void noticeDialog(final Context context,  final WeakHandler handler, boolean dismissFlag) {
+        View layout = initDialog(context, R.layout.layout_dialog_notice, dismissFlag, false, false, false);
+    }
+
 }

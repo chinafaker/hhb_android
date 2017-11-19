@@ -6,15 +6,13 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/layout_normal_title"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
     </include>
 
     <TextView
         android:id="@+id/click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_home"
         android:layout_centerInParent="true"
         />
 

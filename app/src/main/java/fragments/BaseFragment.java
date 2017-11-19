@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Field;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import utils.UIUtils;
 
 public abstract class BaseFragment extends Fragment {
@@ -22,7 +24,7 @@ public abstract class BaseFragment extends Fragment {
     protected AppCompatActivity activity;
     protected View v;
     protected int initWidth, initHeight;
-
+    Unbinder unbinder;
     private ProgressDialog dialog;
     private String message = "加载中...";
 
@@ -35,11 +37,13 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         UIUtils.initDisplayMetrics(getActivity(), getActivity().getWindowManager(), false);
         initWidth = UIUtils.getWidth();
         initHeight = UIUtils.getHeight();
 
         v = inflater.inflate(initInflateView(), null);
+        unbinder = ButterKnife.bind(this, v);
         getMyViews(v);
         return v;
     }
@@ -154,5 +158,11 @@ public abstract class BaseFragment extends Fragment {
 
     public void disProDialog() {
         handler.sendEmptyMessage(CLOSE_DIALOG);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         super.initView();
         EventBus.getDefault().register(this);
+        setStatusbarLightMode();
         hideTitle();
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         viewpager.setOffscreenPageLimit(1);
