@@ -17,11 +17,14 @@ import com.huanghaibin.rqm.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.net.ssl.SSLContext;
@@ -121,6 +124,7 @@ public class BaseDataController {
 
     /**
      * 构造器
+     *
      * @param context
      * @param listener
      */
@@ -215,6 +219,7 @@ public class BaseDataController {
         }
     }
 
+
     /**
      * @param params
      * @return void 返回类型
@@ -236,7 +241,7 @@ public class BaseDataController {
         try {
             params.remove("sign");
 
-            params.put("sign","0135c7277354cfca3bd633732bf6132d");
+            params.put("sign", "0135c7277354cfca3bd633732bf6132d");
         } catch (Exception e) {
             if (Logger.B_LOG_OPEN) {
                 e.printStackTrace();
@@ -247,71 +252,71 @@ public class BaseDataController {
             return;
         }
         if (stringRequest == null) {
-                stringRequest = new CustomRequest(Request.Method.POST, getAbsoluteUrl(isHttp, method), new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String result) {
-                        if (StringUtils.isEmpty(result)) {
-                            if (mContext instanceof BaseActivity) {
-                                ((BaseActivity) mContext).disProDialog();
-                            }
-                            listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.tip_no_response));
-                            return;
+            stringRequest = new CustomRequest(Request.Method.POST, getAbsoluteUrl(isHttp, method), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String result) {
+                    if (StringUtils.isEmpty(result)) {
+                        if (mContext instanceof BaseActivity) {
+                            ((BaseActivity) mContext).disProDialog();
                         }
-
-                        Logger.i("===== " + method + " 返回数据：" + result);
-                        if (Utils.isEmpty(result)) {
-                            listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
-                        } else {
-                            try {
-                                JSONObject jo = new JSONObject(result);
-                                int responseCode = jo.getInt("success");
-                                String msg = jo.getString("msg");
-                                dealResp(responseCode, msg);
-                            } catch (JSONException e) {
-                                if (Logger.B_LOG_OPEN) {
-                                    e.printStackTrace();
-                                }
-                                listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
-                            }
-                        }
-
+                        listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.tip_no_response));
+                        return;
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error == null || error.networkResponse == null) {
-                            if (mContext instanceof BaseActivity) {
-                                ((BaseActivity) mContext).disProDialog();
-                            }
-                            listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
-                            return;
-                        }
-                        Logger.e("失败原因：" + error.getMessage());
-                        String result = new String(error.networkResponse.data);
-                        Logger.i("onFailure(" + method + ")----->" + result);
 
-                        if (Utils.isEmpty(result)) {
-                            listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
-                        } else {
-                            try {
-                                JSONObject jo = new JSONObject(result);
-                                int responseCode = jo.getInt("success");
-                                String msg = jo.getString("msg");
-                                dealResp(responseCode, msg);
-                            } catch (JSONException e) {
-                                if (Logger.B_LOG_OPEN) {
-                                    e.printStackTrace();
-                                }
-                                listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                    Logger.i("===== " + method + " 返回数据：" + result);
+                    if (Utils.isEmpty(result)) {
+                        listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
+                    } else {
+                        try {
+                            JSONObject jo = new JSONObject(result);
+                            int responseCode = jo.getInt("success");
+                            String msg = jo.getString("msg");
+                            dealResp(responseCode, msg);
+                        } catch (JSONException e) {
+                            if (Logger.B_LOG_OPEN) {
+                                e.printStackTrace();
                             }
+                            listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
                         }
                     }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        return params;
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error == null || error.networkResponse == null) {
+                        if (mContext instanceof BaseActivity) {
+                            ((BaseActivity) mContext).disProDialog();
+                        }
+                        listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
+                        return;
                     }
-                };
+                    Logger.e("失败原因：" + error.getMessage());
+                    String result = new String(error.networkResponse.data);
+                    Logger.i("onFailure(" + method + ")----->" + result);
+
+                    if (Utils.isEmpty(result)) {
+                        listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
+                    } else {
+                        try {
+                            JSONObject jo = new JSONObject(result);
+                            int responseCode = jo.getInt("success");
+                            String msg = jo.getString("msg");
+                            dealResp(responseCode, msg);
+                        } catch (JSONException e) {
+                            if (Logger.B_LOG_OPEN) {
+                                e.printStackTrace();
+                            }
+                            listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                        }
+                    }
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    return params;
+                }
+            };
             stringRequest.setTag(mContext.getClass().getSimpleName());
             stringRequest.setShouldCache(false);
 
@@ -356,6 +361,127 @@ public class BaseDataController {
 
     private static String getAbsoluteUrl(boolean isHttp, String relativeUrl) {
         return (isHttp ? Consts.BASE_ADDRESS_HTTP : Consts.BASE_ADDRESS) + relativeUrl + ".htm";
+
+    }
+
+
+    private static String getAbsoluteUrlRQM(String relativeUrl, HashMap<String, String> params) {
+        StringBuilder urlBuilder = new StringBuilder();
+        urlBuilder.append(Consts.BASE_ADDRESS_RQM);
+        urlBuilder.append(relativeUrl);
+        try {
+            if (null != params) {
+                urlBuilder.append("?");
+                Iterator<Map.Entry<String, String>> iterator = params.entrySet()
+                        .iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, String> param = iterator.next();
+                    urlBuilder
+                            .append(URLEncoder.encode(param.getKey(), "UTF-8"))
+                            .append('=')
+                            .append(URLEncoder.encode(param.getValue(), "UTF-8"));
+                    if (iterator.hasNext()) {
+                        urlBuilder.append('&');
+                    }
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return urlBuilder.toString();
+    }
+
+
+    /**
+     * @param params
+     * @return void 返回类型
+     * @Title: getData
+     * @Description: 请求数据的方法
+     * @author vincent
+     */
+    public void getDataRQM(final HashMap<String, String> params, final String method, Boolean isPost) {
+        this.method = method;
+        if (!NetUtils.isConnected(mContext)) {
+            listener.onGetDataFailed(no_net, mContext.getResources().getString(R.string.nonet));
+            return;
+        }
+        if (stringRequest == null) {
+            stringRequest = new CustomRequest(Request.Method.POST, getAbsoluteUrlRQM(method, params), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String result) {
+
+                    if (Utils.isEmpty(result)) {
+                        listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
+                    } else {
+                        try {
+                            JSONObject jo = new JSONObject(result);
+                            boolean responseCode = jo.getBoolean("code");
+                            if (responseCode) {
+                                String data = jo.getString("data");
+                               // String sc = jo.getString("sc");//sc：
+                                listener.onGetDataSuccess(data);
+                            } else {
+                                String fc = jo.getString("fc");//fc：【失败错误码如下：
+                                listener.onGetDataFailed(0, fc);
+                            }
+                        } catch (JSONException e) {
+                            if (Logger.B_LOG_OPEN) {
+                                e.printStackTrace();
+                            }
+                            listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                        }
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error == null || error.networkResponse == null) {
+                        if (mContext instanceof BaseActivity) {
+                            ((BaseActivity) mContext).disProDialog();
+                        }
+                        listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
+                        return;
+                    }
+                    Logger.e("失败原因：" + error.getMessage());
+                    String result = new String(error.networkResponse.data);
+                    Logger.i("onFailure(" + method + ")----->" + result);
+
+                    if (Utils.isEmpty(result)) {
+                        listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
+                    } else {
+                        try {
+                            JSONObject jo = new JSONObject(result);
+                            int responseCode = jo.getInt("success");
+                            String msg = jo.getString("msg");
+                            dealResp(responseCode, msg);
+                        } catch (JSONException e) {
+                            if (Logger.B_LOG_OPEN) {
+                                e.printStackTrace();
+                            }
+                            listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                        }
+                    }
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    return params;
+                }
+            };
+            stringRequest.setTag(mContext.getClass().getSimpleName());
+            stringRequest.setShouldCache(false);
+
+            Logger.i("===== 请求地址：" + stringRequest.getUrl());
+            Logger.i("===== " + method + " 请求参数：" + JsonUtil.jsonFromObject(params));
+            /**
+             * 添加网络请求
+             * @param request 网络请求
+             */
+            RequestQueue requestQueue = getRequestQueueInstance(App.getApp().getApplicationContext());
+            requestQueue.add(stringRequest);
+        }
+
     }
 
 }

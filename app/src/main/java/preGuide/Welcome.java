@@ -10,6 +10,7 @@ import base.BaseActivity;
 import base.MainActivity;
 import butterknife.BindView;
 import data.CheckVersionController;
+import data.LoginController;
 import utils.GoPageUtil;
 import utils.Utils;
 import utils.WeakHandler;
@@ -31,30 +32,23 @@ public class Welcome extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        GoPageUtil.goPage(Welcome.this, MainActivity.class);
+        getLoginController();
     }
 
-
-    public void getVersionInfo() {
-        int   current_version = Utils.getVersionCode();//版本名
-        if (mCheckVersionController == null)
-            mCheckVersionController = new CheckVersionController(this, new OnDataGetListener() {
+    LoginController mLoginController;
+    public void getLoginController() {
+        if (mLoginController == null)
+            mLoginController = new LoginController(this, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
-                    message.setText("成功"+result);
-
-                    new WeakHandler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            GoPageUtil.goPage(Welcome.this, GuideActivity.class);
-                        }
-                    },1000);
+                    message.setText("成功" + result);
                 }
 
                 @Override
                 public void onGetDataFailed(int responseCode, String result) {
-                    message.setText("失败"+result);}
+                    message.setText("失败" + result);
+                }
             });
-        mCheckVersionController.getData("", current_version + "");
+        mLoginController.getData("DIL", "test");
     }
 }

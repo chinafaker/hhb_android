@@ -1,6 +1,5 @@
 package fragments;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -11,19 +10,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.huanghaibin.rqm.R;
 
 import java.util.ArrayList;
 
-import base.MainActivity;
 import butterknife.BindView;
+import customViews.NoScrollViewPager;
 import fingerprint.FingerprintCore;
-import fingerprint.FingerprintMainActivity;
 import fingerprint.FingerprintUtil;
 import fingerprint.KeyguardLockScreenManager;
-import preGuide.GuideActivity;
 import preGuide.Welcome;
 import utils.DialogUtil;
 import utils.GoPageUtil;
@@ -43,7 +40,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.mSwipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.pager)
-    ViewPager pager;
+    NoScrollViewPager pager;
     @BindView(R.id.btn_login)
     Button btn_login;
 
@@ -58,6 +55,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void getMyViews() {
+        initFingerprintCore();
         mSwipeRefreshLayout.setColorSchemeResources(R.color.bg_229EFF);
         mSwipeRefreshLayout.setOnRefreshListener(listener);
         MyPagerAdapter adapter = new MyPagerAdapter(activity.getSupportFragmentManager());
@@ -66,6 +64,18 @@ public class HomeFragment extends BaseFragment {
         tabs.setupWithViewPager(pager);
         tabs.setTabsFromPagerAdapter(adapter);
         pager.setCurrentItem(0);
+        if (mFingerprintCore.isSupport()) {//设备支持指纹
+            pager.setNoScroll(false);
+        } else {
+            pager.setNoScroll(true);
+            LinearLayout tabStrip = (LinearLayout) tabs.getChildAt(0);
+            for (int i = 0; i < tabStrip.getChildCount(); i++) {
+                View tabView = tabStrip.getChildAt(i);
+                if (tabView != null) {
+                    tabView.setClickable(false);
+                }
+            }
+        }
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -80,13 +90,11 @@ public class HomeFragment extends BaseFragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        initFingerprintCore();
     }
 
     @Override
     public void doSomething() {
     }
-
 
     @butterknife.OnClick({R.id.btn_login})
     void OnClick(View v) {
@@ -94,22 +102,16 @@ public class HomeFragment extends BaseFragment {
         switch (id) {
             case R.id.btn_login:
                 if (currentItem == 0) {
-
                     DialogUtil.registerDialog(activity, weakhandler, true);
-
                 } else if (currentItem == 1) {
-                    isShowToast=true;
+                    isShowToast = true;
                     startFingerprintRecognition();
                 }
-
                 break;
-
             default:
                 break;
-
         }
     }
-
 
     WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
         @Override
@@ -136,68 +138,6 @@ public class HomeFragment extends BaseFragment {
             return false;
         }
     });
-
-
-    private void initFingerprintCore() {
-        mFingerprintCore = new FingerprintCore(activity);
-        mFingerprintCore.setFingerprintManager(mResultListener);
-        mKeyguardLockScreenManager = new KeyguardLockScreenManager(activity);
-    }
-
-    /**
-     * 开始指纹识别
-     */
-    private void startFingerprintRecognition() {
-        if (mFingerprintCore.isSupport()) {
-            if (!mFingerprintCore.isHasEnrolledFingerprints()) {
-                ToastUtils.show(activity, R.string.fingerprint_recognition_not_enrolled);
-                FingerprintUtil.openFingerPrintSettingPage(activity);
-                return;
-            }
-            DialogUtil.touchIDDialog(activity, weakhandler, true);
-
-
-            if (mFingerprintCore.isAuthenticating()) {
-                ToastUtils.show(activity, R.string.fingerprint_recognition_authenticating);
-            } else {
-                mFingerprintCore.startAuthenticate();
-            }
-        } else {
-            ToastUtils.show(activity, R.string.fingerprint_recognition_not_support);
-        }
-    }
-
-    /**
-     * 取消验证
-     */
-    private void cancelFingerprintRecognition() {
-        if (mFingerprintCore.isAuthenticating()) {
-            mFingerprintCore.cancelAuthenticate();
-        }
-    }
-
-    /**
-     * 测试密码解锁
-     */
-    private void startFingerprintRecognitionUnlockScreen() {
-        if (mKeyguardLockScreenManager == null) {
-            return;
-        }
-        if (!mKeyguardLockScreenManager.isOpenLockScreenPwd()) {
-            ToastUtils.show(activity, R.string.fingerprint_not_set_unlock_screen_pws);
-            FingerprintUtil.openFingerPrintSettingPage(activity);
-            return;
-        }
-        mKeyguardLockScreenManager.showAuthenticationScreen(activity);
-    }
-
-    /**
-     * 进入系统指纹设置页面
-     */
-    private void enterSysFingerprintSettingPage() {
-        FingerprintUtil.openFingerPrintSettingPage(activity);
-    }
-
 
     class MyPagerAdapter extends FragmentPagerAdapter {
         private FragmentUserID f0;
@@ -237,34 +177,50 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-
+    /**
+     * 指纹验证回调
+     */
     private FingerprintCore.IFingerprintResultListener mResultListener = new FingerprintCore.IFingerprintResultListener() {
         @Override
         public void onAuthenticateSuccess() {
-
-            ToastUtils.show(activity, R.string.fingerprint_recognition_success);
-
+            DialogUtil.touchResultSetText("sucess!");
+            new WeakHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    DialogUtil.touchResultSetTextClear();
+                    DialogUtil.dialogDismiss();
+                }
+            }, 1000);
         }
 
         @Override
         public void onAuthenticateFailed(int helpId) {//指纹识别失败，请重试
-            if(isShowToast){
-                ToastUtils.show(activity, R.string.fingerprint_recognition_failed);
-            }else{
-                isShowToast=true;
+            if (isShowToast) {
+                DialogUtil.touchResultSetText("Fail please try again");
+                new WeakHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DialogUtil.touchResultSetTextClear();
+                    }
+                }, 1500);
+            } else {
+                isShowToast = true;
             }
-
-
         }
 
         @Override
         public void onAuthenticateError(int errMsgId) {//指纹识别错误，等待几秒之后再重试
-            if(isShowToast){
-                ToastUtils.show(activity, R.string.fingerprint_recognition_error);
-            }else{
-                isShowToast=true;
+            if (isShowToast) {
+                DialogUtil.touchResultSetText("Fail please try again");
+                new WeakHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DialogUtil.touchResultSetTextClear();
+                    }
+                }, 1500);
+            } else {
+                isShowToast = true;
             }
-
         }
 
         @Override
@@ -285,4 +241,61 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
+    /**
+     * 开始指纹识别
+     */
+    private void startFingerprintRecognition() {
+        if (mFingerprintCore.isSupport()) {
+            if (!mFingerprintCore.isHasEnrolledFingerprints()) {
+                ToastUtils.show(activity, R.string.fingerprint_recognition_not_enrolled);
+                FingerprintUtil.openFingerPrintSettingPage(activity);
+                return;
+            }
+            if (mFingerprintCore.isAuthenticating()) {
+                //  ToastUtils.show(activity, R.string.fingerprint_recognition_authenticating);
+            } else {
+                mFingerprintCore.startAuthenticate();
+            }
+            DialogUtil.touchIDDialog(activity, weakhandler, false);
+        } else {
+            ToastUtils.show(activity, R.string.fingerprint_recognition_not_support);
+        }
+    }
+
+    /**
+     * 取消验证
+     */
+    private void cancelFingerprintRecognition() {
+        if (mFingerprintCore.isAuthenticating()) {
+            mFingerprintCore.cancelAuthenticate();
+        }
+    }
+
+    /**
+     * 测试密码解锁
+     */
+    private void startFingerprintRecognitionUnlockScreen() {
+        if (mKeyguardLockScreenManager == null) {
+            return;
+        }
+        if (!mKeyguardLockScreenManager.isOpenLockScreenPwd()) {
+            ToastUtils.show(activity, R.string.fingerprint_not_set_unlock_screen_pws);
+            FingerprintUtil.openFingerPrintSettingPage(activity);
+            return;
+        }
+        mKeyguardLockScreenManager.showAuthenticationScreen(activity);
+    }
+
+    /**
+     * 进入系统指纹设置页面
+     */
+    private void enterSysFingerprintSettingPage() {
+        FingerprintUtil.openFingerPrintSettingPage(activity);
+    }
+
+    private void initFingerprintCore() {
+        mFingerprintCore = new FingerprintCore(activity);
+        mFingerprintCore.setFingerprintManager(mResultListener);
+        mKeyguardLockScreenManager = new KeyguardLockScreenManager(activity);
+    }
 }

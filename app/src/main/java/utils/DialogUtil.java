@@ -348,7 +348,7 @@ public class DialogUtil {
     }
 
 
-    public static void noticeDialog(final Context context,  final WeakHandler handler, boolean dismissFlag) {
+    public static void noticeDialog(final Context context, final WeakHandler handler, boolean dismissFlag) {
         View layout = initDialog(context, R.layout.layout_dialog_notice, dismissFlag, false, false, false);
         Button sureBtn = (Button) layout.findViewById(R.id.sureBtn);
         sureBtn.setOnClickListener(new View.OnClickListener() {
@@ -363,10 +363,12 @@ public class DialogUtil {
         });
     }
 
+    static TextView touchResult;
 
-    public static void touchIDDialog(final Context context,  final WeakHandler handler, boolean dismissFlag) {
+    public static void touchIDDialog(final Context context, final WeakHandler handler, boolean dismissFlag) {
         View layout = initDialog(context, R.layout.layout_dialog_notice2, dismissFlag, false, false, false);
         Button cancelButton = (Button) layout.findViewById(R.id.cancelButton);
+        touchResult = (TextView) layout.findViewById(R.id.touchResult);
         cancelButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -379,8 +381,20 @@ public class DialogUtil {
         });
     }
 
+    public static  void touchResultSetText(String str) {
+        if (null != dialog && dialog.isShowing()) {
+            touchResult.setText(str);
+        }
+    }
+    public static  void touchResultSetTextClear() {
+        if (null != dialog && dialog.isShowing()) {
+            touchResult.setText("");
+        }
+    }
 
-    public static void registerDialog(final Context context,  final WeakHandler handler, boolean dismissFlag) {
+
+
+    public static void registerDialog(final Context context, final WeakHandler handler, boolean dismissFlag) {
         View layout = initDialog(context, R.layout.layout_dialog_register, dismissFlag, false, false, false);
         Button registerBtn = (Button) layout.findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {

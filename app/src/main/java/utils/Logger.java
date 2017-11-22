@@ -3,7 +3,7 @@ package utils;
 import android.util.Log;
 
 public class Logger {
-    public static final boolean B_LOG_OPEN = false;
+    public static final boolean B_LOG_OPEN = true;
     public static final String TAG = "http";
 
     public static void i(String msg) {

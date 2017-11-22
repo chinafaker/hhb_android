@@ -60,6 +60,15 @@
                 android:textSize="14sp"
                 android:visibility="visible" />
 
+            <TextView
+                android:id="@+id/touchResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/bg_229EFF"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="20dp" />
