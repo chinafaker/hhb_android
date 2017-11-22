@@ -9,15 +9,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.huanghaibin.rqm.R;
+
+import net.OnDataGetListener;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import customViews.NoScrollViewPager;
+import data.LoginController;
 import fingerprint.FingerprintCore;
 import fingerprint.FingerprintUtil;
 import fingerprint.KeyguardLockScreenManager;
@@ -25,6 +31,7 @@ import preGuide.Welcome;
 import utils.DialogUtil;
 import utils.GoPageUtil;
 import utils.Logger;
+import utils.StringUtils;
 import utils.ToastUtils;
 import utils.WeakHandler;
 
@@ -34,6 +41,10 @@ public class HomeFragment extends BaseFragment {
     private final int FRAGMENT_NUM = 2;
     private int currentItem = 0;
     private boolean isShowToast = true;
+    private EditText userEdi;
+    private EditText passwordEdi;
+    private CheckBox checkSave;
+    private MyPagerAdapter adapter;
     private FingerprintCore mFingerprintCore;
     private KeyguardLockScreenManager mKeyguardLockScreenManager;
     private ArrayList<Fragment> arrayList = new ArrayList<>();
@@ -58,12 +69,13 @@ public class HomeFragment extends BaseFragment {
         initFingerprintCore();
         mSwipeRefreshLayout.setColorSchemeResources(R.color.bg_229EFF);
         mSwipeRefreshLayout.setOnRefreshListener(listener);
-        MyPagerAdapter adapter = new MyPagerAdapter(activity.getSupportFragmentManager());
+        adapter = new MyPagerAdapter(activity.getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(1);
         tabs.setupWithViewPager(pager);
         tabs.setTabsFromPagerAdapter(adapter);
         pager.setCurrentItem(0);
+
         if (mFingerprintCore.isSupport()) {//设备支持指纹
             pager.setNoScroll(false);
         } else {
@@ -102,7 +114,11 @@ public class HomeFragment extends BaseFragment {
         switch (id) {
             case R.id.btn_login:
                 if (currentItem == 0) {
-                    DialogUtil.registerDialog(activity, weakhandler, true);
+                    userEdi = adapter.getCurrentFragment().getView().findViewById(R.id.userEdi);
+                    passwordEdi = adapter.getCurrentFragment().getView().findViewById(R.id.passwordEdi);
+                    checkSave = adapter.getCurrentFragment().getView().findViewById(R.id.checkSave);
+                    getLoginController(userEdi, passwordEdi, checkSave);
+
                 } else if (currentItem == 1) {
                     isShowToast = true;
                     startFingerprintRecognition();
@@ -111,6 +127,39 @@ public class HomeFragment extends BaseFragment {
             default:
                 break;
         }
+    }
+
+    LoginController mLoginController;
+
+    public void getLoginController(EditText userEdi, EditText passwordEdi, CheckBox checkSave) {
+        if (StringUtils.isEmpty(userEdi.getText().toString())) {
+            ToastUtils.show(activity, "Please enter your account");
+            return;
+        }
+        if (StringUtils.isEmpty(passwordEdi.getText().toString())) {
+            ToastUtils.show(activity, "Please enter your password");
+            return;
+        }
+        if (checkSave.isChecked()) {
+
+        } else {
+            ToastUtils.show(activity, "Please Save user ID");
+            return;
+        }
+        if (mLoginController == null) {
+            mLoginController = new LoginController(activity, new OnDataGetListener() {
+                @Override
+                public void onGetDataSuccess(String result) {
+                    DialogUtil.registerDialog(activity, weakhandler, true);
+                }
+
+                @Override
+                public void onGetDataFailed(int responseCode, String result) {
+                    ToastUtils.show(activity, result);
+                }
+            });
+        }
+        mLoginController.getData(userEdi.getText().toString(), passwordEdi.getText().toString());
     }
 
     WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
@@ -142,7 +191,7 @@ public class HomeFragment extends BaseFragment {
     class MyPagerAdapter extends FragmentPagerAdapter {
         private FragmentUserID f0;
         private FragmentTouchID f1;
-
+        FragmentUserID mCurrentFragment;
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -174,6 +223,20 @@ public class HomeFragment extends BaseFragment {
         @Override
         public int getCount() {
             return FRAGMENT_NUM;
+        }
+
+
+        //----------------------下面才是重点-----------------
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if(position==0){
+                mCurrentFragment = (FragmentUserID) object;
+            }
+            super.setPrimaryItem(container, position, object);
+        }
+
+        public FragmentUserID getCurrentFragment() {
+            return mCurrentFragment;
         }
     }
 

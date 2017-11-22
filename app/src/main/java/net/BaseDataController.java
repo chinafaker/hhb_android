@@ -220,6 +220,7 @@ public class BaseDataController {
     }
 
 
+
     /**
      * @param params
      * @return void 返回类型
@@ -369,6 +370,7 @@ public class BaseDataController {
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append(Consts.BASE_ADDRESS_RQM);
         urlBuilder.append(relativeUrl);
+
         try {
             if (null != params) {
                 urlBuilder.append("?");
@@ -410,6 +412,7 @@ public class BaseDataController {
                 @Override
                 public void onResponse(String result) {
 
+                    Logger.i("===== " + method + " 返回数据：" + result);
                     if (Utils.isEmpty(result)) {
                         listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
                     } else {
@@ -418,12 +421,13 @@ public class BaseDataController {
                             boolean responseCode = jo.getBoolean("code");
                             if (responseCode) {
                                 String data = jo.getString("data");
-                               // String sc = jo.getString("sc");//sc：
+                                // String sc = jo.getString("sc");//sc：
                                 listener.onGetDataSuccess(data);
                             } else {
                                 String fc = jo.getString("fc");//fc：【失败错误码如下：
                                 listener.onGetDataFailed(0, fc);
                             }
+
                         } catch (JSONException e) {
                             if (Logger.B_LOG_OPEN) {
                                 e.printStackTrace();
@@ -452,9 +456,10 @@ public class BaseDataController {
                     } else {
                         try {
                             JSONObject jo = new JSONObject(result);
-                            int responseCode = jo.getInt("success");
-                            String msg = jo.getString("msg");
-                            dealResp(responseCode, msg);
+                            boolean responseCode = jo.getBoolean("code");
+                            String data = jo.getString("data");
+                            String fc = jo.getString("fc");//fc：【失败错误码如下：
+
                         } catch (JSONException e) {
                             if (Logger.B_LOG_OPEN) {
                                 e.printStackTrace();
@@ -471,17 +476,18 @@ public class BaseDataController {
             };
             stringRequest.setTag(mContext.getClass().getSimpleName());
             stringRequest.setShouldCache(false);
-
-            Logger.i("===== 请求地址：" + stringRequest.getUrl());
-            Logger.i("===== " + method + " 请求参数：" + JsonUtil.jsonFromObject(params));
-            /**
-             * 添加网络请求
-             * @param request 网络请求
-             */
-            RequestQueue requestQueue = getRequestQueueInstance(App.getApp().getApplicationContext());
-            requestQueue.add(stringRequest);
         }
-
+        Logger.i("===== 请求地址：" + stringRequest.getUrl());
+        Logger.i("===== " + method + " 请求参数：" + JsonUtil.jsonFromObject(params));
+        addRequest(App.getApp(), stringRequest);
     }
-
+    /**
+     * 添加网络请求
+     *
+     * @param request 网络请求
+     */
+    public void addRequest(Context context, Request request) {
+        RequestQueue requestQueue = getRequestQueueInstance(context.getApplicationContext());
+        requestQueue.add(request);
+    }
 }
