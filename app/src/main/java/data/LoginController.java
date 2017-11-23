@@ -16,6 +16,6 @@ public class LoginController extends BaseDataController {
         String method = "/rest/user/login";
         params.put("loginName", DIL);
         params.put("password", test);
-        getDataRQM(params, method, true);
+        getDataRQM(params, method);
     }
 }

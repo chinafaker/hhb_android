@@ -1,7 +1,9 @@
 package net;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -17,6 +19,7 @@ import com.huanghaibin.rqm.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
@@ -241,7 +244,6 @@ public class BaseDataController {
         params.put("token", Utils.isEmpty(App.token()) ? App.normalToken() : App.token());
         try {
             params.remove("sign");
-
             params.put("sign", "0135c7277354cfca3bd633732bf6132d");
         } catch (Exception e) {
             if (Logger.B_LOG_OPEN) {
@@ -318,18 +320,13 @@ public class BaseDataController {
                     return params;
                 }
             };
+        }
             stringRequest.setTag(mContext.getClass().getSimpleName());
             stringRequest.setShouldCache(false);
-
             Logger.i("===== 请求地址：" + stringRequest.getUrl());
             Logger.i("===== " + method + " 请求参数：" + JsonUtil.jsonFromObject(params));
-            /**
-             * 添加网络请求
-             * @param request 网络请求
-             */
-            RequestQueue requestQueue = getRequestQueueInstance(App.getApp().getApplicationContext());
-            requestQueue.add(stringRequest);
-        }
+            addRequest(App.getApp(), stringRequest);
+
 
     }
 
@@ -401,17 +398,16 @@ public class BaseDataController {
      * @Description: 请求数据的方法
      * @author vincent
      */
-    public void getDataRQM(final HashMap<String, String> params, final String method, Boolean isPost) {
+    public void getDataRQM(final HashMap<String, String> params, final String method) {
         this.method = method;
         if (!NetUtils.isConnected(mContext)) {
             listener.onGetDataFailed(no_net, mContext.getResources().getString(R.string.nonet));
             return;
         }
-        if (stringRequest == null) {
+
             stringRequest = new CustomRequest(Request.Method.POST, getAbsoluteUrlRQM(method, params), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String result) {
-
                     Logger.i("===== " + method + " 返回数据：" + result);
                     if (Utils.isEmpty(result)) {
                         listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
@@ -474,11 +470,12 @@ public class BaseDataController {
                     return params;
                 }
             };
-            stringRequest.setTag(mContext.getClass().getSimpleName());
-            stringRequest.setShouldCache(false);
-        }
+
+
         Logger.i("===== 请求地址：" + stringRequest.getUrl());
         Logger.i("===== " + method + " 请求参数：" + JsonUtil.jsonFromObject(params));
+        stringRequest.setTag(mContext.getClass().getSimpleName());
+        stringRequest.setShouldCache(false);
         addRequest(App.getApp(), stringRequest);
     }
     /**
@@ -490,4 +487,5 @@ public class BaseDataController {
         RequestQueue requestQueue = getRequestQueueInstance(context.getApplicationContext());
         requestQueue.add(request);
     }
+
 }

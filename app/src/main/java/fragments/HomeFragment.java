@@ -48,6 +48,7 @@ public class HomeFragment extends BaseFragment {
     private FingerprintCore mFingerprintCore;
     private KeyguardLockScreenManager mKeyguardLockScreenManager;
     private ArrayList<Fragment> arrayList = new ArrayList<>();
+    private  boolean isFirseGetView=true;
     @BindView(R.id.mSwipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.pager)
@@ -114,9 +115,12 @@ public class HomeFragment extends BaseFragment {
         switch (id) {
             case R.id.btn_login:
                 if (currentItem == 0) {
-                    userEdi = adapter.getCurrentFragment().getView().findViewById(R.id.userEdi);
-                    passwordEdi = adapter.getCurrentFragment().getView().findViewById(R.id.passwordEdi);
-                    checkSave = adapter.getCurrentFragment().getView().findViewById(R.id.checkSave);
+                    if(isFirseGetView){
+                        userEdi = adapter.getCurrentFragment().getView().findViewById(R.id.userEdi);
+                        passwordEdi = adapter.getCurrentFragment().getView().findViewById(R.id.passwordEdi);
+                        checkSave = adapter.getCurrentFragment().getView().findViewById(R.id.checkSave);
+                        isFirseGetView=false;
+                    }
                     getLoginController(userEdi, passwordEdi, checkSave);
 
                 } else if (currentItem == 1) {
