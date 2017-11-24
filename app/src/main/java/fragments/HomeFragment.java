@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 
 import com.huanghaibin.rqm.R;
 
+import net.Consts;
 import net.OnDataGetListener;
 
 import java.util.ArrayList;
@@ -164,6 +165,7 @@ public class HomeFragment extends BaseFragment {
             });
         }
         mLoginController.getData(userEdi.getText().toString(), passwordEdi.getText().toString());
+        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
     }
 
     WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
@@ -171,7 +173,7 @@ public class HomeFragment extends BaseFragment {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 8001:
-                    GoPageUtil.jumpTobyUrlLink(activity, "www.baidu.com");
+                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
                     break;
                 case 8002:
                     isShowToast = false;
