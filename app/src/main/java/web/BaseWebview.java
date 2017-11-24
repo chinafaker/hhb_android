@@ -36,8 +36,8 @@ import utils.Utils;
 public class BaseWebview extends BaseActivity {
     @BindView(R.id.webView)
     protected WebView webView;
-    @BindView(R.id.swipeLayout)
-    protected SwipeRefreshLayout swipeLayout;
+  //  @BindView(R.id.swipeLayout)
+ //   protected SwipeRefreshLayout swipeLayout;
 
     protected String url = "", title = "";
     protected String articleId = "";
@@ -93,17 +93,17 @@ public class BaseWebview extends BaseActivity {
 
         }
 
-        initRefresh();
+   //     initRefresh();
 
         initWebView();
     }
 
     private void initRefresh() {
-        if (swipeLayout == null) {
-            return;
-        }
-        swipeLayout.setColorSchemeResources(R.color.bg_229EFF);
-        swipeLayout.setOnRefreshListener(listener);
+//        if (swipeLayout == null) {
+//            return;
+//        }
+//        swipeLayout.setColorSchemeResources(R.color.bg_229EFF);
+//        swipeLayout.setOnRefreshListener(listener);
     }
 
     SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
@@ -233,7 +233,7 @@ public class BaseWebview extends BaseActivity {
                     webView.getSettings().setLoadsImagesAutomatically(true);
                 }
 
-                if (swipeLayout == null) {
+         /*       if (swipeLayout == null) {
                     return;
                 }
                 swipeLayout.postDelayed(new Runnable() {
@@ -241,7 +241,7 @@ public class BaseWebview extends BaseActivity {
                     public void run() {
                         swipeLayout.setRefreshing(false);
                     }
-                }, 200);
+                }, 200);*/
 
             }
 

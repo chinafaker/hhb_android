@@ -155,6 +155,7 @@ public class HomeFragment extends BaseFragment {
             mLoginController = new LoginController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
+                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
                     DialogUtil.registerDialog(activity, weakhandler, true);
                 }
 
@@ -165,7 +166,7 @@ public class HomeFragment extends BaseFragment {
             });
         }
         mLoginController.getData(userEdi.getText().toString(), passwordEdi.getText().toString());
-        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+
     }
 
     WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
