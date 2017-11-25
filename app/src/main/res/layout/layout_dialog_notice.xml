@@ -41,16 +41,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:maxLines="5"
-                android:text="RQM ststem will not work during the following period due to a system/server maintenance."
                 android:textColor="@color/txt_333333"
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text="-- Maintenance  Time --"
                 android:textColor="@color/txt_333333"
                 android:textSize="13sp"
                 android:visibility="visible" />
@@ -94,11 +93,12 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tvstart"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:maxLines="1"
-                                android:text="sept.16，2017(sat) 22:00"
                                 android:textColor="@color/txt_333333"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -125,11 +125,11 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tvend"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:maxLines="1"
-                                android:text="sept.17，2017(sun) 02:00"
                                 android:textColor="@color/txt_333333"
                                 android:textSize="13sp" />
                         </LinearLayout>

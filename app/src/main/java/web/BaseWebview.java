@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
@@ -23,6 +24,7 @@ import net.Consts;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.HashMap;
 
 import base.BaseActivity;
@@ -30,16 +32,18 @@ import butterknife.BindView;
 import preGuide.GuideActivity;
 import utils.GoPageUtil;
 import utils.Logger;
+import utils.SharedPrefUtil;
 import utils.StringUtils;
+import utils.ToastUtils;
 import utils.Utils;
 
 public class BaseWebview extends BaseActivity {
     @BindView(R.id.webView)
     protected WebView webView;
-  //  @BindView(R.id.swipeLayout)
- //   protected SwipeRefreshLayout swipeLayout;
+    //  @BindView(R.id.swipeLayout)
+    //   protected SwipeRefreshLayout swipeLayout;
 
-    protected String url = "", title = "";
+    public String url = "", title = "";
     protected String articleId = "";
     protected int isOpenMode = 0;
     protected boolean ifCloseWhenClickBack = false;
@@ -53,14 +57,14 @@ public class BaseWebview extends BaseActivity {
      */
     private int dealLogin = 501;
     private boolean ifShowProgressbar = true;
-
+    public SharedPrefUtil sharedPrefUtil;
 
     @Override
     public void initView() {
         super.initView();
         setLeftIcon(R.mipmap.icon_back);
         setLeftTv(getResources().getString(R.string.go_back));
-
+        sharedPrefUtil = new SharedPrefUtil(activity, Consts.SHAREDPREFENCERQM);
         EventBus.getDefault().register(this);
 
         Bundle bundle = getIntent().getExtras();
@@ -93,7 +97,7 @@ public class BaseWebview extends BaseActivity {
 
         }
 
-   //     initRefresh();
+        //     initRefresh();
 
         initWebView();
     }
@@ -176,15 +180,7 @@ public class BaseWebview extends BaseActivity {
         } else {
             settings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
-
-
-        webView.addJavascriptInterface(this, "androidmmk");
-        webView.addJavascriptInterface(this, "webShare");
-        webView.addJavascriptInterface(this, "androidPublicMMK");
-        webView.addJavascriptInterface(this, "guangqunApp");
-        webView.addJavascriptInterface(this, Consts.JS_PROXY_NAME);
-
-
+        webView.addJavascriptInterface(this, "RQM");//window.RQM
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedSslError(WebView view,
@@ -197,6 +193,13 @@ public class BaseWebview extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Logger.e("新url：" + url);
+                if (Consts.RQM_CONTAINER_LIST_URL.equals(url)) {
+                    rlleft.setVisibility(View.GONE);
+                }else{
+                    rlleft.setVisibility(View.VISIBLE);
+                }
+
+
                 if (!Utils.isEmpty(url)) {
                     if (url.endsWith(".apk")) {
                         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -263,6 +266,7 @@ public class BaseWebview extends BaseActivity {
         if (StringUtils.isEmpty(url)) {
             return;
         }
+
         String postData = getPostData();
         Logger.e("加载url地址：" + url + postData);
         webView.loadUrl(url + postData);
@@ -407,12 +411,15 @@ public class BaseWebview extends BaseActivity {
 
 
     /**
-     * 预留方法1    发现
+     *
      */
     @JavascriptInterface
-    public void appFun1() {
-        Bundle bundle = new Bundle();
-        GoPageUtil.jumpToActivity(this, GuideActivity.class, bundle);
+    public void isShowToday(boolean istrue) {
+        if (istrue) {
+            sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, true);
+        } else {
+            sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, false);
+        }
     }
 
 

@@ -24,6 +24,7 @@ import butterknife.BindView;
 import data.GetMaintenanceInfoController;
 import data.LoginController;
 import fragments.HomeFragment;
+import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
 import utils.DialogUtil;
 import utils.GoPageUtil;
@@ -53,6 +54,7 @@ public class MainActivity extends BaseActivity {
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
+        getLoginController();
     }
 
     class MainPagerAdapter extends FragmentPagerAdapter {
@@ -86,7 +88,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        getLoginController();
         super.onResume();
     }
 
@@ -97,17 +98,16 @@ public class MainActivity extends BaseActivity {
             getMaintenanceInfoController = new GetMaintenanceInfoController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
-                //    MaintenanceInfoBean  baseInfo = JsonUtil.objectFromJson(result, MaintenanceInfoBean.class);
-               //     MaintenanceInfoBean  baseInfo = JsonUtil.readJsonArray(result, MaintenanceInfoBean.class).get(0);
-                    Log.e("getMaintenanceInfo   结果",result);
-                //    Log.e("getMaintenanceInfo   结果",baseInfo.getMmEndtime());
-                    DialogUtil.noticeDialog(activity, null, true);
+                    MaintenanceInfo baseInfo = JsonUtil.objectFromJson(result, MaintenanceInfo.class);
+                    MaintenanceInfoBean maintenanceInfoBean = baseInfo.getMaintenanceInfo().get(0);
+                    Log.e("getMaintenanceInfo   结果", maintenanceInfoBean.getMmEndtime());
+                    DialogUtil.noticeDialog(activity, null, true,maintenanceInfoBean);
                 }
 
                 @Override
                 public void onGetDataFailed(int responseCode, String result) {
-                //   disProDialog();
-                //    ToastUtils.show(activity, result);
+                    //   disProDialog();
+                    //    ToastUtils.show(activity, result);
                 }
             });
         }

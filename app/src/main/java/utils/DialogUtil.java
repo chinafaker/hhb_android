@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.huanghaibin.rqm.R;
 
 import base.BaseActivity;
+import javaBean.MaintenanceInfoBean;
 
 public class DialogUtil {
     private static Dialog dialog;
@@ -215,7 +216,7 @@ public class DialogUtil {
     /**
      * isSureExitDialog
      */
-    public static void isSureExitDialog(final Context context , final WeakHandler handler) {
+    public static void isSureExitDialog(final Context context, final WeakHandler handler) {
         View layout = initDialog(context, R.layout.layout_dialog_with2btns);
         //立即注册
         Button leftBtn = (Button) layout.findViewById(R.id.leftBtn);
@@ -345,8 +346,21 @@ public class DialogUtil {
     }
 
 
-    public static void noticeDialog(final Context context, final WeakHandler handler, boolean dismissFlag) {
+    public static void noticeDialog(final Context context, final WeakHandler handler, boolean dismissFlag, MaintenanceInfoBean maintenanceInfoBean) {
         View layout = initDialog(context, R.layout.layout_dialog_notice, dismissFlag, false, false, false);
+        TextView dialogTitle = (TextView) layout.findViewById(R.id.dialogTitle);
+        TextView dialog_text = (TextView) layout.findViewById(R.id.dialog_text);
+        TextView tv_time = (TextView) layout.findViewById(R.id.tv_time);
+        TextView tvstart = (TextView) layout.findViewById(R.id.tvstart);
+        TextView tvend = (TextView) layout.findViewById(R.id.tvend);
+
+
+        dialogTitle.setText(StringUtils.noNull(maintenanceInfoBean.getMmTitle()));
+        dialog_text.setText(StringUtils.noNull(maintenanceInfoBean.getMmDescription()));
+        tv_time.setText("--" + StringUtils.noNull(maintenanceInfoBean.getMmSubtitle()) + "--");
+        tvstart.setText(StringUtils.noNull(maintenanceInfoBean.getMmStarttime()));
+        tvend.setText(StringUtils.noNull(maintenanceInfoBean.getMmEndtime()));
+
         Button sureBtn = (Button) layout.findViewById(R.id.sureBtn);
         sureBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -397,7 +411,7 @@ public class DialogUtil {
         final EditText userEdi = (EditText) layout.findViewById(R.id.userEdi);
         final EditText passwordEdi = (EditText) layout.findViewById(R.id.passwordEdi);
 //输入框是密码风格的
-      //  userEdi.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        //  userEdi.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
         userEdi.setText(usetid);
         userEdi.setSelection(userEdi.getText().toString().trim().length());
         registerBtn.setOnClickListener(new View.OnClickListener() {

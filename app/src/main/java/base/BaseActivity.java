@@ -56,6 +56,8 @@ public abstract class BaseActivity extends MainbaseActivity {
     TextView leftTv;
     @BindView(R.id.titleTv)
     TextView titleTv;
+    @BindView(R.id.rlleft)
+   public RelativeLayout rlleft;
 
     public
     @BindView(R.id.rightTv)

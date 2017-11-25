@@ -6,6 +6,7 @@ public class Consts {
     public static final String SHAREDPREFENCERQM = "sharedPrefenceRQM";
     public static final String USETID = "userID";
     public static final String ISREGISTERUSERIDTIOUC = "isRegisterUserIDTouchID";
+    public static final String NOTDISPLAYTODAY= "notdisplayagaintoday";
     public static String BASE_ADDRESS_RQM = "http://121.40.150.64:8080/rqmweb";
     public static String BASE_ADDRESS = "https://api.guangqun.cn";
     public static String BASE_ADDRESS_HTTP = "https://api.guangqun.cn";

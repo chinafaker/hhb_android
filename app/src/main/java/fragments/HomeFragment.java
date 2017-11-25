@@ -151,6 +151,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     LoginController mLoginController;
+    LoginController mLoginController2;
 
     public void getLoginController(final EditText userEdi, EditText passwordEdi, final CheckBox checkSave) {
         if (StringUtils.isEmpty(userEdi.getText().toString())) {
@@ -171,6 +172,7 @@ public class HomeFragment extends BaseFragment {
                     if (userEdi.getText().toString().equals(sharedPrefUtil.getSharedStr(Consts.USETID, ""))) {
                         sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, sharedPrefUtil.getSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false));
                     } else {
+                        sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, false);
                         sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false);
                     }
                     if (checkSave.isChecked()) {
@@ -180,7 +182,13 @@ public class HomeFragment extends BaseFragment {
                         sharedPrefUtil.setSharedStr(Consts.USETID, "");
                     }
                     disProDialog();
-                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                    if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
+                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+                        activity.finish();
+                    } else {
+                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                    }
+
                 }
 
                 @Override
@@ -197,8 +205,8 @@ public class HomeFragment extends BaseFragment {
     public void registerTouchID(String accountID, String password) {
 
         showProDialogCancel();
-        if (mLoginController == null) {
-            mLoginController = new LoginController(activity, new OnDataGetListener() {
+        if (mLoginController2 == null) {
+            mLoginController2 = new LoginController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
                     disProDialog();
@@ -213,14 +221,14 @@ public class HomeFragment extends BaseFragment {
                 }
             });
         }
-        mLoginController.getData(accountID, password);
+        mLoginController2.getData(accountID, password);
     }
 
     WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
-                case 8001:
+                case 8001://注册touchid
                     String accountID = msg.getData().getString("accountID");
                     String password = msg.getData().getString("password");
                     registerTouchID(accountID, password);
@@ -307,7 +315,15 @@ public class HomeFragment extends BaseFragment {
                 public void run() {
                     DialogUtil.touchResultSetTextClear();
                     DialogUtil.dialogDismiss();
-                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+
+
+                    if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
+                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+                        activity.finish();
+                    } else {
+                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+
+                    }
                 }
             }, 1000);
         }
