@@ -20,6 +20,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import data.GetMaintenanceInfoController;
 import data.LoginController;
@@ -30,6 +32,7 @@ import utils.DialogUtil;
 import utils.GoPageUtil;
 import utils.JsonUtil;
 import utils.StringUtils;
+import utils.TimeUtils;
 import utils.ToastUtils;
 
 public class MainActivity extends BaseActivity {
@@ -54,6 +57,8 @@ public class MainActivity extends BaseActivity {
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
+
+
         getLoginController();
     }
 
@@ -101,7 +106,7 @@ public class MainActivity extends BaseActivity {
                     MaintenanceInfo baseInfo = JsonUtil.objectFromJson(result, MaintenanceInfo.class);
                     MaintenanceInfoBean maintenanceInfoBean = baseInfo.getMaintenanceInfo().get(0);
                     Log.e("getMaintenanceInfo   结果", maintenanceInfoBean.getMmEndtime());
-                    DialogUtil.noticeDialog(activity, null, true,maintenanceInfoBean);
+                    DialogUtil.noticeDialog(activity, null, true, maintenanceInfoBean);
                 }
 
                 @Override

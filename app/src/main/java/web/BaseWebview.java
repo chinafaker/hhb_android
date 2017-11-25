@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -25,6 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import base.BaseActivity;
@@ -34,6 +36,7 @@ import utils.GoPageUtil;
 import utils.Logger;
 import utils.SharedPrefUtil;
 import utils.StringUtils;
+import utils.TimeUtils;
 import utils.ToastUtils;
 import utils.Utils;
 
@@ -195,7 +198,7 @@ public class BaseWebview extends BaseActivity {
                 Logger.e("新url：" + url);
                 if (Consts.RQM_CONTAINER_LIST_URL.equals(url)) {
                     rlleft.setVisibility(View.GONE);
-                }else{
+                } else {
                     rlleft.setVisibility(View.VISIBLE);
                 }
 
@@ -417,8 +420,12 @@ public class BaseWebview extends BaseActivity {
     public void isShowToday(boolean istrue) {
         if (istrue) {
             sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, true);
+            sharedPrefUtil.setSharedStr(Consts.LASTTIMESTR, TimeUtils.getCurrentDateString());
+            Log.e("save  time---", TimeUtils.getCurrentDateString() );
         } else {
             sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, false);
+            sharedPrefUtil.setSharedStr(Consts.LASTTIMESTR, "");
+            Log.e("save  time---", "");
         }
     }
 

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import net.Consts;
 import net.OnDataGetListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import customViews.NoScrollViewPager;
@@ -32,6 +34,7 @@ import utils.DialogUtil;
 import utils.GoPageUtil;
 import utils.Logger;
 import utils.StringUtils;
+import utils.TimeUtils;
 import utils.ToastUtils;
 import utils.WeakHandler;
 
@@ -111,6 +114,7 @@ public class HomeFragment extends BaseFragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
     }
 
     @Override
@@ -167,7 +171,7 @@ public class HomeFragment extends BaseFragment {
             mLoginController = new LoginController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
-
+                    disProDialog();
                     //是否新用户登录
                     if (userEdi.getText().toString().equals(sharedPrefUtil.getSharedStr(Consts.USETID, ""))) {
                         sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, sharedPrefUtil.getSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false));
@@ -175,19 +179,29 @@ public class HomeFragment extends BaseFragment {
                         sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, false);
                         sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false);
                     }
-                    if (checkSave.isChecked()) {
 
+                    if (checkSave.isChecked()) {
                         sharedPrefUtil.setSharedStr(Consts.USETID, userEdi.getText().toString());
                     } else {
                         sharedPrefUtil.setSharedStr(Consts.USETID, "");
                     }
-                    disProDialog();
-                    if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
-                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
-                        activity.finish();
+
+                    Log.e("current  time---", TimeUtils.getCurrentDateString());
+                    if (!sharedPrefUtil.getSharedStr(Consts.LASTTIMESTR, "").equals("") &&
+                            sharedPrefUtil.getSharedStr(Consts.LASTTIMESTR, "")
+                                    .equals(TimeUtils.getCurrentDateString())) {
+
+                        if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+                            activity.finish();
+                        } else {
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                        }
+
                     } else {
                         GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
                     }
+
 
                 }
 
@@ -316,14 +330,22 @@ public class HomeFragment extends BaseFragment {
                     DialogUtil.touchResultSetTextClear();
                     DialogUtil.dialogDismiss();
 
+                    Log.e("current  time---", TimeUtils.getCurrentDateString());
+                    if (!sharedPrefUtil.getSharedStr(Consts.LASTTIMESTR, "").equals("") &&
+                            sharedPrefUtil.getSharedStr(Consts.LASTTIMESTR, "")
+                                    .equals(TimeUtils.getCurrentDateString())) {
 
-                    if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
-                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
-                        activity.finish();
+                        if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+                            activity.finish();
+                        } else {
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                        }
+
                     } else {
                         GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
-
                     }
+
                 }
             }, 1000);
         }
