@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import net.Consts;
+
 import java.lang.reflect.Field;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import utils.SharedPrefUtil;
 import utils.UIUtils;
 
 public abstract class BaseFragment extends Fragment {
@@ -27,7 +30,7 @@ public abstract class BaseFragment extends Fragment {
     Unbinder unbinder;
     private ProgressDialog dialog;
     private String message = "加载中...";
-
+    public SharedPrefUtil sharedPrefUtil;
     @Override
     public void onAttach(Activity activity) {
 
@@ -37,7 +40,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        sharedPrefUtil = new SharedPrefUtil(activity, Consts.SHAREDPREFENCERQM);
         UIUtils.initDisplayMetrics(getActivity(), getActivity().getWindowManager(), false);
         initWidth = UIUtils.getWidth();
         initHeight = UIUtils.getHeight();

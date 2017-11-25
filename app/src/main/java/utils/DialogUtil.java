@@ -1,15 +1,20 @@
 package utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.text.InputType;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -73,6 +78,10 @@ public class DialogUtil {
         //背景不可点击
         dialog.setCanceledOnTouchOutside(dismissFlag);
         dialog.setCancelable(dismissFlag);
+
+
+        //=====================
+
         return layout;
     }
 
@@ -204,21 +213,20 @@ public class DialogUtil {
     }
 
     /**
-     * 充值提现   确认退出
+     * isSureExitDialog
      */
-    public static void isSureExitDialog(final Context context, String[] btnName, String title, String msg, final WeakHandler handler) {
+    public static void isSureExitDialog(final Context context , final WeakHandler handler) {
         View layout = initDialog(context, R.layout.layout_dialog_with2btns);
         //立即注册
         Button leftBtn = (Button) layout.findViewById(R.id.leftBtn);
         Button rightBtn = (Button) layout.findViewById(R.id.rightBtn);
-        leftBtn.setText(btnName[0]);
-        rightBtn.setText(btnName[1]);
+
         leftBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (handler != null) {
-                    handler.sendEmptyMessage(8002);
+                    handler.sendEmptyMessage(110);
                 }
                 dialog.dismiss();
             }
@@ -227,22 +235,11 @@ public class DialogUtil {
             @Override
             public void onClick(View v) {
                 if (handler != null) {
-                    handler.sendEmptyMessage(8003);
+                    handler.sendEmptyMessage(120);
                 }
                 dialog.dismiss();
             }
         });
-        //内容描述
-        TextView mTextView = (TextView) layout.findViewById(R.id.dialog_text);
-        mTextView.setText(msg);
-
-        TextView dialogTitle = (TextView) layout.findViewById(R.id.dialogTitle);
-        if (StringUtils.isEmpty(title)) {
-            dialogTitle.setVisibility(View.GONE);
-        } else {
-            dialogTitle.setVisibility(View.VISIBLE);
-            dialogTitle.setText(title);
-        }
     }
 
 
@@ -381,28 +378,50 @@ public class DialogUtil {
         });
     }
 
-    public static  void touchResultSetText(String str) {
+    public static void touchResultSetText(String str) {
         if (null != dialog && dialog.isShowing()) {
             touchResult.setText(str);
         }
     }
-    public static  void touchResultSetTextClear() {
+
+    public static void touchResultSetTextClear() {
         if (null != dialog && dialog.isShowing()) {
             touchResult.setText("");
         }
     }
 
 
-
-    public static void registerDialog(final Context context, final WeakHandler handler, boolean dismissFlag) {
+    public static void registerDialog(final Context context, final WeakHandler handler, boolean dismissFlag, String usetid) {
         View layout = initDialog(context, R.layout.layout_dialog_register, dismissFlag, false, false, false);
         Button registerBtn = (Button) layout.findViewById(R.id.registerBtn);
+        final EditText userEdi = (EditText) layout.findViewById(R.id.userEdi);
+        final EditText passwordEdi = (EditText) layout.findViewById(R.id.passwordEdi);
+//输入框是密码风格的
+      //  userEdi.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        userEdi.setText(usetid);
+        userEdi.setSelection(userEdi.getText().toString().trim().length());
         registerBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (StringUtils.isEmpty(userEdi.getText().toString())) {
+                    ToastUtils.show(context, "Please enter your account");
+                    return;
+                }
+
+                if (StringUtils.isEmpty(passwordEdi.getText().toString())) {
+                    ToastUtils.show(context, "Please enter your password");
+                    return;
+                }
+
                 if (handler != null) {
-                    handler.sendEmptyMessage(8001);
+                    Message message = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("accountID", userEdi.getText().toString());
+                    bundle.putString("password", passwordEdi.getText().toString());
+                    message.setData(bundle);//bundle传值，耗时，效率低
+                    handler.sendMessage(message);//发送message信息
+                    message.what = 8001;
                 }
                 dialog.dismiss();
             }

@@ -420,7 +420,7 @@ public class BaseDataController {
                                 // String sc = jo.getString("sc");//sc：
                                 listener.onGetDataSuccess(data);
                             } else {
-                                String fc = jo.getString("fc");//fc：【失败错误码如下：
+                                String fc = jo.getString("errorDes");//errorDes：【失败错误码如下：
                                 listener.onGetDataFailed(0, fc);
                             }
 

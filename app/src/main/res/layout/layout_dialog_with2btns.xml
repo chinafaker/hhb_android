@@ -43,7 +43,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:maxLines="8"
-                android:text="您还未设置过交易密码"
+                android:text="Do you really want to log out ?"
                 android:textColor="@color/txt_333333"
                 android:textSize="16sp" />
 
@@ -72,7 +72,7 @@
                 android:layout_marginLeft="@dimen/normal_margin"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                android:text="关闭"
+                android:text="No"
                 android:textColor="@color/bg_229EFF"
                 android:textSize="16sp" />
 
@@ -87,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                android:text="提交"
+                android:text="yes"
                 android:textColor="@color/bg_229EFF"
                 android:textSize="16sp" />
         </LinearLayout>

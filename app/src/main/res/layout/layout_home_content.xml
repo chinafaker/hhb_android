@@ -44,7 +44,7 @@
     <customViews.NoScrollViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="270dp" />
+        android:layout_height="250dp" />
 
     <Button
         android:id="@+id/btn_login"
@@ -64,6 +64,7 @@
     <LinearLayout
         android:id="@+id/ll_touchid_setting"
         android:layout_marginTop="40dp"
+        android:visibility="invisible"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:layout_width="wrap_content"

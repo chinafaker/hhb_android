@@ -5,6 +5,8 @@ import android.widget.EditText;
 
 import com.huanghaibin.rqm.R;
 
+import net.Consts;
+
 import butterknife.BindView;
 
 
@@ -24,7 +26,8 @@ public class FragmentUserID extends BaseFragment {
 
     @Override
     public void getMyViews() {
-
+        userEdi.setText(sharedPrefUtil.getSharedStr(Consts.USETID, ""));
+        userEdi.setSelection(userEdi.getText().toString().trim().length());
     }
 
     @Override

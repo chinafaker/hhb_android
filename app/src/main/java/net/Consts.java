@@ -3,6 +3,9 @@ package net;
 public class Consts {
     public static final String CHANNEL = "android";
     public static final String NET_VERSION = "1.0";
+    public static final String SHAREDPREFENCERQM = "sharedPrefenceRQM";
+    public static final String USETID = "userID";
+    public static final String ISREGISTERUSERIDTIOUC = "isRegisterUserIDTouchID";
     public static String BASE_ADDRESS_RQM = "http://121.40.150.64:8080/rqmweb";
     public static String BASE_ADDRESS = "https://api.guangqun.cn";
     public static String BASE_ADDRESS_HTTP = "https://api.guangqun.cn";

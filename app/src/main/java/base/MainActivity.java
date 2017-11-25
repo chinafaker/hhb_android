@@ -4,19 +4,33 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import com.huanghaibin.rqm.R;
+
+import net.Consts;
+import net.OnDataGetListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import data.GetMaintenanceInfoController;
+import data.LoginController;
 import fragments.HomeFragment;
+import javaBean.MaintenanceInfoBean;
+import utils.DialogUtil;
+import utils.GoPageUtil;
+import utils.JsonUtil;
+import utils.StringUtils;
 import utils.ToastUtils;
+
 public class MainActivity extends BaseActivity {
     private static final int investment_fragment_num = 1;//首页
     private HomeFragment homeFragment;
@@ -30,6 +44,7 @@ public class MainActivity extends BaseActivity {
     protected int getContentView() {
         return R.layout.layout_main;
     }
+
     public void initView() {
         super.initView();
         EventBus.getDefault().register(this);
@@ -39,6 +54,7 @@ public class MainActivity extends BaseActivity {
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
     }
+
     class MainPagerAdapter extends FragmentPagerAdapter {
 
         public MainPagerAdapter(FragmentManager fm) {
@@ -67,6 +83,37 @@ public class MainActivity extends BaseActivity {
             return null;
         }
     }
+
+    @Override
+    protected void onResume() {
+        getLoginController();
+        super.onResume();
+    }
+
+    GetMaintenanceInfoController getMaintenanceInfoController;
+
+    public void getLoginController() {
+        if (getMaintenanceInfoController == null) {
+            getMaintenanceInfoController = new GetMaintenanceInfoController(activity, new OnDataGetListener() {
+                @Override
+                public void onGetDataSuccess(String result) {
+                //    MaintenanceInfoBean  baseInfo = JsonUtil.objectFromJson(result, MaintenanceInfoBean.class);
+               //     MaintenanceInfoBean  baseInfo = JsonUtil.readJsonArray(result, MaintenanceInfoBean.class).get(0);
+                    Log.e("getMaintenanceInfo   结果",result);
+                //    Log.e("getMaintenanceInfo   结果",baseInfo.getMmEndtime());
+                    DialogUtil.noticeDialog(activity, null, true);
+                }
+
+                @Override
+                public void onGetDataFailed(int responseCode, String result) {
+                //   disProDialog();
+                //    ToastUtils.show(activity, result);
+                }
+            });
+        }
+        getMaintenanceInfoController.getData();
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

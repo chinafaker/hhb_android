@@ -28,7 +28,6 @@ import data.LoginController;
 import fingerprint.FingerprintCore;
 import fingerprint.FingerprintUtil;
 import fingerprint.KeyguardLockScreenManager;
-import preGuide.Welcome;
 import utils.DialogUtil;
 import utils.GoPageUtil;
 import utils.Logger;
@@ -49,7 +48,7 @@ public class HomeFragment extends BaseFragment {
     private FingerprintCore mFingerprintCore;
     private KeyguardLockScreenManager mKeyguardLockScreenManager;
     private ArrayList<Fragment> arrayList = new ArrayList<>();
-    private  boolean isFirseGetView=true;
+    private boolean isFirseGetView = true;
     @BindView(R.id.mSwipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.pager)
@@ -59,6 +58,9 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.tabs)
     TabLayout tabs;
+
+    @BindView(R.id.ll_touchid_setting)
+    LinearLayout ll_touchid_setting;
 
     @Override
     public int initInflateView() {
@@ -98,6 +100,11 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
                 currentItem = position;
+                if (position == 0) {
+                    ll_touchid_setting.setVisibility(View.INVISIBLE);
+                } else if (position == 1) {
+                    ll_touchid_setting.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -110,24 +117,33 @@ public class HomeFragment extends BaseFragment {
     public void doSomething() {
     }
 
-    @butterknife.OnClick({R.id.btn_login})
+    @butterknife.OnClick({R.id.btn_login, R.id.ll_touchid_setting})
     void OnClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.btn_login:
                 if (currentItem == 0) {
-                    if(isFirseGetView){
+                    if (isFirseGetView) {
                         userEdi = adapter.getCurrentFragment().getView().findViewById(R.id.userEdi);
                         passwordEdi = adapter.getCurrentFragment().getView().findViewById(R.id.passwordEdi);
                         checkSave = adapter.getCurrentFragment().getView().findViewById(R.id.checkSave);
-                        isFirseGetView=false;
+                        isFirseGetView = false;
                     }
                     getLoginController(userEdi, passwordEdi, checkSave);
 
                 } else if (currentItem == 1) {
                     isShowToast = true;
-                    startFingerprintRecognition();
+                    if (sharedPrefUtil.getSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false)) {
+                        startFingerprintRecognition();
+                    } else {
+                        DialogUtil.registerDialog(activity, weakhandler, true, sharedPrefUtil.getSharedStr(Consts.USETID, ""));
+                    }
                 }
+                break;
+
+            case R.id.ll_touchid_setting:
+                DialogUtil.registerDialog(activity, weakhandler, true, sharedPrefUtil.getSharedStr(Consts.USETID, ""));
+
                 break;
             default:
                 break;
@@ -136,7 +152,7 @@ public class HomeFragment extends BaseFragment {
 
     LoginController mLoginController;
 
-    public void getLoginController(EditText userEdi, EditText passwordEdi, CheckBox checkSave) {
+    public void getLoginController(final EditText userEdi, EditText passwordEdi, final CheckBox checkSave) {
         if (StringUtils.isEmpty(userEdi.getText().toString())) {
             ToastUtils.show(activity, "Please enter your account");
             return;
@@ -145,22 +161,31 @@ public class HomeFragment extends BaseFragment {
             ToastUtils.show(activity, "Please enter your password");
             return;
         }
-        if (checkSave.isChecked()) {
-
-        } else {
-            ToastUtils.show(activity, "Please Save user ID");
-            return;
-        }
+        showProDialogCancel();
         if (mLoginController == null) {
             mLoginController = new LoginController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
-                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
-                    DialogUtil.registerDialog(activity, weakhandler, true);
+
+                    //是否新用户登录
+                    if (userEdi.getText().toString().equals(sharedPrefUtil.getSharedStr(Consts.USETID, ""))) {
+                        sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, sharedPrefUtil.getSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false));
+                    } else {
+                        sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false);
+                    }
+                    if (checkSave.isChecked()) {
+
+                        sharedPrefUtil.setSharedStr(Consts.USETID, userEdi.getText().toString());
+                    } else {
+                        sharedPrefUtil.setSharedStr(Consts.USETID, "");
+                    }
+                    disProDialog();
+                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
                 }
 
                 @Override
                 public void onGetDataFailed(int responseCode, String result) {
+                    disProDialog();
                     ToastUtils.show(activity, result);
                 }
             });
@@ -169,12 +194,36 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    public void registerTouchID(String accountID, String password) {
+
+        showProDialogCancel();
+        if (mLoginController == null) {
+            mLoginController = new LoginController(activity, new OnDataGetListener() {
+                @Override
+                public void onGetDataSuccess(String result) {
+                    disProDialog();
+                    sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, true);
+                    ToastUtils.show(activity, "register sucess");
+                }
+
+                @Override
+                public void onGetDataFailed(int responseCode, String result) {
+                    disProDialog();
+                    ToastUtils.show(activity, result);
+                }
+            });
+        }
+        mLoginController.getData(accountID, password);
+    }
+
     WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 8001:
-                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+                    String accountID = msg.getData().getString("accountID");
+                    String password = msg.getData().getString("password");
+                    registerTouchID(accountID, password);
                     break;
                 case 8002:
                     isShowToast = false;
@@ -233,10 +282,9 @@ public class HomeFragment extends BaseFragment {
         }
 
 
-        //----------------------下面才是重点-----------------
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            if(position==0){
+            if (position == 0) {
                 mCurrentFragment = (FragmentUserID) object;
             }
             super.setPrimaryItem(container, position, object);
@@ -259,6 +307,7 @@ public class HomeFragment extends BaseFragment {
                 public void run() {
                     DialogUtil.touchResultSetTextClear();
                     DialogUtil.dialogDismiss();
+                    GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
                 }
             }, 1000);
         }
