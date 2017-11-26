@@ -1,4 +1,4 @@
-package com.huanghaibin.rqm;
+package com.rqm.rqm;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.huanghaibin.rqm", appContext.getPackageName());
+        assertEquals("com.huanghaibin.com.daikin.rqm", appContext.getPackageName());
     }
 }

@@ -1,7 +1,6 @@
 package web;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -19,7 +18,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import net.Consts;
 
@@ -27,21 +26,17 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Date;
 import java.util.HashMap;
 
 import base.BaseActivity;
 import base.MainActivity;
 import butterknife.BindView;
 import preGuide.GuideActivity;
-import receiver.HomeKeyEventBroadCastReceiver;
-import receiver.ScreenListener;
 import utils.GoPageUtil;
 import utils.Logger;
 import utils.SharedPrefUtil;
 import utils.StringUtils;
 import utils.TimeUtils;
-import utils.ToastUtils;
 import utils.Utils;
 
 public class BaseWebview extends BaseActivity {
@@ -446,7 +441,7 @@ public class BaseWebview extends BaseActivity {
     @Override
     protected void onRestart() {
         if (System.currentTimeMillis()
-                - Long.valueOf(db.getSharedStr("outTime")) >= 60 * 1000) {
+                - Long.valueOf(db.getSharedStr("outTime")) >= 4*60*60 * 1000) {
             Intent intent = new Intent(activity,
                     MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP

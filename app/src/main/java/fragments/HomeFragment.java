@@ -16,13 +16,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import net.Consts;
 import net.OnDataGetListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import customViews.NoScrollViewPager;
@@ -147,7 +146,6 @@ public class HomeFragment extends BaseFragment {
 
             case R.id.ll_touchid_setting:
                 DialogUtil.registerDialog(activity, weakhandler, true, sharedPrefUtil.getSharedStr(Consts.USETID, ""));
-
                 break;
             default:
                 break;

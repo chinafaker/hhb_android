@@ -1,4 +1,4 @@
-package com.huanghaibin.rqm;
+package com.rqm.rqm;
 
 import org.junit.Test;
 

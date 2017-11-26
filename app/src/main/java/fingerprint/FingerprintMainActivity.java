@@ -11,10 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import utils.DialogUtil;
-import utils.GoPageUtil;
 import utils.WeakHandler;
 
 

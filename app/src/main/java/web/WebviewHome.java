@@ -5,14 +5,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ImageView;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import net.Consts;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 

@@ -8,31 +8,22 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
-import net.Consts;
 import net.OnDataGetListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Date;
-
 import butterknife.BindView;
 import data.GetMaintenanceInfoController;
-import data.LoginController;
 import fragments.HomeFragment;
 import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
 import utils.DialogUtil;
-import utils.GoPageUtil;
 import utils.JsonUtil;
-import utils.StringUtils;
-import utils.TimeUtils;
 import utils.ToastUtils;
 
 public class MainActivity extends BaseActivity {

@@ -2,18 +2,14 @@ package preGuide;
 
 import android.widget.TextView;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import net.OnDataGetListener;
 
 import base.BaseActivity;
-import base.MainActivity;
 import butterknife.BindView;
 import data.CheckVersionController;
 import data.LoginController;
-import utils.GoPageUtil;
-import utils.Utils;
-import utils.WeakHandler;
 import widgets.SystemBarTintManager;
 
 

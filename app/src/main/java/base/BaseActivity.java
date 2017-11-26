@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

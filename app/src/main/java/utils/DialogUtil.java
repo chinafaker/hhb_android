@@ -1,24 +1,26 @@
 package utils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.InputType;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import base.BaseActivity;
 import javaBean.MaintenanceInfoBean;
@@ -79,9 +81,6 @@ public class DialogUtil {
         //背景不可点击
         dialog.setCanceledOnTouchOutside(dismissFlag);
         dialog.setCancelable(dismissFlag);
-
-
-        //=====================
 
         return layout;
     }
@@ -406,12 +405,42 @@ public class DialogUtil {
 
 
     public static void registerDialog(final Context context, final WeakHandler handler, boolean dismissFlag, String usetid) {
-        View layout = initDialog(context, R.layout.layout_dialog_register, dismissFlag, false, false, false);
+       final InputMethodManager imm  = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        screenWidth = display.getWidth();
+        screenHeight = display.getHeight();
+
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+       final RelativeLayout layout = (RelativeLayout) inflaterDl.inflate(R.layout.layout_dialog_register, null);
+        //对话框
+        dialog = new AlertDialog.Builder(context).create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+        dialog.getWindow().setContentView(layout);
+        //背景透明
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.dimAmount = 0.4f;//完全不透明1.0f;
+        if (false) {
+            lp.width = screenWidth;
+        }
+        if (false) {
+            lp.height = screenHeight - BaseActivity.STATUS_BAR_HEIGHT;
+        }
+        dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        if (false) {
+            dialog.getWindow().setGravity(Gravity.TOP);
+        }
+        //背景不可点击
+        dialog.setCanceledOnTouchOutside(dismissFlag);
+        dialog.setCancelable(dismissFlag);
+
+
         Button registerBtn = (Button) layout.findViewById(R.id.registerBtn);
         final EditText userEdi = (EditText) layout.findViewById(R.id.userEdi);
         final EditText passwordEdi = (EditText) layout.findViewById(R.id.passwordEdi);
-//输入框是密码风格的
-        //  userEdi.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
         userEdi.setText(usetid);
         userEdi.setSelection(userEdi.getText().toString().trim().length());
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -437,10 +466,25 @@ public class DialogUtil {
                     handler.sendMessage(message);//发送message信息
                     message.what = 8001;
                 }
+                imm.hideSoftInputFromWindow(layout.getWindowToken(), 0); //强制隐藏键盘
                 dialog.dismiss();
             }
         });
-    }
 
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        userEdi.requestFocus(); //edittext是一个EditText控件
+        Timer timer = new Timer(); //设置定时器
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() { //弹出软键盘的代码
+                imm.showSoftInput(layout, InputMethodManager.RESULT_SHOWN);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+            }
+        }, 200);
+
+    }
 
 }

@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 
 public class BottomNavigatorView extends LinearLayoutCompat {

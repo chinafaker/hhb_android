@@ -3,7 +3,7 @@ package preGuide;
 import android.view.View;
 import android.widget.TextView;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import base.BaseActivity;
 import butterknife.BindView;

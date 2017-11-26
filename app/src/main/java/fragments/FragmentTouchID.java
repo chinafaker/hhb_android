@@ -1,16 +1,14 @@
 package fragments;
 
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huanghaibin.rqm.R;
+import com.rqm.rqm.R;
 
 import net.Consts;
 
 import butterknife.BindView;
-import utils.DialogUtil;
 
 /**
  * Created by hhb on 2017/11/19.
