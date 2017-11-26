@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +27,12 @@ import java.lang.reflect.Method;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import receiver.HomeKeyEventBroadCastReceiver;
+import receiver.ScreenListener;
 import utils.Logger;
+import utils.SharedPrefUtil;
 import utils.StringUtils;
+import utils.ToastUtils;
 import utils.UIUtils;
 import utils.WeakHandler;
 import widgets.SystemBarTintManager;
@@ -57,7 +62,7 @@ public abstract class BaseActivity extends MainbaseActivity {
     @BindView(R.id.titleTv)
     TextView titleTv;
     @BindView(R.id.rlleft)
-   public RelativeLayout rlleft;
+    public RelativeLayout rlleft;
 
     public
     @BindView(R.id.rightTv)
@@ -103,6 +108,8 @@ public abstract class BaseActivity extends MainbaseActivity {
         ButterKnife.bind(this);
         init();
     }
+
+
 
     protected int getContentView() {
         return 0;
@@ -196,18 +203,6 @@ public abstract class BaseActivity extends MainbaseActivity {
         }
         return result;
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
 
     /**
      * @return void 返回类型
@@ -437,5 +432,51 @@ public abstract class BaseActivity extends MainbaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private ScreenListener screenListener;
+    private HomeKeyEventBroadCastReceiver receiver;
+
+    /**
+     * 监听锁屏事件，锁屏后解锁自动跳到密码锁页面
+     */
+    private void onAppBackGroundWatcher() {
+        receiver = new HomeKeyEventBroadCastReceiver();
+        registerReceiver(receiver, new IntentFilter(
+                Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+
+        screenListener = new ScreenListener(this);
+        screenListener.begin(new ScreenListener.ScreenStateListener() {
+
+            @Override
+            public void onUserPresent() {
+            }
+
+            // 解锁
+            @Override
+            public void onScreenOn() {
+                // 如果从home键到后台，解锁不做任何事儿
+                if (!isHomeOut()) {
+                    ToastUtils.show(activity, "isHomeOut false");
+                } else {
+                    ToastUtils.show(activity, "isHomeOut true");
+                }
+            }
+
+            // 锁屏
+            @Override
+            public void onScreenOff() {
+                SharedPrefUtil db = new SharedPrefUtil(BaseActivity.this,
+                        SharedPrefUtil.ONBACKGROUND);
+                db.setSharedBoolean("OUT", true);
+                db.setSharedStr("outTime", System.currentTimeMillis() + "");
+            }
+        });
+    }
+
+    private boolean isHomeOut() {
+        SharedPrefUtil db = new SharedPrefUtil(BaseActivity.this,
+                SharedPrefUtil.ONBACKGROUND);
+        return db.getSharedBoolean("HOMEOUT", false);
     }
 }

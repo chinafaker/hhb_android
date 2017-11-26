@@ -51,6 +51,8 @@ public class HomeFragment extends BaseFragment {
     private FingerprintCore mFingerprintCore;
     private KeyguardLockScreenManager mKeyguardLockScreenManager;
     private ArrayList<Fragment> arrayList = new ArrayList<>();
+    LoginController mLoginController;
+    LoginController mLoginController2;
     private boolean isFirseGetView = true;
     @BindView(R.id.mSwipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -58,10 +60,8 @@ public class HomeFragment extends BaseFragment {
     NoScrollViewPager pager;
     @BindView(R.id.btn_login)
     Button btn_login;
-
     @BindView(R.id.tabs)
     TabLayout tabs;
-
     @BindView(R.id.ll_touchid_setting)
     LinearLayout ll_touchid_setting;
 
@@ -154,8 +154,7 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    LoginController mLoginController;
-    LoginController mLoginController2;
+
 
     public void getLoginController(final EditText userEdi, EditText passwordEdi, final CheckBox checkSave) {
         if (StringUtils.isEmpty(userEdi.getText().toString())) {
@@ -196,6 +195,7 @@ public class HomeFragment extends BaseFragment {
                             activity.finish();
                         } else {
                             GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+//                            GoPageUtil.jumpTobyUrlLink(activity, Consts.BAIDU);
                         }
 
                     } else {

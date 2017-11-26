@@ -1,6 +1,7 @@
 package web;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -30,8 +31,11 @@ import java.util.Date;
 import java.util.HashMap;
 
 import base.BaseActivity;
+import base.MainActivity;
 import butterknife.BindView;
 import preGuide.GuideActivity;
+import receiver.HomeKeyEventBroadCastReceiver;
+import receiver.ScreenListener;
 import utils.GoPageUtil;
 import utils.Logger;
 import utils.SharedPrefUtil;
@@ -61,6 +65,7 @@ public class BaseWebview extends BaseActivity {
     private int dealLogin = 501;
     private boolean ifShowProgressbar = true;
     public SharedPrefUtil sharedPrefUtil;
+    public SharedPrefUtil db;
 
     @Override
     public void initView() {
@@ -68,6 +73,7 @@ public class BaseWebview extends BaseActivity {
         setLeftIcon(R.mipmap.icon_back);
         setLeftTv(getResources().getString(R.string.go_back));
         sharedPrefUtil = new SharedPrefUtil(activity, Consts.SHAREDPREFENCERQM);
+        db = new SharedPrefUtil(activity, SharedPrefUtil.ONBACKGROUND);
         EventBus.getDefault().register(this);
 
         Bundle bundle = getIntent().getExtras();
@@ -198,6 +204,7 @@ public class BaseWebview extends BaseActivity {
                 Logger.e("新url：" + url);
                 if (Consts.RQM_CONTAINER_LIST_URL.equals(url)) {
                     rlleft.setVisibility(View.GONE);
+                    EventBus.getDefault().post(url);
                 } else {
                     rlleft.setVisibility(View.VISIBLE);
                 }
@@ -368,6 +375,7 @@ public class BaseWebview extends BaseActivity {
 
     //处理WebView内存泄漏
     public void onDestroy() {
+        Logger.i("-------", "onDestroy");
         EventBus.getDefault().unregister(this);
         if (webView != null) {
             webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
@@ -421,7 +429,7 @@ public class BaseWebview extends BaseActivity {
         if (istrue) {
             sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, true);
             sharedPrefUtil.setSharedStr(Consts.LASTTIMESTR, TimeUtils.getCurrentDateString());
-            Log.e("save  time---", TimeUtils.getCurrentDateString() );
+            Log.e("save  time---", TimeUtils.getCurrentDateString());
         } else {
             sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, false);
             sharedPrefUtil.setSharedStr(Consts.LASTTIMESTR, "");
@@ -435,5 +443,25 @@ public class BaseWebview extends BaseActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        if (System.currentTimeMillis()
+                - Long.valueOf(db.getSharedStr("outTime")) >= 60 * 1000) {
+            Intent intent = new Intent(activity,
+                    MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        } else {
+
+        }
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        db.setSharedStr("outTime", System.currentTimeMillis() + "");
+        super.onStop();
+    }
 
 }

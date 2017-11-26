@@ -12,6 +12,10 @@ import com.huanghaibin.rqm.R;
 
 import net.Consts;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import base.ApplicationManager;
 import butterknife.BindView;
 import utils.DialogUtil;
@@ -41,7 +45,8 @@ public class WebviewHome extends BaseWebview {
         setStatusbarLightMode();
         setLeftIconGone();
         setRightIconGone();
-        iv_rightIcon.setVisibility(View.GONE);
+
+        iv_rightIcon.setVisibility(View.VISIBLE);
         if (Consts.RQM_CONTAINER_LIST_URL.equals(url)) {
             iv_leftIcon.setVisibility(View.GONE);
         } else {
@@ -62,13 +67,17 @@ public class WebviewHome extends BaseWebview {
         int id = v.getId();
         switch (id) {
             case R.id.iv_leftIcon:
-                DialogUtil.isSureExitDialog(this, weakhandler);
+                if (Consts.RQM_TOP_NOTICE_URL.equals(url)) {
+                    DialogUtil.isSureExitDialog(this, weakhandler);
+                } else {
+                    onBackPressed();
+                }
                 break;
             case R.id.iv_rightIcon:
                 if (!StringUtils.isEmpty(rightUrl)) {
                     GoPageUtil.jumpTobyUrlLink(this, rightUrl);
                 } else {
-                    //
+                    ToastUtils.show(this, "setting");
                 }
                 break;
 
@@ -140,9 +149,19 @@ public class WebviewHome extends BaseWebview {
                 }
             }
             return false;
-        } else {
+        } else if (Consts.RQM_TOP_NOTICE_URL.equals(url)) {
             DialogUtil.isSureExitDialog(this, weakhandler);
             return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(String data) {
+        url = data;
+    }
+
+
+
 }

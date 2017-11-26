@@ -14,7 +14,7 @@ public class SharedPrefUtil {
 
 	private SharedPreferences sp;
 	private Context mcontext;
-
+	public static final String ONBACKGROUND = "onbackground";
 	public SharedPrefUtil(Context context, String fileName) {
 		sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		mcontext = context;
