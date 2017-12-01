@@ -35,7 +35,7 @@
                 android:layout_toRightOf="@+id/iv_user"
                 android:background="@null"
                 android:gravity="center_vertical|left"
-                android:hint="Please enter your account"
+                android:hint="Please enter userID"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/txt_333333"
@@ -67,9 +67,9 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp">
+            android:layout_marginRight="28dp"
+            android:layout_marginTop="20dp">
 
             <ImageView
                 android:id="@+id/iv_password"
@@ -89,7 +89,7 @@
                 android:layout_toRightOf="@+id/iv_password"
                 android:background="@null"
                 android:gravity="center_vertical|left"
-                android:hint="Please enter your password"
+                android:hint="Please enter password"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/txt_333333"
@@ -118,23 +118,21 @@
             android:background="@color/line_F5F5F5"></View>
 
 
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp">
+            android:layout_marginRight="28dp"
+            android:layout_marginTop="30dp">
 
             <CheckBox
                 android:id="@+id/checkSave"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/save_checkbox_bg"
-                android:checked="true"
                 android:button="@null"
-                android:clickable="true"
-               />
+                android:checked="true"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -144,17 +142,13 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/checkSave"
                 android:gravity="center_vertical|left"
-                android:text="Save user ID"
                 android:maxLines="1"
+                android:text="Save user ID"
                 android:textColor="@color/hint_C2C2C2"
                 android:textSize="17sp" />
 
 
-
         </RelativeLayout>
-
-
-
 
 
     </LinearLayout>

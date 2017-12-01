@@ -58,7 +58,7 @@
                     android:layout_toLeftOf="@+id/iv_clear"
                     android:layout_toRightOf="@+id/iv_user"
                     android:background="@null"
-                    android:hint="Please enter your account"
+                    android:hint="Please enter userID"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/txt_333333"
@@ -106,7 +106,7 @@
                     android:layout_toLeftOf="@+id/iv_clear1"
                     android:layout_toRightOf="@+id/iv_password"
                     android:background="@null"
-                    android:hint="Please enter your password"
+                    android:hint="Please enter password"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/txt_333333"
@@ -139,7 +139,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/selector_bg_normal_press"
                 android:gravity="center"
-                android:text="Registration"
+                android:text="REGISTRATION"
                 android:textColor="@color/txt_333333"
                 android:textSize="14sp" />
 

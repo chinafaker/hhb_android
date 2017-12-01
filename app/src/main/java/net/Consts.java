@@ -6,8 +6,8 @@ public class Consts {
     public static final String SHAREDPREFENCERQM = "sharedPrefenceRQM";
     public static final String USETID = "userID";
     public static final String ISREGISTERUSERIDTIOUC = "isRegisterUserIDTouchID";
-    public static final String NOTDISPLAYTODAY= "notdisplayagaintoday";
-    public static final String LASTTIMESTR= "lastdatestr";
+    public static final String NOTDISPLAYTODAY = "notdisplayagaintoday";
+    public static final String LASTTIMESTR = "lastdatestr";
     public static String BASE_ADDRESS_RQM = "http://121.40.150.64:8080/rqmweb";
     public static String BASE_ADDRESS = "https://api.guangqun.cn";
     public static String BASE_ADDRESS_HTTP = "https://api.guangqun.cn";
@@ -17,8 +17,15 @@ public class Consts {
     public static String RQM_CONTAINER_INFO_URL = "http://121.40.150.64:8080/rqmweb/page/container_info.html";
 
     public static String BAIDU = "http://www.baidu.com";
+    public static String muaitesaki = "muaitesaki";
+    public static String mudelflg = "mudelflg";
+    public static String muid = "muid";
+    public static String mukubun = "mukubun";
+    public static String muname = "muname";
+    public static String urllinkend = "urllinkend";
 
     public static int PAGE_SIZE = 10;
+
     /**
      * 密码强度
      */
@@ -27,5 +34,6 @@ public class Consts {
         public static final int GENERAL = 2;
         public static final int STRONG = 3;
     }
+
     public static final String JS_PROXY_NAME = "androidmmk";
 }

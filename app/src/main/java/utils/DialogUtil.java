@@ -448,12 +448,12 @@ public class DialogUtil {
             @Override
             public void onClick(View v) {
                 if (StringUtils.isEmpty(userEdi.getText().toString())) {
-                    ToastUtils.show(context, "Please enter your account");
+                    ToastUtils.show(context, "Please enter userID");
                     return;
                 }
 
                 if (StringUtils.isEmpty(passwordEdi.getText().toString())) {
-                    ToastUtils.show(context, "Please enter your password");
+                    ToastUtils.show(context, "Please enter password");
                     return;
                 }
 

@@ -185,6 +185,7 @@ public class BaseWebview extends BaseActivity {
             settings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
         webView.addJavascriptInterface(this, "RQM");//window.RQM
+        webView.addJavascriptInterface(this, "window.RQM");//window.RQM
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedSslError(WebView view,
@@ -197,7 +198,7 @@ public class BaseWebview extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Logger.e("新url：" + url);
-                if (Consts.RQM_CONTAINER_LIST_URL.equals(url)) {
+                if (url.contains(Consts.RQM_CONTAINER_LIST_URL)) {      //Consts.RQM_CONTAINER_LIST_URL.equals(url)
                     rlleft.setVisibility(View.GONE);
                     EventBus.getDefault().post(url);
                 } else {
@@ -213,7 +214,6 @@ public class BaseWebview extends BaseActivity {
                     } else {
                         webView.loadUrl(url);
                     }
-
                 }
 
                 return true;// 返回true表示在本WebView跳转（不跳转到系统的浏览器）默认为false;
@@ -388,37 +388,9 @@ public class BaseWebview extends BaseActivity {
         this.finish();
     }
 
-    /**
-     * 首页
-     */
-    @JavascriptInterface
-    public void toAppHome() {
-        if (justFinishWhen2Home) {
-            finish();
-        } else {
-            Bundle bundle = new Bundle();
-            GoPageUtil.jumpToActivity(this, GuideActivity.class, bundle);
-        }
-    }
 
 
-    /**
-     * 点击返回是否关闭页面
-     */
-    @JavascriptInterface
-    public void ifClearHistory(int flag) {
-        Logger.e("ifClearHistory : " + flag);
-        if (flag == 1) {
-            ifCloseWhenClickBack = true;
-        } else {
-            ifCloseWhenClickBack = false;
-        }
-    }
 
-
-    /**
-     *
-     */
     @JavascriptInterface
     public void isShowToday(boolean istrue) {
         if (istrue) {

@@ -45,7 +45,7 @@ public class WebviewHome extends BaseWebview {
         setRightIconGone();
 
         iv_rightIcon.setVisibility(View.VISIBLE);
-        if (Consts.RQM_CONTAINER_LIST_URL.equals(url)) {
+        if (url.contains(Consts.RQM_CONTAINER_LIST_URL)) {   //Consts.RQM_CONTAINER_LIST_URL.equals(url)
             iv_leftIcon.setVisibility(View.GONE);
         } else {
             iv_leftIcon.setVisibility(View.VISIBLE);
@@ -65,7 +65,7 @@ public class WebviewHome extends BaseWebview {
         int id = v.getId();
         switch (id) {
             case R.id.iv_leftIcon:
-                if (Consts.RQM_TOP_NOTICE_URL.equals(url)) {
+                if (url.contains(Consts.RQM_TOP_NOTICE_URL)) {   //Consts.RQM_TOP_NOTICE_URL.equals(url)
                     DialogUtil.isSureExitDialog(this, weakhandler);
                 } else {
                     onBackPressed();
@@ -132,7 +132,7 @@ public class WebviewHome extends BaseWebview {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (Consts.RQM_CONTAINER_LIST_URL.equals(url)) {
+        if (url.contains(Consts.RQM_CONTAINER_LIST_URL)) { //Consts.RQM_CONTAINER_LIST_URL.equals(url)
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
                 // 时间锁连续两次时间间隔小于2秒
                 endTime = System.currentTimeMillis();
@@ -147,7 +147,7 @@ public class WebviewHome extends BaseWebview {
                 }
             }
             return false;
-        } else if (Consts.RQM_TOP_NOTICE_URL.equals(url)) {
+        } else if (url.contains(Consts.RQM_TOP_NOTICE_URL)) {   //Consts.RQM_TOP_NOTICE_URL.equals(url)
             DialogUtil.isSureExitDialog(this, weakhandler);
             return false;
         } else {
@@ -159,7 +159,6 @@ public class WebviewHome extends BaseWebview {
     public void onMessageEvent(String data) {
         url = data;
     }
-
 
 
 }

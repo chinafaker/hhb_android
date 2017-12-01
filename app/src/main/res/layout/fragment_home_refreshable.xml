@@ -6,10 +6,7 @@
     android:orientation="vertical">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/mSwipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <customViews.NestedScrollView
             android:id="@+id/refreshScrollView"
@@ -20,7 +17,6 @@
             <include layout="@layout/layout_home_content" />
 
         </customViews.NestedScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </RelativeLayout>

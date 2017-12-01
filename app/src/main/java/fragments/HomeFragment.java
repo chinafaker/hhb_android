@@ -29,8 +29,13 @@ import data.LoginController;
 import fingerprint.FingerprintCore;
 import fingerprint.FingerprintUtil;
 import fingerprint.KeyguardLockScreenManager;
+import javaBean.MaintenanceInfo;
+import javaBean.MaintenanceInfoBean;
+import javaBean.UserInfo;
+import javaBean.UserInfoBean;
 import utils.DialogUtil;
 import utils.GoPageUtil;
+import utils.JsonUtil;
 import utils.Logger;
 import utils.StringUtils;
 import utils.TimeUtils;
@@ -53,8 +58,7 @@ public class HomeFragment extends BaseFragment {
     LoginController mLoginController;
     LoginController mLoginController2;
     private boolean isFirseGetView = true;
-    @BindView(R.id.mSwipeRefreshLayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @BindView(R.id.pager)
     NoScrollViewPager pager;
     @BindView(R.id.btn_login)
@@ -73,8 +77,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void getMyViews() {
         initFingerprintCore();
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.bg_229EFF);
-        mSwipeRefreshLayout.setOnRefreshListener(listener);
         adapter = new MyPagerAdapter(activity.getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(1);
@@ -153,14 +155,13 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-
     public void getLoginController(final EditText userEdi, EditText passwordEdi, final CheckBox checkSave) {
         if (StringUtils.isEmpty(userEdi.getText().toString())) {
-            ToastUtils.show(activity, "Please enter your account");
+            ToastUtils.show(activity, "Please enter userID");
             return;
         }
         if (StringUtils.isEmpty(passwordEdi.getText().toString())) {
-            ToastUtils.show(activity, "Please enter your password");
+            ToastUtils.show(activity, "Please enter password");
             return;
         }
         showProDialogCancel();
@@ -169,6 +170,20 @@ public class HomeFragment extends BaseFragment {
                 @Override
                 public void onGetDataSuccess(String result) {
                     disProDialog();
+
+                    //http://121.40.150.64:8080/rqmweb/page/top_notice.html?muaitesaki=xxx&mudelflg=xxxx&muid=xxx&mukubun=xxx&muname=xxx
+                    UserInfo userInfo = JsonUtil.objectFromJson(result, UserInfo.class);
+                    UserInfoBean maintenanceInfoBean = userInfo.getUserInfo().get(0);
+                    String urllinkend = "?muaitesaki=" + StringUtils.noNull(maintenanceInfoBean.getMuAitesaki())
+                            + "&mudelflg=" + StringUtils.noNull(maintenanceInfoBean.getMuDelFlg())
+                            + "&muid=" + StringUtils.noNull(maintenanceInfoBean.getMuId())
+                            + "&mukubun=" + StringUtils.noNull(maintenanceInfoBean.getMuKubun())
+                            + "&muname=" + StringUtils.noNull(maintenanceInfoBean.getMuName());
+                    Log.e("----------", result);
+                    Log.e("----------urllinkend", urllinkend);
+                    sharedPrefUtil.setSharedStr(Consts.urllinkend, urllinkend);
+
+
                     //是否新用户登录
                     if (userEdi.getText().toString().equals(sharedPrefUtil.getSharedStr(Consts.USETID, ""))) {
                         sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, sharedPrefUtil.getSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false));
@@ -189,15 +204,15 @@ public class HomeFragment extends BaseFragment {
                                     .equals(TimeUtils.getCurrentDateString())) {
 
                         if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
-                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL + sharedPrefUtil.getSharedStr(Consts.urllinkend, ""));
                             activity.finish();
                         } else {
-                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL + sharedPrefUtil.getSharedStr(Consts.urllinkend, ""));
 //                            GoPageUtil.jumpTobyUrlLink(activity, Consts.BAIDU);
                         }
 
                     } else {
-                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL + sharedPrefUtil.getSharedStr(Consts.urllinkend, ""));
                     }
 
 
@@ -223,7 +238,19 @@ public class HomeFragment extends BaseFragment {
                 public void onGetDataSuccess(String result) {
                     disProDialog();
                     sharedPrefUtil.setSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, true);
+                    //http://121.40.150.64:8080/rqmweb/page/top_notice.html?muaitesaki=xxx&mudelflg=xxxx&muid=xxx&mukubun=xxx&muname=xxx
+                    UserInfo userInfo = JsonUtil.objectFromJson(result, UserInfo.class);
+                    UserInfoBean maintenanceInfoBean = userInfo.getUserInfo().get(0);
+                    String urllinkend = "?muaitesaki=" + StringUtils.noNull(maintenanceInfoBean.getMuAitesaki())
+                            + "&mudelflg=" + StringUtils.noNull(maintenanceInfoBean.getMuDelFlg())
+                            + "&muid=" + StringUtils.noNull(maintenanceInfoBean.getMuId())
+                            + "&mukubun=" + StringUtils.noNull(maintenanceInfoBean.getMuKubun())
+                            + "&muname=" + StringUtils.noNull(maintenanceInfoBean.getMuName());
+                    Log.e("----------", result);
+                    Log.e("----------urllinkend", urllinkend);
+                    sharedPrefUtil.setSharedStr(Consts.urllinkend, urllinkend);
                     ToastUtils.show(activity, "register sucess");
+
                 }
 
                 @Override
@@ -248,14 +275,6 @@ public class HomeFragment extends BaseFragment {
                 case 8002:
                     isShowToast = false;
                     cancelFingerprintRecognition();
-                    break;
-                case MSG_FLAG_REFRESH_COMPLETE:// 刷新控件完成刷新
-                    mSwipeRefreshLayout.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mSwipeRefreshLayout.setRefreshing(false);
-                        }
-                    }, 200);
                     break;
                 default:
                     break;
@@ -286,7 +305,6 @@ public class HomeFragment extends BaseFragment {
                 }
                 return f1;
             } else {
-                Logger.e("zhaoys", "fragment null");
                 return null;
             }
         }
@@ -334,14 +352,14 @@ public class HomeFragment extends BaseFragment {
                                     .equals(TimeUtils.getCurrentDateString())) {
 
                         if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)) {
-                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL);
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_CONTAINER_LIST_URL + sharedPrefUtil.getSharedStr(Consts.urllinkend, ""));
                             activity.finish();
                         } else {
-                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                            GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL + sharedPrefUtil.getSharedStr(Consts.urllinkend, ""));
                         }
 
                     } else {
-                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL);
+                        GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL + sharedPrefUtil.getSharedStr(Consts.urllinkend, ""));
                     }
 
                 }
@@ -384,17 +402,6 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            mSwipeRefreshLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
-            }, 2000);
-        }
-    };
 
     /**
      * 开始指纹识别
