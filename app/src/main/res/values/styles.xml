@@ -34,6 +34,16 @@
         <item name="android:layout_width">26dp</item>
         <item name="android:layout_height">26dp</item>
     </style>
+    <style name="ProgressBar_Mini" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">10dip</item>
+        <item name="android:minHeight">3dip</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:progressDrawable">@drawable/progressbar_mini</item>
+    </style>
+    <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title" />
 
-
+    <style name="NotificationInfo" parent="android:TextAppearance.StatusBar.EventContent" />
 </resources>

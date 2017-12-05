@@ -3,9 +3,12 @@ package utils;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,10 +17,14 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rqm.rqm.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -405,7 +412,7 @@ public class DialogUtil {
 
 
     public static void registerDialog(final Context context, final WeakHandler handler, boolean dismissFlag, String usetid) {
-       final InputMethodManager imm  = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        final InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
@@ -413,7 +420,7 @@ public class DialogUtil {
         screenHeight = display.getHeight();
 
         LayoutInflater inflaterDl = LayoutInflater.from(context);
-       final RelativeLayout layout = (RelativeLayout) inflaterDl.inflate(R.layout.layout_dialog_register, null);
+        final RelativeLayout layout = (RelativeLayout) inflaterDl.inflate(R.layout.layout_dialog_register, null);
         //对话框
         dialog = new AlertDialog.Builder(context).create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -485,6 +492,79 @@ public class DialogUtil {
             }
         }, 200);
 
+    }
+
+
+    /**
+     * 版本更新对话框
+     *
+     * @param context
+     * @param isForse
+     */
+    public static void versionUpdateDialog(final Context context, String update_content, String version_name, final String down_name, final String down_url, final int isForse) {
+        View layout = initDialog(context, R.layout.layout_dialog_check_version_update);
+        //立即更新
+        Button dialog_commit = (Button) layout.findViewById(R.id.dialog_commit);
+        dialog_commit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (isForse == 1) {
+                } else {
+                    dialog.dismiss();
+                }
+
+                if (GloableData.IN_DOWNLOAD_APP) {
+                    ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
+                    return;
+                }
+                // 显示下载对话框
+                Intent intent = new Intent(context, MMKUpdateService.class);
+                intent.putExtra("app_name", context.getResources().getString(R.string.app_name));
+                intent.putExtra("down_name", down_name);
+                intent.putExtra("down_url", down_url);
+                context.startService(intent);
+                EventBus.getDefault().post(GloableData.IN_DOWNLOAD);
+            }
+        });
+        //版本描述
+        TextView mTextView = (TextView) layout.findViewById(R.id.dialog_text);
+        //2017.6.1 隐藏版本提醒
+//        mTextView.setText("发现新版本  " + version_name);
+        //内容描述
+        LinearLayout view = (LinearLayout) layout.findViewById(R.id.lay_text_view);
+        String[] msgArr = update_content.split("\r");
+        TextView textView = null;
+
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        float value = dm.scaledDensity;
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        for (int i = 0; i < msgArr.length; i++) {
+            textView = new TextView(context);
+            textView.setTextColor(context.getResources().getColor(R.color.txt_666666));
+            textView.setGravity(Gravity.CENTER_VERTICAL);
+//            textView.setTextSize(screenWidth / 82);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            textView.setText(msgArr[i]);
+            textView.setLayoutParams(lp);
+            view.addView(textView);
+        }
+        //关闭按钮
+        ImageView btnClose = (ImageView) layout.findViewById(R.id.closeImgv);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+        if (isForse == 0) {
+            return;
+        }
+        btnClose.setVisibility(View.GONE);
     }
 
 }

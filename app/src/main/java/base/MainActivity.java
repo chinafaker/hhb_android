@@ -1,5 +1,8 @@
 package base;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,13 +20,20 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+
 import butterknife.BindView;
+import data.GetAppVersionController;
 import data.GetMaintenanceInfoController;
 import fragments.HomeFragment;
 import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
 import utils.DialogUtil;
+import utils.GloableData;
+import utils.InstallApkMsg;
 import utils.JsonUtil;
+import utils.Logger;
+import utils.StringUtils;
 import utils.ToastUtils;
 
 public class MainActivity extends BaseActivity {
@@ -32,6 +42,24 @@ public class MainActivity extends BaseActivity {
     private MainPagerAdapter mainPagerAdapter;
     // 系统时间
     public long startTime, endTime;
+    /**
+     * 下载名称
+     */
+    private String down_name = "QRM";
+    /**
+     * 下载路径
+     */
+    private String down_url = "http://121.40.150.64:8080/rqm/app/rqmClient.apk";
+    /**
+     * 更新内容
+     */
+    private String update_content = "更新内容。。。。。";
+    /**
+     * 版本名称
+     */
+    private String version_name = "V2.2.0";
+
+
     @BindView(R.id.viewpager)
     ViewPager viewpager;
 
@@ -49,7 +77,7 @@ public class MainActivity extends BaseActivity {
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
 
-
+        getAppVersionController();
         getLoginController();
     }
 
@@ -110,6 +138,34 @@ public class MainActivity extends BaseActivity {
         getMaintenanceInfoController.getData();
     }
 
+    GetAppVersionController mGetAppVersionController;
+
+    public void getAppVersionController() {
+        if (mGetAppVersionController == null) {
+            mGetAppVersionController = new GetAppVersionController(activity, new OnDataGetListener() {
+                @Override
+                public void onGetDataSuccess(String result) {
+                    Logger.e("getAppVersion   sucess", result);
+                }
+
+                @Override
+                public void onGetDataFailed(int responseCode, String result) {
+                    Logger.e("getAppVersion  failed", result);
+           //         showNoticeDialog(0);
+                }
+            });
+        }
+        mGetAppVersionController.getData();
+    }
+
+    /**
+     * 显示软件更新对话框
+     *
+     * @param isForse
+     */
+    private void showNoticeDialog(int isForse) {
+        DialogUtil.versionUpdateDialog(this, update_content, version_name, down_name, down_url, isForse);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -135,12 +191,49 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(String data) {
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return super.onTouchEvent(event);
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(String data) {
+        if (!StringUtils.isEmpty(data)) {
+            if (data.equals(GloableData.IN_DOWNLOAD)) {
+                GloableData.IN_DOWNLOAD_APP = true;
+                ToastUtils.show(this, "开始下载...");
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(InstallApkMsg installApkMsg) {
+        GloableData.IN_DOWNLOAD_APP = false;
+        if (installApkMsg != null) {
+            if (!StringUtils.isEmpty(installApkMsg.getPath())) {
+                startApkInstall(installApkMsg.getPath());
+            }
+        }
+    }
+
+    public void startApkInstall(final String filePath) {
+
+        final File apkfile = new File(filePath);
+        if (!apkfile.exists()) {
+            return;
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
+                startActivity(i);
+            }
+        }, 500);
+    }
+
 }

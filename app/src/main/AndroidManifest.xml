@@ -52,6 +52,9 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+
+        <service android:name="utils.MMKUpdateService" />
     </application>
 
 </manifest>
