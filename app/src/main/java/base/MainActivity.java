@@ -2,7 +2,9 @@ package base;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,6 +31,7 @@ import fragments.HomeFragment;
 import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
 import utils.DialogUtil;
+import utils.EncryptionUtil;
 import utils.GloableData;
 import utils.InstallApkMsg;
 import utils.JsonUtil;
@@ -68,7 +71,14 @@ public class MainActivity extends BaseActivity {
         return R.layout.layout_main;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void initView() {
+
+        String s = EncryptionUtil.getEncryptionStr("黄海宾");
+     //   Log.e("-----加密",s);
+     /*   String result = EncryptionUtil.getDecryptStr(s);
+        Log.e("----解密", result);
+        */
         super.initView();
         EventBus.getDefault().register(this);
         setStatusbarLightMode();
@@ -151,7 +161,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onGetDataFailed(int responseCode, String result) {
                     Logger.e("getAppVersion  failed", result);
-           //         showNoticeDialog(0);
+                    //         showNoticeDialog(0);
                 }
             });
         }
