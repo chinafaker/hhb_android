@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="7dp"
                     android:layout_toRightOf="@+id/ivTime">
 
 
@@ -100,7 +100,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="45dp"
+                                android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:text="Start:"
                                 android:textColor="@color/txt_999999"
@@ -108,9 +108,8 @@
 
                             <TextView
                                 android:id="@+id/tvstart"
-
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:maxLines="1"
                                 android:textColor="@color/txt_333333"
                                 android:textSize="15sp"
@@ -132,7 +131,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="45dp"
+                                android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:text="End :"
                                 android:textColor="@color/txt_999999"
@@ -140,7 +139,7 @@
 
                             <TextView
                                 android:id="@+id/tvend"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:maxLines="1"
                                 android:textColor="@color/txt_333333"

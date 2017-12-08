@@ -2,9 +2,7 @@ package base;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,7 +21,18 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+
+import aes.AES;
 import butterknife.BindView;
 import data.GetAppVersionController;
 import data.GetMaintenanceInfoController;
@@ -31,7 +40,6 @@ import fragments.HomeFragment;
 import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
 import utils.DialogUtil;
-import utils.EncryptionUtil;
 import utils.GloableData;
 import utils.InstallApkMsg;
 import utils.JsonUtil;
@@ -62,7 +70,7 @@ public class MainActivity extends BaseActivity {
      */
     private String version_name = "V2.2.0";
 
-
+    private static final String keyBytes = "0000sl_010122940";
     @BindView(R.id.viewpager)
     ViewPager viewpager;
 
@@ -71,15 +79,9 @@ public class MainActivity extends BaseActivity {
         return R.layout.layout_main;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void initView() {
-
-        //   String s = EncryptionUtil.getEncryptionStr("黄海宾");
-        //   Log.e("-----加密",s);
-     /*   String result = EncryptionUtil.getDecryptStr(s);
-        Log.e("----解密", result);
-        */
         super.initView();
+
         EventBus.getDefault().register(this);
         setStatusbarLightMode();
         hideTitle();
@@ -87,7 +89,7 @@ public class MainActivity extends BaseActivity {
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
 
-        getAppVersionController();
+        //    getAppVersionController();
         getLoginController();
     }
 
