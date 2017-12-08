@@ -74,8 +74,8 @@ public class MainActivity extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void initView() {
 
-        String s = EncryptionUtil.getEncryptionStr("黄海宾");
-     //   Log.e("-----加密",s);
+        //   String s = EncryptionUtil.getEncryptionStr("黄海宾");
+        //   Log.e("-----加密",s);
      /*   String result = EncryptionUtil.getDecryptStr(s);
         Log.e("----解密", result);
         */

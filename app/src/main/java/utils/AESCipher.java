@@ -39,7 +39,6 @@ public class AESCipher {
      * @throws BadPaddingException
      * @throws UnsupportedEncodingException
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String aesEncryptString(String content, String key) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
         byte[] contentBytes = content.getBytes(charset);
         byte[] keyBytes = key.getBytes(charset);
@@ -61,7 +60,6 @@ public class AESCipher {
      * @throws BadPaddingException
      * @throws UnsupportedEncodingException
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String aesDecryptString(String content, String key) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
         Decoder decoder = Base64.getDecoder();
         byte[] encryptedBytes = decoder.decode(content);
