@@ -220,7 +220,6 @@ public class BaseDataController {
     }
 
 
-
     /**
      * @param params
      * @return void 返回类型
@@ -318,11 +317,11 @@ public class BaseDataController {
                 }
             };
         }
-            stringRequest.setTag(mContext.getClass().getSimpleName());
-            stringRequest.setShouldCache(false);
-            Logger.i("===== 请求地址：" + stringRequest.getUrl());
-            Logger.i("===== " + method + " 请求参数：" + JsonUtil.jsonFromObject(params));
-            addRequest(App.getApp(), stringRequest);
+        stringRequest.setTag(mContext.getClass().getSimpleName());
+        stringRequest.setShouldCache(false);
+        Logger.i("===== 请求地址：" + stringRequest.getUrl());
+        Logger.i("===== " + method + " 请求参数：" + JsonUtil.jsonFromObject(params));
+        addRequest(App.getApp(), stringRequest);
 
 
     }
@@ -398,75 +397,75 @@ public class BaseDataController {
     public void getDataRQM(final HashMap<String, String> params, final String method) {
         this.method = method;
         if (!NetUtils.isConnected(mContext)) {
-            listener.onGetDataFailed(no_net, mContext.getResources().getString(R.string.nonet));
+            listener.onGetDataFailed(no_net, "The network is not good ");
             return;
         }
 
-            stringRequest = new CustomRequest(Request.Method.POST, getAbsoluteUrlRQM(method, params), new Response.Listener<String>() {
-                @Override
-                public void onResponse(String result) {
-                    Logger.i("===== " + method + " 返回数据：" + result);
-                    if (Utils.isEmpty(result)) {
-                        listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
-                    } else {
-                        try {
-                            JSONObject jo = new JSONObject(result);
-                            boolean responseCode = jo.getBoolean("code");
-                            if (responseCode) {
-                                String data = jo.getString("data");
-                                // String sc = jo.getString("sc");//sc：
-                                listener.onGetDataSuccess(data);
-                            } else {
-                                String fc = jo.getString("errorDes");//errorDes：【失败错误码如下：
-                                listener.onGetDataFailed(0, fc);
-                            }
-
-                        } catch (JSONException e) {
-                            if (Logger.B_LOG_OPEN) {
-                                e.printStackTrace();
-                            }
-                            listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
-                        }
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (error == null || error.networkResponse == null) {
-                        if (mContext instanceof BaseActivity) {
-                            ((BaseActivity) mContext).disProDialog();
-                        }
-                        listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
-                        return;
-                    }
-                    Logger.e("失败原因：" + error.getMessage());
-                    String result = new String(error.networkResponse.data);
-                    Logger.i("onFailure(" + method + ")----->" + result);
-
-                    if (Utils.isEmpty(result)) {
-                        listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
-                    } else {
-                        try {
-                            JSONObject jo = new JSONObject(result);
-                            boolean responseCode = jo.getBoolean("code");
+        stringRequest = new CustomRequest(Request.Method.POST, getAbsoluteUrlRQM(method, params), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String result) {
+                Logger.i("===== " + method + " 返回数据：" + result);
+                if (Utils.isEmpty(result)) {
+                    listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
+                } else {
+                    try {
+                        JSONObject jo = new JSONObject(result);
+                        boolean responseCode = jo.getBoolean("code");
+                        if (responseCode) {
                             String data = jo.getString("data");
-                            String fc = jo.getString("fc");//fc：【失败错误码如下：
-
-                        } catch (JSONException e) {
-                            if (Logger.B_LOG_OPEN) {
-                                e.printStackTrace();
-                            }
-                            listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                            // String sc = jo.getString("sc");//sc：
+                            listener.onGetDataSuccess(data);
+                        } else {
+                            String fc = jo.getString("errorDes");//errorDes：【失败错误码如下：
+                            listener.onGetDataFailed(0, fc);
                         }
+
+                    } catch (JSONException e) {
+                        if (Logger.B_LOG_OPEN) {
+                            e.printStackTrace();
+                        }
+                        listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
                     }
                 }
-            }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    return params;
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error == null || error.networkResponse == null) {
+                    if (mContext instanceof BaseActivity) {
+                        ((BaseActivity) mContext).disProDialog();
+                    }
+                    listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
+                    return;
                 }
-            };
+                Logger.e("失败原因：" + error.getMessage());
+                String result = new String(error.networkResponse.data);
+                Logger.i("onFailure(" + method + ")----->" + result);
+
+                if (Utils.isEmpty(result)) {
+                    listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
+                } else {
+                    try {
+                        JSONObject jo = new JSONObject(result);
+                        boolean responseCode = jo.getBoolean("code");
+                        String data = jo.getString("data");
+                        String fc = jo.getString("fc");//fc：【失败错误码如下：
+
+                    } catch (JSONException e) {
+                        if (Logger.B_LOG_OPEN) {
+                            e.printStackTrace();
+                        }
+                        listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                    }
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+        };
 
 
         Logger.i("===== 请求地址：" + stringRequest.getUrl());
@@ -475,6 +474,7 @@ public class BaseDataController {
         stringRequest.setShouldCache(false);
         addRequest(App.getApp(), stringRequest);
     }
+
     /**
      * 添加网络请求
      *

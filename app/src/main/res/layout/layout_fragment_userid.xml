@@ -88,6 +88,7 @@
                 android:layout_toLeftOf="@+id/iv_clear1"
                 android:layout_toRightOf="@+id/iv_password"
                 android:background="@null"
+                android:inputType="textPassword"
                 android:gravity="center_vertical|left"
                 android:hint="Please enter password"
                 android:maxLines="1"

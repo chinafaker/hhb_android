@@ -125,9 +125,9 @@ public class MMKUpdateService extends Service {
         contentView.setProgressBar(R.id.progress_num, 100, 0, false);
 
         notification = new Notification.Builder(MMKUpdateService.this)
-                .setTicker("广群金融文件更新！")
+                .setTicker("RQM文件更新！")
                 .setAutoCancel(true)
-                .setContentTitle("广群金融")
+                .setContentTitle("RQM")
                 .setContentIntent(pendingIntent)
                 .setContentText("下载......")
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -161,9 +161,9 @@ public class MMKUpdateService extends Service {
                         intent.setDataAndType(uri, "application/vnd.android.package-archive");
                         pendingIntent = PendingIntent.getActivity(MMKUpdateService.this, 0, intent, 0);
                         notification = new Notification.Builder(MMKUpdateService.this)
-                                .setTicker("广群金融更新文件下载中。。。，请注意查收！")
+                                .setTicker("RQM更新文件下载中。。。，请注意查收！")
                                 .setAutoCancel(true)
-                                .setContentTitle("广群金融")
+                                .setContentTitle("RQM")
                                 .setContentIntent(pendingIntent)
                                 .setContentText("下载成功，点击安装")
                                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -178,12 +178,12 @@ public class MMKUpdateService extends Service {
                         break;
                     case FAILURE: //文件下载失败
                         notification = new Notification.Builder(MMKUpdateService.this)
-                                .setTicker("广群金融更新文件下载中。。。，请注意查收！")
+                                .setTicker("RQM更新文件下载中。。。，请注意查收！")
                                 .setAutoCancel(true)
-                                .setContentTitle("广群金融")
+                                .setContentTitle("RQM")
                                 .setContentIntent(pendingIntent)
                                 .setContentText("下载失败")
-                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setSmallIcon(R.mipmap.icon_launcher)
                                 .build();
                         manager.notify(notificationId, notification);
                         //关闭 服务

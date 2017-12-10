@@ -13,7 +13,7 @@ public class GetAppVersionController extends BaseDataController {
     }
 
     public void getData() {
-        String method = "/getAppVersion";
+        String method = "/rest/version/getAppVersion";
         params.put("mobileType", "1");
         getDataRQM(params, method);
     }

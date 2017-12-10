@@ -107,6 +107,7 @@
                     android:layout_toRightOf="@+id/iv_password"
                     android:background="@null"
                     android:hint="Please enter password"
+                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/txt_333333"

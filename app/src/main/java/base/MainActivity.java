@@ -60,7 +60,8 @@ public class MainActivity extends BaseActivity {
     /**
      * 下载路径
      */
-    private String down_url = "http://121.40.150.64:8080/rqm/app/rqmClient.apk";
+//    private String down_url = "http://121.40.150.64:8080/rqm/app/rqmClient.apk";
+    private String down_url = "http://shouji.360tpcdn.com/171201/0234844f23dfba04c274454daeb387b7/com.happyelements.AndroidAnimal_52.apk";
     /**
      * 更新内容
      */
@@ -81,16 +82,13 @@ public class MainActivity extends BaseActivity {
 
     public void initView() {
         super.initView();
-
         EventBus.getDefault().register(this);
-        setStatusbarLightMode();
         hideTitle();
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
-
-        //    getAppVersionController();
         getLoginController();
+        //  getAppVersionController();
     }
 
     class MainPagerAdapter extends FragmentPagerAdapter {
@@ -157,27 +155,17 @@ public class MainActivity extends BaseActivity {
             mGetAppVersionController = new GetAppVersionController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
-                    Logger.e("getAppVersion   sucess", result);
+                    DialogUtil.versionUpdateDialog(activity, update_content, down_name, down_url);
                 }
 
                 @Override
                 public void onGetDataFailed(int responseCode, String result) {
-                    Logger.e("getAppVersion  failed", result);
-                    //         showNoticeDialog(0);
                 }
             });
         }
         mGetAppVersionController.getData();
     }
 
-    /**
-     * 显示软件更新对话框
-     *
-     * @param isForse
-     */
-    private void showNoticeDialog(int isForse) {
-        DialogUtil.versionUpdateDialog(this, update_content, version_name, down_name, down_url, isForse);
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

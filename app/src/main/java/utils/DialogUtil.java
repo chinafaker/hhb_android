@@ -34,6 +34,7 @@ import javaBean.MaintenanceInfoBean;
 
 public class DialogUtil {
     private static Dialog dialog;
+    private static Dialog dialog2;
     private static int screenWidth;
     private static int screenHeight;
 
@@ -92,12 +93,61 @@ public class DialogUtil {
         return layout;
     }
 
+    /**
+     * initDialog
+     *
+     * @param context
+     * @param layout_view
+     * @return
+     */
+
+    public static View initDialog2(Context context, int layout_view, boolean dismissFlag, boolean ifTop, boolean ifFillWidth, boolean ifFillHeight) {
+
+        // 方法1 Android获得屏幕的宽和高
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+        Display display = windowManager.getDefaultDisplay();
+        screenWidth = display.getWidth();
+        screenHeight = display.getHeight();
+
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+        RelativeLayout layout = (RelativeLayout) inflaterDl.inflate(layout_view, null);
+        //对话框
+        dialog2 = new AlertDialog.Builder(context).create();
+        dialog2.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog2.show();
+        dialog2.getWindow().setContentView(layout);
+        //背景透明
+        WindowManager.LayoutParams lp = dialog2.getWindow().getAttributes();
+        lp.dimAmount = 0.4f;//完全不透明1.0f;
+        if (ifFillWidth) {
+            lp.width = screenWidth;
+        }
+        if (ifFillHeight) {
+            lp.height = screenHeight - BaseActivity.STATUS_BAR_HEIGHT;
+        }
+        dialog2.getWindow().setAttributes(lp);
+        dialog2.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        if (ifTop) {
+            dialog2.getWindow().setGravity(Gravity.TOP);
+        }
+        //背景不可点击
+        dialog2.setCanceledOnTouchOutside(dismissFlag);
+        dialog2.setCancelable(dismissFlag);
+
+        return layout;
+    }
+
     public static View initDialog(Context context, int layout_view) {
         return initDialog(context, layout_view, false, false, false, false);
     }
 
     public static View initDialog(Context context, int layout_view, boolean dismissFlag) {
         return initDialog(context, layout_view, dismissFlag, false, false, false);
+    }
+
+    public static View initDialog2(Context context, int layout_view, boolean dismissFlag) {
+        return initDialog2(context, layout_view, dismissFlag, false, false, false);
     }
 
 
@@ -133,7 +183,7 @@ public class DialogUtil {
      * @param context
      */
 
-    public static void normal2Btns(final Context context, String[] btnName, String title, String msg, final Handler handler) {
+    public static void normal2Btns(final Context context, String[] btnName, String title, final Handler handler) {
         View layout = initDialog(context, R.layout.layout_dialog_with2btns);
         //立即注册
         Button leftBtn = (Button) layout.findViewById(R.id.leftBtn);
@@ -160,9 +210,7 @@ public class DialogUtil {
                 dialog.dismiss();
             }
         });
-        //内容描述
-        TextView mTextView = (TextView) layout.findViewById(R.id.dialog_text);
-        mTextView.setText(msg);
+
 
         TextView dialogTitle = (TextView) layout.findViewById(R.id.dialogTitle);
         if (StringUtils.isEmpty(title)) {
@@ -499,8 +547,57 @@ public class DialogUtil {
      * 版本更新对话框
      *
      * @param context
-     * @param isForse
+     * @param
      */
+    public static void versionUpdateDialog(final Context context, String update_content, final String down_name, final String down_url) {
+        View layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, true);
+        //立即更新
+        Button dialog_commit = (Button) layout.findViewById(R.id.dialog_commit);
+        dialog_commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog2.dismiss();
+                if (GloableData.IN_DOWNLOAD_APP) {
+                    ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
+                    return;
+                }
+                // 显示下载对话框
+                Intent intent = new Intent(context, MMKUpdateService.class);
+                intent.putExtra("app_name", context.getResources().getString(R.string.app_name));
+                intent.putExtra("down_name", down_name);
+                intent.putExtra("down_url", down_url);
+                context.startService(intent);
+                EventBus.getDefault().post(GloableData.IN_DOWNLOAD);
+            }
+        });
+
+        //内容描述
+        LinearLayout view = (LinearLayout) layout.findViewById(R.id.lay_text_view);
+        String[] msgArr = update_content.split("\r");
+        TextView textView = null;
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        float value = dm.scaledDensity;
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        for (int i = 0; i < msgArr.length; i++) {
+            textView = new TextView(context);
+            textView.setTextColor(context.getResources().getColor(R.color.txt_666666));
+            textView.setGravity(Gravity.CENTER_VERTICAL);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            textView.setText(msgArr[i]);
+            textView.setLayoutParams(lp);
+            view.addView(textView);
+        }
+    }
+
+
+
+
+   /* *//**
+     * 版本更新对话框
+     *
+     * @param context
+     * @param isForse
+     *//*
     public static void versionUpdateDialog(final Context context, String update_content, String version_name, final String down_name, final String down_url, final int isForse) {
         View layout = initDialog(context, R.layout.layout_dialog_check_version_update);
         //立即更新
@@ -565,6 +662,6 @@ public class DialogUtil {
             return;
         }
         btnClose.setVisibility(View.GONE);
-    }
+    }*/
 
 }

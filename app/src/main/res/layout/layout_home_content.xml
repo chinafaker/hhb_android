@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
-        android:src="@mipmap/login_pic" />
+        android:src="@mipmap/pictop" />
 
     <ImageView
         android:id="@+id/pic_cont"
@@ -52,10 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:background="@drawable/selector_bg_normal_press"
         android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="@string/login"
         android:textColor="@color/txt_333333"
         android:textSize="18sp" />
@@ -63,12 +63,12 @@
 
     <LinearLayout
         android:id="@+id/ll_touchid_setting"
-        android:layout_marginTop="40dp"
-        android:visibility="invisible"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -83,12 +83,11 @@
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:layout_marginTop="3dp"
-            android:background="@color/blueColor"
-            />
+            android:background="@color/blueColor" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            />
+            android:layout_height="20dp" />
 
     </LinearLayout>
 

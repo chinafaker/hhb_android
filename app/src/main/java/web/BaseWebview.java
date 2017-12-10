@@ -389,8 +389,6 @@ public class BaseWebview extends BaseActivity {
     }
 
 
-
-
     @JavascriptInterface
     public void isShowToday(boolean istrue) {
         if (istrue) {
@@ -413,7 +411,7 @@ public class BaseWebview extends BaseActivity {
     @Override
     protected void onRestart() {
         if (System.currentTimeMillis()
-                - Long.valueOf(db.getSharedStr("outTime")) >= 4*60*60 * 1000) {
+                - Long.valueOf(db.getSharedStr("outTime")) >= 4 * 60 * 1000) {//4*60*60 * 1000
             Intent intent = new Intent(activity,
                     MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
