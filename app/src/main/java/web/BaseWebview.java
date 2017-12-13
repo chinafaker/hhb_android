@@ -410,7 +410,7 @@ public class BaseWebview extends BaseActivity {
 
     @Override
     protected void onRestart() {
-        if (System.currentTimeMillis()
+     /*   if (System.currentTimeMillis()
                 - Long.valueOf(db.getSharedStr("outTime")) >= 4 * 60 * 1000) {//4*60*60 * 1000
             Intent intent = new Intent(activity,
                     MainActivity.class);
@@ -419,13 +419,13 @@ public class BaseWebview extends BaseActivity {
             startActivity(intent);
         } else {
 
-        }
+        }*/
         super.onRestart();
     }
 
     @Override
     protected void onStop() {
-        db.setSharedStr("outTime", System.currentTimeMillis() + "");
+        //      db.setSharedStr("outTime", System.currentTimeMillis() + "");
         super.onStop();
     }
 
