@@ -65,8 +65,16 @@ public class WebviewHome extends BaseWebview {
         int id = v.getId();
         switch (id) {
             case R.id.iv_leftIcon:
+                //http://121.40.150.64:8080/rqmweb/page/top_notice.html
+                //http://121.40.150.64:8080/rqmweb/page/top_notice.html?muaitesaki=9000&mudelflg=0&muid=testdil&mukubun=12&muname=TestDIl
                 if (url.contains(Consts.RQM_TOP_NOTICE_URL)) {   //Consts.RQM_TOP_NOTICE_URL.equals(url)
-                    DialogUtil.isSureExitDialog(this, weakhandler);
+
+                    if (!webView.canGoBack()) {
+                        DialogUtil.isSureExitDialog(this, weakhandler);
+                    } else {
+                        onBackPressed();
+                    }
+
                 } else {
                     onBackPressed();
                 }
@@ -148,7 +156,12 @@ public class WebviewHome extends BaseWebview {
             }
             return false;
         } else if (url.contains(Consts.RQM_TOP_NOTICE_URL)) {   //Consts.RQM_TOP_NOTICE_URL.equals(url)
-            DialogUtil.isSureExitDialog(this, weakhandler);
+            if (!webView.canGoBack()) {
+                DialogUtil.isSureExitDialog(this, weakhandler);
+            } else {
+                onBackPressed();
+            }
+            //   DialogUtil.isSureExitDialog(this, weakhandler);
             return false;
         } else {
             return super.onKeyDown(keyCode, event);

@@ -141,7 +141,8 @@ public class HomeFragment extends BaseFragment {
                     if (sharedPrefUtil.getSharedBoolean(Consts.ISREGISTERUSERIDTIOUC, false)) {
                         startFingerprintRecognition();
                     } else {
-                        DialogUtil.registerDialog(activity, weakhandler, true, sharedPrefUtil.getSharedStr(Consts.USETID, ""));
+                        //  DialogUtil.registerDialog(activity, weakhandler, true, sharedPrefUtil.getSharedStr(Consts.USETID, ""));
+                        ToastUtils.show(activity, "Please Setting TouchID");
                     }
                 }
                 break;

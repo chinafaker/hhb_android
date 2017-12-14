@@ -20,13 +20,23 @@
         android:src="@mipmap/pictop" />
 
     <ImageView
-        android:id="@+id/pic_cont"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
-        android:src="@mipmap/pic_cont" />
+        android:src="@mipmap/pic_cont"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/pic_cont"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#FF0E91DF"
+        android:gravity="center"
+        android:text="CONTAINER REFRIGERATION SERVICE"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"

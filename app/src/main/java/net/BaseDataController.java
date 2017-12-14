@@ -375,6 +375,7 @@ public class BaseDataController {
                             .append(URLEncoder.encode(param.getKey(), "UTF-8"))
                             .append('=')
                             .append(URLEncoder.encode(param.getValue(), "UTF-8"));
+
                     if (iterator.hasNext()) {
                         urlBuilder.append('&');
                     }
@@ -384,6 +385,17 @@ public class BaseDataController {
             e.printStackTrace();
         }
         return urlBuilder.toString();
+     /*   if ("/rest/news/getMaintenanceInfo".equals(relativeUrl)) {
+            String url = urlBuilder.toString();
+            if (url.contains("%2F")) {
+                url.replaceAll("%2F", "/");
+            }
+            return url;
+        } else {
+            return urlBuilder.toString();
+        }*/
+
+
     }
 
 
@@ -413,7 +425,6 @@ public class BaseDataController {
                         boolean responseCode = jo.getBoolean("code");
                         if (responseCode) {
                             String data = jo.getString("data");
-                            // String sc = jo.getString("sc");//sc：
                             listener.onGetDataSuccess(data);
                         } else {
                             String fc = jo.getString("errorDes");//errorDes：【失败错误码如下：

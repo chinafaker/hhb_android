@@ -24,6 +24,7 @@ import java.io.File;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.TimeZone;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -89,6 +90,8 @@ public class MainActivity extends BaseActivity {
         viewpager.setAdapter(mainPagerAdapter);
         getLoginController();
         //  getAppVersionController();
+
+
     }
 
     class MainPagerAdapter extends FragmentPagerAdapter {
@@ -128,24 +131,24 @@ public class MainActivity extends BaseActivity {
     GetMaintenanceInfoController getMaintenanceInfoController;
 
     public void getLoginController() {
+        TimeZone tz = TimeZone.getDefault();
+        String timeZone = tz.getID();
+        System.out.println("-------------" + timeZone);
         if (getMaintenanceInfoController == null) {
             getMaintenanceInfoController = new GetMaintenanceInfoController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
                     MaintenanceInfo baseInfo = JsonUtil.objectFromJson(result, MaintenanceInfo.class);
                     MaintenanceInfoBean maintenanceInfoBean = baseInfo.getMaintenanceInfo().get(0);
-                    Log.e("getMaintenanceInfo   结果", maintenanceInfoBean.getMmEndtime());
                     DialogUtil.noticeDialog(activity, null, true, maintenanceInfoBean);
                 }
 
                 @Override
                 public void onGetDataFailed(int responseCode, String result) {
-                    //   disProDialog();
-                    //    ToastUtils.show(activity, result);
                 }
             });
         }
-        getMaintenanceInfoController.getData();
+        getMaintenanceInfoController.getData(timeZone);
     }
 
     GetAppVersionController mGetAppVersionController;
@@ -178,7 +181,7 @@ public class MainActivity extends BaseActivity {
                 // 杀死自己的进程
                 android.os.Process.killProcess(android.os.Process.myPid());
             } else {
-                ToastUtils.show(this, "再按一次退出程序");
+                ToastUtils.show(this, "Press again to exit the program");
                 startTime = endTime;
             }
         }

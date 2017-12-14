@@ -14,6 +14,7 @@ public class Consts {
 
     public static String RQM_CONTAINER_LIST_URL = "http://121.40.150.64:8080/rqmweb/page/container_list.html";
     public static String RQM_TOP_NOTICE_URL = "http://121.40.150.64:8080/rqmweb/page/top_notice.html";
+
     public static String RQM_CONTAINER_INFO_URL = "http://121.40.150.64:8080/rqmweb/page/container_info.html";
 
     public static String BAIDU = "http://www.baidu.com";
