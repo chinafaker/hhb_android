@@ -38,8 +38,12 @@ import butterknife.BindView;
 import data.GetAppVersionController;
 import data.GetMaintenanceInfoController;
 import fragments.HomeFragment;
+import javaBean.Appversion;
+import javaBean.AppversionBean;
 import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
+import javaBean.UserInfo;
+import javaBean.UserInfoBean;
 import utils.DialogUtil;
 import utils.GloableData;
 import utils.InstallApkMsg;
@@ -62,11 +66,11 @@ public class MainActivity extends BaseActivity {
      * 下载路径
      */
 //    private String down_url = "http://121.40.150.64:8080/rqm/app/rqmClient.apk";
-    private String down_url = "http://shouji.360tpcdn.com/171201/0234844f23dfba04c274454daeb387b7/com.happyelements.AndroidAnimal_52.apk";
+    private String appUrl = "http://shouji.360tpcdn.com/171201/0234844f23dfba04c274454daeb387b7/com.happyelements.AndroidAnimal_52.apk";
     /**
      * 更新内容
      */
-    private String update_content = "更新内容。。。。。";
+    private String update_content = "";
     /**
      * 版本名称
      */
@@ -156,7 +160,16 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onGetDataSuccess(String result) {
                     Log.e("getAppVersion:        ", result);
-                    DialogUtil.versionUpdateDialog(activity, update_content, down_name, down_url);
+
+                    AppversionBean userInfo = JsonUtil.objectFromJson(result, AppversionBean.class);
+                    Appversion appversion = userInfo.getAppVerInfo().get(0);
+                    String versionCode = appversion.getVersionCode();
+                    String versionName = appversion.getVersionName();
+                    String appName = appversion.getAppName();
+                    appUrl = appversion.getAppUrl();
+                    update_content = appversion.getUpdateComment();
+                    String forceUpdateFlg = appversion.getForceUpdateFlg();
+                    DialogUtil.versionUpdateDialog(activity, update_content, down_name, appUrl, forceUpdateFlg);
                 }
 
                 @Override
@@ -204,7 +217,7 @@ public class MainActivity extends BaseActivity {
         if (!StringUtils.isEmpty(data)) {
             if (data.equals(GloableData.IN_DOWNLOAD)) {
                 GloableData.IN_DOWNLOAD_APP = true;
-                ToastUtils.show(this, "开始下载...");
+                ToastUtils.show(this, "Downloading...");
             }
         }
     }

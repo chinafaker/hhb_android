@@ -405,6 +405,7 @@ public class DialogUtil {
         TextView dialogTitle = (TextView) layout.findViewById(R.id.dialogTitle);
         TextView dialog_text = (TextView) layout.findViewById(R.id.dialog_text);
         TextView tv_time = (TextView) layout.findViewById(R.id.tv_time);
+        TextView tv_shiqu = (TextView) layout.findViewById(R.id.tv_shiqu);
         TextView tvstart = (TextView) layout.findViewById(R.id.tvstart);
         TextView tvend = (TextView) layout.findViewById(R.id.tvend);
 
@@ -412,8 +413,20 @@ public class DialogUtil {
         dialogTitle.setText(StringUtils.noNull(maintenanceInfoBean.getMmTitle()));
         dialog_text.setText(StringUtils.noNull(maintenanceInfoBean.getMmDescription()));
         tv_time.setText("--" + StringUtils.noNull(maintenanceInfoBean.getMmSubtitle()) + "--");
-        tvstart.setText(StringUtils.noNull(maintenanceInfoBean.getMmStarttime()));
-        tvend.setText(StringUtils.noNull(maintenanceInfoBean.getMmEndtime()));
+
+
+        String start = StringUtils.noNull(maintenanceInfoBean.getMmStarttime());
+        String start1 = start.substring(0, 18);
+        String start2 = start.substring(18, start.length());
+        tvstart.setText(start1);
+
+        tv_shiqu.setText(start2);
+
+        String endstr = StringUtils.noNull(maintenanceInfoBean.getMmEndtime());
+        String endstr1 = endstr.substring(0, 18);
+        String endstr2 = endstr.substring(18, endstr.length());
+
+        tvend.setText(endstr1);
 
         Button sureBtn = (Button) layout.findViewById(R.id.sureBtn);
         sureBtn.setOnClickListener(new View.OnClickListener() {
@@ -549,16 +562,31 @@ public class DialogUtil {
      * @param context
      * @param
      */
-    public static void versionUpdateDialog(final Context context, String update_content, final String down_name, final String down_url) {
-        View layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, true);
+    public static void versionUpdateDialog(final Context context, String update_content, final String down_name, final String down_url, String forceUpdateFlg) {
+        View layout;
+        if (forceUpdateFlg.equals("1")) {
+            layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, false);
+        } else {
+            layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, true);
+        }
+
         //立即更新
         Button dialog_commit = (Button) layout.findViewById(R.id.dialog_commit);
+        //暂不更新
+        Button dialog_cancel = (Button) layout.findViewById(R.id.dialog_cancel);
+        dialog_cancel.setVisibility(View.GONE);
+        dialog_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.dismiss();
+            }
+        });
         dialog_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog2.dismiss();
                 if (GloableData.IN_DOWNLOAD_APP) {
-                  //  ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
+                    //  ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
                     return;
                 }
                 // 显示下载对话框
