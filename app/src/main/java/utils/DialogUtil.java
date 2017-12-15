@@ -558,7 +558,7 @@ public class DialogUtil {
             public void onClick(View v) {
                 dialog2.dismiss();
                 if (GloableData.IN_DOWNLOAD_APP) {
-                    ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
+                  //  ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
                     return;
                 }
                 // 显示下载对话框

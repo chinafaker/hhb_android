@@ -89,9 +89,7 @@ public class MainActivity extends BaseActivity {
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
         getLoginController();
-        //  getAppVersionController();
-
-
+        getAppVersionController();
     }
 
     class MainPagerAdapter extends FragmentPagerAdapter {
@@ -133,7 +131,6 @@ public class MainActivity extends BaseActivity {
     public void getLoginController() {
         TimeZone tz = TimeZone.getDefault();
         String timeZone = tz.getID();
-        System.out.println("-------------" + timeZone);
         if (getMaintenanceInfoController == null) {
             getMaintenanceInfoController = new GetMaintenanceInfoController(activity, new OnDataGetListener() {
                 @Override
@@ -158,6 +155,7 @@ public class MainActivity extends BaseActivity {
             mGetAppVersionController = new GetAppVersionController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
+                    Log.e("getAppVersion:        ", result);
                     DialogUtil.versionUpdateDialog(activity, update_content, down_name, down_url);
                 }
 
