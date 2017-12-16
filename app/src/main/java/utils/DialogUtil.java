@@ -1,5 +1,6 @@
 package utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rqm.rqm.R;
+import com.vector.update_app.UpdateAppManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -562,7 +564,7 @@ public class DialogUtil {
      * @param context
      * @param
      */
-    public static void versionUpdateDialog(final Context context, String update_content, final String down_name, final String down_url, String forceUpdateFlg) {
+    public static void versionUpdateDialog(final Context context, String update_content, final String down_name, final String down_url, String forceUpdateFlg, final WeakHandler handler) {
         View layout;
         if (forceUpdateFlg.equals("1")) {
             layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, false);
@@ -585,7 +587,11 @@ public class DialogUtil {
             @Override
             public void onClick(View v) {
                 dialog2.dismiss();
-                if (GloableData.IN_DOWNLOAD_APP) {
+                if (handler != null) {
+                    handler.sendEmptyMessage(100);
+                }
+
+              /*  if (GloableData.IN_DOWNLOAD_APP) {
                     //  ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
                     return;
                 }
@@ -595,7 +601,7 @@ public class DialogUtil {
                 intent.putExtra("down_name", down_name);
                 intent.putExtra("down_url", down_url);
                 context.startService(intent);
-                EventBus.getDefault().post(GloableData.IN_DOWNLOAD);
+                EventBus.getDefault().post(GloableData.IN_DOWNLOAD);*/
             }
         });
 

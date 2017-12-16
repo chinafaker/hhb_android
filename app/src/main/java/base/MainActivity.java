@@ -1,17 +1,24 @@
 package base;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
+import com.ansen.http.net.HTTPCaller;
 import com.rqm.rqm.R;
 
 import net.OnDataGetListener;
@@ -38,6 +45,7 @@ import butterknife.BindView;
 import data.GetAppVersionController;
 import data.GetMaintenanceInfoController;
 import fragments.HomeFragment;
+import io.github.lizhangqu.coreprogress.ProgressUIListener;
 import javaBean.Appversion;
 import javaBean.AppversionBean;
 import javaBean.MaintenanceInfo;
@@ -51,6 +59,8 @@ import utils.JsonUtil;
 import utils.Logger;
 import utils.StringUtils;
 import utils.ToastUtils;
+import utils.Utils;
+import utils.WeakHandler;
 
 public class MainActivity extends BaseActivity {
     private static final int investment_fragment_num = 1;//首页
@@ -167,9 +177,10 @@ public class MainActivity extends BaseActivity {
                     String versionName = appversion.getVersionName();
                     String appName = appversion.getAppName();
                     appUrl = appversion.getAppUrl();
+                    appUrl = "https://raw.githubusercontent.com/yjfnypeu/UpdatePlugin/master/screenshots/app-debug.apk";
                     update_content = appversion.getUpdateComment();
                     String forceUpdateFlg = appversion.getForceUpdateFlg();
-                    DialogUtil.versionUpdateDialog(activity, update_content, down_name, appUrl, forceUpdateFlg);
+                    DialogUtil.versionUpdateDialog(activity, update_content, down_name, appUrl, forceUpdateFlg, weakhandler);
                 }
 
                 @Override
@@ -250,4 +261,80 @@ public class MainActivity extends BaseActivity {
         }, 500);
     }
 
+
+    private ProgressDialog progressDialog;
+    private String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private final int PERMS_REQUEST_CODE = 200;
+
+    /**
+     * 开始下载
+     *
+     * @param downloadUrl 下载url
+     */
+    private void startUpload(String downloadUrl) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMessage("正在下载新版本");
+        progressDialog.setCancelable(false);//不能手动取消下载进度对话框
+
+        final String fileSavePath = Utils.getSaveFilePath(downloadUrl);
+        HTTPCaller.getInstance().downloadFile(downloadUrl, fileSavePath, null, new ProgressUIListener() {
+
+            @Override
+            public void onUIProgressStart(long totalBytes) {//下载开始
+                progressDialog.setMax((int) totalBytes);
+                progressDialog.show();
+            }
+
+            //更新进度
+            @Override
+            public void onUIProgressChanged(long numBytes, long totalBytes, float percent, float speed) {
+                progressDialog.setProgress((int) numBytes);
+            }
+
+            @Override
+            public void onUIProgressFinish() {//下载完成
+                Toast.makeText(MainActivity.this, "下载完成", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+                openAPK(fileSavePath);
+            }
+        });
+    }
+
+    /**
+     * 下载完成安装apk
+     *
+     * @param fileSavePath
+     */
+    private void openAPK(String fileSavePath) {
+        File file = new File(fileSavePath);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//判断版本大于等于7.0
+            // "com.ansen.checkupdate.fileprovider"即是在清单文件中配置的authorities
+            // 通过FileProvider创建一个content类型的Uri
+            data = FileProvider.getUriForFile(this, "com.ansen.checkupdate.fileprovider", file);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);// 给目标应用一个临时授权
+        } else {
+            data = Uri.fromFile(file);
+        }
+        intent.setDataAndType(data, "application/vnd.android.package-archive");
+        startActivity(intent);
+    }
+
+
+    WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what) {
+                case 100://更新
+                    startUpload(appUrl);
+                    break;
+
+                default:
+                    break;
+            }
+            return false;
+        }
+    });
 }

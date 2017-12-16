@@ -58,4 +58,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.bumptech.glide:glide:4.3.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.33'
+
+
+    compile 'com.qianwen:update-app:3.3.8'
+    compile 'com.ansen.http:okhttpencapsulation:1.0.1'
 }

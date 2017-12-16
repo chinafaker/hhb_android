@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.text.TextUtils;
 
 import net.Consts;
@@ -245,5 +247,36 @@ public class Utils {
     public static int px2dip(Context ctx, float pxValue) {
         float scale = ctx.getResources().getDisplayMetrics().density;
         return (int)(pxValue / scale + 0.5F);
+    }
+
+
+    /**
+     * 获取APP版本号
+     * @param ctx
+     * @return
+     */
+    public static int getVersionCode(Context ctx) {
+        // 获取packagemanager的实例
+        int version = 0;
+        try {
+            PackageManager packageManager = ctx.getPackageManager();
+            //getPackageName()是你当前程序的包名
+            PackageInfo packInfo = packageManager.getPackageInfo(ctx.getPackageName(), 0);
+            version = packInfo.versionCode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return version;
+    }
+
+    /**
+     * 获取文件保存路径 sdcard根目录/download/文件名称
+     * @param fileUrl
+     * @return
+     */
+    public static String getSaveFilePath(String fileUrl){
+        String fileName=fileUrl.substring(fileUrl.lastIndexOf("/")+1,fileUrl.length());//获取文件名称
+        String newFilePath= Environment.getExternalStorageDirectory() + "/Download/"+fileName;
+        return newFilePath;
     }
 }

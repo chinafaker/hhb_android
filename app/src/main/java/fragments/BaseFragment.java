@@ -1,4 +1,5 @@
 package fragments;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -29,8 +30,9 @@ public abstract class BaseFragment extends Fragment {
     protected int initWidth, initHeight;
     Unbinder unbinder;
     private ProgressDialog dialog;
-    private String message = "加载中...";
+    private String message = "Loading...";
     public SharedPrefUtil sharedPrefUtil;
+
     @Override
     public void onAttach(Activity activity) {
 
