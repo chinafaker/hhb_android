@@ -5,18 +5,14 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <customViews.NestedScrollView
+        android:id="@+id/refreshScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
-
-
-        <customViews.NestedScrollView
-            android:id="@+id/refreshScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <include layout="@layout/layout_home_content" />
-
-        </customViews.NestedScrollView>
+        <include layout="@layout/layout_home_content" />
+    </customViews.NestedScrollView>
 
 
 </RelativeLayout>

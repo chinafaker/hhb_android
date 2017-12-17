@@ -3,10 +3,12 @@ package base;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,9 +18,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
-import com.ansen.http.net.HTTPCaller;
+import com.loveplusplus.update.DownloadService;
 import com.rqm.rqm.R;
 
 import net.OnDataGetListener;
@@ -28,38 +29,23 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.TimeZone;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-
-import aes.AES;
 import butterknife.BindView;
 import data.GetAppVersionController;
 import data.GetMaintenanceInfoController;
 import fragments.HomeFragment;
-import io.github.lizhangqu.coreprogress.ProgressUIListener;
 import javaBean.Appversion;
 import javaBean.AppversionBean;
 import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
-import javaBean.UserInfo;
-import javaBean.UserInfoBean;
 import utils.DialogUtil;
 import utils.GloableData;
 import utils.InstallApkMsg;
 import utils.JsonUtil;
-import utils.Logger;
 import utils.StringUtils;
 import utils.ToastUtils;
-import utils.Utils;
+import utils.VersionManagementUtil;
 import utils.WeakHandler;
 
 public class MainActivity extends BaseActivity {
@@ -72,11 +58,12 @@ public class MainActivity extends BaseActivity {
      * 下载名称
      */
     private String down_name = "QRM";
+    public String appVersionName = "";
     /**
      * 下载路径
      */
 //    private String down_url = "http://121.40.150.64:8080/rqm/app/rqmClient.apk";
-    private String appUrl = "http://shouji.360tpcdn.com/171201/0234844f23dfba04c274454daeb387b7/com.happyelements.AndroidAnimal_52.apk";
+    private String appUrl = "";
     /**
      * 更新内容
      */
@@ -165,22 +152,35 @@ public class MainActivity extends BaseActivity {
     GetAppVersionController mGetAppVersionController;
 
     public void getAppVersionController() {
+        try {
+            String pkName = activity.getPackageName();
+            appVersionName = activity.getPackageManager().getPackageInfo(
+                    pkName, 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         if (mGetAppVersionController == null) {
             mGetAppVersionController = new GetAppVersionController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
-                    Log.e("getAppVersion:        ", result);
 
-                    AppversionBean userInfo = JsonUtil.objectFromJson(result, AppversionBean.class);
-                    Appversion appversion = userInfo.getAppVerInfo().get(0);
-                    String versionCode = appversion.getVersionCode();
-                    String versionName = appversion.getVersionName();
-                    String appName = appversion.getAppName();
-                    appUrl = appversion.getAppUrl();
-                    appUrl = "https://raw.githubusercontent.com/yjfnypeu/UpdatePlugin/master/screenshots/app-debug.apk";
-                    update_content = appversion.getUpdateComment();
-                    String forceUpdateFlg = appversion.getForceUpdateFlg();
-                    DialogUtil.versionUpdateDialog(activity, update_content, down_name, appUrl, forceUpdateFlg, weakhandler);
+                    try {
+                        AppversionBean userInfo = JsonUtil.objectFromJson(result, AppversionBean.class);
+                        Appversion appversion = userInfo.getAppVerInfo().get(0);
+                        String versionCode = appversion.getVersionCode();
+                        String versionName = appversion.getVersionName();
+                        String appName = appversion.getAppName();
+                        int i = VersionManagementUtil.VersionComparison(versionName, appVersionName);
+                        if (i == 1) {
+                            appUrl = appversion.getAppUrl();
+                            update_content = appversion.getUpdateComment();
+                            String forceUpdateFlg = appversion.getForceUpdateFlg();
+                            DialogUtil.versionUpdateDialog(activity, update_content, forceUpdateFlg, weakhandler);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 @Override
@@ -272,56 +272,10 @@ public class MainActivity extends BaseActivity {
      * @param downloadUrl 下载url
      */
     private void startUpload(String downloadUrl) {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setMessage("正在下载新版本");
-        progressDialog.setCancelable(false);//不能手动取消下载进度对话框
-
-        final String fileSavePath = Utils.getSaveFilePath(downloadUrl);
-        HTTPCaller.getInstance().downloadFile(downloadUrl, fileSavePath, null, new ProgressUIListener() {
-
-            @Override
-            public void onUIProgressStart(long totalBytes) {//下载开始
-                progressDialog.setMax((int) totalBytes);
-                progressDialog.show();
-            }
-
-            //更新进度
-            @Override
-            public void onUIProgressChanged(long numBytes, long totalBytes, float percent, float speed) {
-                progressDialog.setProgress((int) numBytes);
-            }
-
-            @Override
-            public void onUIProgressFinish() {//下载完成
-                Toast.makeText(MainActivity.this, "下载完成", Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
-                openAPK(fileSavePath);
-            }
-        });
+        Intent intent = new Intent(activity, DownloadService.class);
+        intent.putExtra("url", downloadUrl);
+        activity.startService(intent);
     }
-
-    /**
-     * 下载完成安装apk
-     *
-     * @param fileSavePath
-     */
-    private void openAPK(String fileSavePath) {
-        File file = new File(fileSavePath);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri data;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//判断版本大于等于7.0
-            // "com.ansen.checkupdate.fileprovider"即是在清单文件中配置的authorities
-            // 通过FileProvider创建一个content类型的Uri
-            data = FileProvider.getUriForFile(this, "com.ansen.checkupdate.fileprovider", file);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);// 给目标应用一个临时授权
-        } else {
-            data = Uri.fromFile(file);
-        }
-        intent.setDataAndType(data, "application/vnd.android.package-archive");
-        startActivity(intent);
-    }
-
 
     WeakHandler weakhandler = new WeakHandler(new Handler.Callback() {
         @Override
@@ -330,7 +284,6 @@ public class MainActivity extends BaseActivity {
                 case 100://更新
                     startUpload(appUrl);
                     break;
-
                 default:
                     break;
             }

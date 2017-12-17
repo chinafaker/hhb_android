@@ -9,11 +9,10 @@
         layout="@layout/layout_title_gradientcolor"
         android:visibility="gone" />
 
-
     <ImageView
         android:id="@+id/iv_activity"
         android:layout_width="match_parent"
-        android:layout_height="208dp"
+        android:layout_height="188dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
@@ -21,7 +20,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
@@ -31,17 +30,17 @@
     <TextView
         android:id="@+id/pic_cont"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:background="#FF0E91DF"
         android:gravity="center"
         android:text="CONTAINER REFRIGERATION SERVICE"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="17sp" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="45dp"
         android:background="@color/white"
         app:tabBackground="@drawable/selector_btn_tablayout"
         app:tabGravity="fill"
@@ -54,7 +53,7 @@
     <customViews.NoScrollViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:layout_height="230dp" />
 
     <Button
         android:id="@+id/btn_login"
@@ -76,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical"
         android:visibility="invisible">
 
@@ -97,7 +96,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="5dp" />
 
     </LinearLayout>
 

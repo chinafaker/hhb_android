@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="230dp"
     android:background="@color/white">
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:background="@color/line_F5F5F5"></View>
 
 
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <ImageView
                 android:id="@+id/iv_password"
@@ -115,7 +115,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:background="@color/line_F5F5F5"></View>
 
 
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="20dp">
 
             <CheckBox
                 android:id="@+id/checkSave"

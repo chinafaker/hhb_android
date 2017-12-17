@@ -172,7 +172,6 @@ public class HomeFragment extends BaseFragment {
                 public void onGetDataSuccess(String result) {
                     disProDialog();
 
-                    //http://121.40.150.64:8080/rqmweb/page/top_notice.html?muaitesaki=xxx&mudelflg=xxxx&muid=xxx&mukubun=xxx&muname=xxx
                     UserInfo userInfo = JsonUtil.objectFromJson(result, UserInfo.class);
                     UserInfoBean maintenanceInfoBean = userInfo.getUserInfo().get(0);
                     String urllinkend = "?muaitesaki=" + StringUtils.noNull(maintenanceInfoBean.getMuAitesaki())

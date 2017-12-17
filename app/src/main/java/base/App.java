@@ -4,11 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDexApplication;
 
-import com.ansen.http.entity.HttpConfig;
-import com.ansen.http.net.HTTPCaller;
-
 import utils.SystemUtils;
-import utils.Utils;
 
 public class App extends MultiDexApplication {
     /**
@@ -44,7 +40,7 @@ public class App extends MultiDexApplication {
         // 设置请求体相关数据
         userAgent = getUserAgent();
 
-        HttpConfig httpConfig = new HttpConfig();
+/*        HttpConfig httpConfig = new HttpConfig();
         //  httpConfig.setAgent(true);//有代理的情况能不能访问
         httpConfig.setDebug(true);//是否debug模式 如果是debug模式打印log
         httpConfig.setTagName("QRM");//打印log的tagname
@@ -52,9 +48,8 @@ public class App extends MultiDexApplication {
         //可以添加一些公共字段 每个接口都会带上
         httpConfig.addCommonField("pf", "android");
         httpConfig.addCommonField("version_code", "" + Utils.getVersionCode(getApplicationContext()));
-
         //初始化HTTPCaller类
-        HTTPCaller.getInstance().setHttpConfig(httpConfig);
+        HTTPCaller.getInstance().setHttpConfig(httpConfig);*/
     }
 
 

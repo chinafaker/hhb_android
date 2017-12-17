@@ -2,7 +2,8 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_update_bottom">
 
     <RelativeLayout
         android:id="@+id/rl_dialog_content"
@@ -21,7 +22,6 @@
                 android:id="@+id/ll_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/bg_update_top_img"
                 android:orientation="vertical">
 
                 <TextView
@@ -32,8 +32,8 @@
                     android:layout_marginTop="32dp"
                     android:gravity="center"
                     android:text="Update Log"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textColor="@color/txt_333333"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -45,18 +45,24 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_update_bottom"
-                android:orientation="vertical"
-                android:padding="15dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
                     android:id="@+id/lay_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    android:textColor="@color/txt_333333"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/bg_e3e3e3"></View>
 
                 <Button
                     android:id="@+id/dialog_commit"
@@ -65,11 +71,15 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="40dp"
-                    android:background="@drawable/btn_bg_normal_blue_corner"
                     android:text="Update  Now"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textColor="@color/blueColor"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/line_cancle"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg_e3e3e3"></View>
 
                 <Button
                     android:id="@+id/dialog_cancel"
@@ -78,12 +88,10 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/btn_bg_normal_blue_corner"
-                    android:text="Cancel  update"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:text="Cancel"
+                    android:textColor="@color/blueColor"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
 
 
                 <View

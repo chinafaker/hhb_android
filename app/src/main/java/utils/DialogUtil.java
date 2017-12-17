@@ -1,10 +1,8 @@
 package utils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,15 +16,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rqm.rqm.R;
-import com.vector.update_app.UpdateAppManager;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -564,7 +558,7 @@ public class DialogUtil {
      * @param context
      * @param
      */
-    public static void versionUpdateDialog(final Context context, String update_content, final String down_name, final String down_url, String forceUpdateFlg, final WeakHandler handler) {
+    public static void versionUpdateDialog(final Context context, String update_content, String forceUpdateFlg, final WeakHandler handler) {
         View layout;
         if (forceUpdateFlg.equals("1")) {
             layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, false);
@@ -576,7 +570,16 @@ public class DialogUtil {
         Button dialog_commit = (Button) layout.findViewById(R.id.dialog_commit);
         //暂不更新
         Button dialog_cancel = (Button) layout.findViewById(R.id.dialog_cancel);
-        dialog_cancel.setVisibility(View.GONE);
+        View line_cancle = (View) layout.findViewById(R.id.line_cancle);
+        TextView lay_text_view = (TextView) layout.findViewById(R.id.lay_text_view);
+        if (forceUpdateFlg.equals("1")) {
+            dialog_cancel.setVisibility(View.GONE);
+            line_cancle.setVisibility(View.GONE);
+        } else {
+            dialog_cancel.setVisibility(View.VISIBLE);
+            line_cancle.setVisibility(View.VISIBLE);
+        }
+        lay_text_view.setText(update_content);
         dialog_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -590,37 +593,10 @@ public class DialogUtil {
                 if (handler != null) {
                     handler.sendEmptyMessage(100);
                 }
-
-              /*  if (GloableData.IN_DOWNLOAD_APP) {
-                    //  ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
-                    return;
-                }
-                // 显示下载对话框
-                Intent intent = new Intent(context, MMKUpdateService.class);
-                intent.putExtra("app_name", context.getResources().getString(R.string.app_name));
-                intent.putExtra("down_name", down_name);
-                intent.putExtra("down_url", down_url);
-                context.startService(intent);
-                EventBus.getDefault().post(GloableData.IN_DOWNLOAD);*/
             }
         });
 
-        //内容描述
-        LinearLayout view = (LinearLayout) layout.findViewById(R.id.lay_text_view);
-        String[] msgArr = update_content.split("\r");
-        TextView textView = null;
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        float value = dm.scaledDensity;
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        for (int i = 0; i < msgArr.length; i++) {
-            textView = new TextView(context);
-            textView.setTextColor(context.getResources().getColor(R.color.txt_666666));
-            textView.setGravity(Gravity.CENTER_VERTICAL);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            textView.setText(msgArr[i]);
-            textView.setLayoutParams(lp);
-            view.addView(textView);
-        }
+
     }
 
 
