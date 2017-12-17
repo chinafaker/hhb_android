@@ -61,7 +61,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="25dp"
                     android:background="@color/bg_e3e3e3"></View>
 
                 <Button
@@ -96,7 +96,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"></View>
+                    android:layout_height="15dp"></View>
             </LinearLayout>
 
         </LinearLayout>
