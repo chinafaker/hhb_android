@@ -5,16 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -90,7 +86,8 @@ public class MainActivity extends BaseActivity {
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
         getLoginController();
-        getAppVersionController();
+        //  getAppVersionController();
+
     }
 
     class MainPagerAdapter extends FragmentPagerAdapter {
@@ -139,10 +136,12 @@ public class MainActivity extends BaseActivity {
                     MaintenanceInfo baseInfo = JsonUtil.objectFromJson(result, MaintenanceInfo.class);
                     MaintenanceInfoBean maintenanceInfoBean = baseInfo.getMaintenanceInfo().get(0);
                     DialogUtil.noticeDialog(activity, null, true, maintenanceInfoBean);
+                    getAppVersionController();
                 }
 
                 @Override
                 public void onGetDataFailed(int responseCode, String result) {
+                    getAppVersionController();
                 }
             });
         }
@@ -171,8 +170,8 @@ public class MainActivity extends BaseActivity {
                         String versionName = appversion.getVersionName();
                         String appName = appversion.getAppName();
                         int i = VersionManagementUtil.VersionComparison(versionName, appVersionName);
+                        appUrl = appversion.getAppUrl() + appName;
                         if (i == 1) {
-                            appUrl = appversion.getAppUrl();
                             update_content = appversion.getUpdateComment();
                             String forceUpdateFlg = appversion.getForceUpdateFlg();
                             DialogUtil.versionUpdateDialog(activity, update_content, forceUpdateFlg, weakhandler);
@@ -180,7 +179,6 @@ public class MainActivity extends BaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
 
                 @Override

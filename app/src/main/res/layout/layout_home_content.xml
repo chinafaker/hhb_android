@@ -12,7 +12,7 @@
     <ImageView
         android:id="@+id/iv_activity"
         android:layout_width="match_parent"
-        android:layout_height="188dp"
+        android:layout_height="208dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
