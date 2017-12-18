@@ -21,6 +21,7 @@ import android.webkit.WebViewClient;
 import com.rqm.rqm.R;
 
 import net.Consts;
+import net.NetUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,6 +33,7 @@ import base.BaseActivity;
 import base.MainActivity;
 import butterknife.BindView;
 import preGuide.GuideActivity;
+import utils.DialogUtil;
 import utils.GoPageUtil;
 import utils.Logger;
 import utils.SharedPrefUtil;
@@ -274,6 +276,11 @@ public class BaseWebview extends BaseActivity {
 
         String postData = getPostData();
         Logger.e("加载url地址：" + url + postData);
+
+        if (!NetUtils.isConnected(this)) {
+            DialogUtil.normalSureBtn(this, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
+            return;
+        }
         webView.loadUrl(url + postData);
     }
 

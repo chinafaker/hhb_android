@@ -16,13 +16,13 @@
             android:id="@+id/contentLin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:layout_height="20dp" />
 
             <TextView
                 android:id="@+id/dialogTitle"
@@ -34,13 +34,13 @@
                 android:textColor="@color/txt_333333"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/dialog_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:maxLines="8"
                 android:text="您还未设置过交易密码"
@@ -71,7 +71,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                android:text="知道了"
+                android:text="OK"
                 android:textColor="@color/bg_229EFF"
                 android:textSize="16sp" />
         </LinearLayout>

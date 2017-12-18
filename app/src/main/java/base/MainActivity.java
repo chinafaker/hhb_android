@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity {
         viewpager.setOffscreenPageLimit(1);
         viewpager.setAdapter(mainPagerAdapter);
         getLoginController();
-        //  getAppVersionController();
+
 
     }
 
@@ -174,7 +174,7 @@ public class MainActivity extends BaseActivity {
                         if (i == 1) {
                             update_content = appversion.getUpdateComment();
                             String forceUpdateFlg = appversion.getForceUpdateFlg();
-                            DialogUtil.versionUpdateDialog(activity, update_content, forceUpdateFlg, weakhandler);
+                            DialogUtil.versionUpdateDialog(activity, update_content, versionName, forceUpdateFlg, weakhandler);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

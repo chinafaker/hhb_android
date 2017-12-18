@@ -12,7 +12,7 @@
         android:background="@drawable/dialog_layout_bg"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
-        app:layout_widthPercent="80%">
+        app:layout_widthPercent="85%">
 
         <LinearLayout
             android:id="@+id/contentLin"

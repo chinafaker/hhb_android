@@ -50,7 +50,7 @@ public abstract class BaseActivity extends MainbaseActivity {
     private ProgressDialog dialog;
     public static final int SHOW_DIALOG = 0;
     public static final int CLOSE_DIALOG = 1;
-    private String message = "加载中...";
+    private String message = "Loading...";
     private int num = 0;
 
     protected SystemBarTintManager tintManager;

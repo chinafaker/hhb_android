@@ -15,7 +15,6 @@ public class GetMaintenanceInfoController extends BaseDataController {
     public void getData(String timeZone) {
         String method = "/rest/news/getMaintenanceInfo";
         params.put("timeZone", timeZone);
-     //   params.put("timeZone", "Asia/Shanghai");
         getDataRQM(params, method);
     }
 }

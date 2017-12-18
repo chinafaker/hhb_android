@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_dialog_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/dialog_layout_bg"
+
+        app:layout_widthPercent="85%">
+
+        <LinearLayout
+            android:id="@+id/contentLin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/dialog_layout_bg_corner_top"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:text="Update Reminder"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/updateVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:text="Updated to 3.1.3 version"
+                android:textColor="@color/txt_333333"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lay_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="left"
+                    android:orientation="vertical"
+                    android:text="fix  bug"
+                    android:textColor="@color/txt_333333"
+                    android:textSize="16sp" />
+
+
+                <Button
+                    android:id="@+id/dialog_commit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/selector_bg_normal_press"
+                    android:text="Update  Now"
+                    android:textColor="@color/txt_333333"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+
+                <LinearLayout
+                    android:id="@+id/ll_cancle"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="35dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/dialog_cancel"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/dialog_layout_bg_corner"
+                        android:text="Cancel"
+                        android:textColor="#333333"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/dialog_commit1"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+
+                        android:layout_weight="1"
+                        android:background="@drawable/dialog_layout_bg_corner_bottomright"
+                        android:text="Update  Now"
+                        android:textColor="@color/txt_333333"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

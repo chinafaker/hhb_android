@@ -156,7 +156,7 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    public void getLoginController(final EditText userEdi, EditText passwordEdi, final CheckBox checkSave) {
+    public void getLoginController(final EditText userEdi, final EditText passwordEdi, final CheckBox checkSave) {
         if (StringUtils.isEmpty(userEdi.getText().toString())) {
             ToastUtils.show(activity, "Please enter userID");
             return;
@@ -170,6 +170,7 @@ public class HomeFragment extends BaseFragment {
             mLoginController = new LoginController(activity, new OnDataGetListener() {
                 @Override
                 public void onGetDataSuccess(String result) {
+                    passwordEdi.setText("");
                     disProDialog();
 
                     UserInfo userInfo = JsonUtil.objectFromJson(result, UserInfo.class);

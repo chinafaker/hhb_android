@@ -34,6 +34,7 @@ import javax.net.ssl.X509TrustManager;
 
 import base.App;
 import base.BaseActivity;
+import utils.DialogUtil;
 import utils.JsonUtil;
 import utils.Logger;
 import utils.StringUtils;
@@ -409,7 +410,8 @@ public class BaseDataController {
     public void getDataRQM(final HashMap<String, String> params, final String method) {
         this.method = method;
         if (!NetUtils.isConnected(mContext)) {
-            listener.onGetDataFailed(no_net, "The network is not good ");
+            listener.onGetDataFailed(no_net, "");
+            DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
             return;
         }
 

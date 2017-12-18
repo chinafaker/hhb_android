@@ -321,6 +321,13 @@ public class DialogUtil {
      * @param dismissFlag 点击其他区域是否自动消失
      */
     public static void normalSureBtn(final Context context, String btnName, String title, String msg, final WeakHandler handler, boolean dismissFlag) {
+
+        if (null != dialog) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        }
+
         View layout = initDialog(context, R.layout.layout_dialog_surebtn, dismissFlag, false, false, false);
         //立即注册
         Button sureBtn = (Button) layout.findViewById(R.id.sureBtn);
@@ -558,26 +565,31 @@ public class DialogUtil {
      * @param context
      * @param
      */
-    public static void versionUpdateDialog(final Context context, String update_content, String forceUpdateFlg, final WeakHandler handler) {
+    public static void versionUpdateDialog(final Context context, String update_content, String version, String forceUpdateFlg, final WeakHandler handler) {
         View layout;
         if (forceUpdateFlg.equals("1")) {
-            layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, false);
+            layout = initDialog2(context, R.layout.layout_dialog_checkversion_update_new, false);
         } else {
-            layout = initDialog2(context, R.layout.layout_dialog_checkversion_update, true);
+            layout = initDialog2(context, R.layout.layout_dialog_checkversion_update_new, true);
         }
 
         //立即更新
         Button dialog_commit = (Button) layout.findViewById(R.id.dialog_commit);
+        Button dialog_commit1 = (Button) layout.findViewById(R.id.dialog_commit1);
+        LinearLayout ll_cancle = (LinearLayout) layout.findViewById(R.id.ll_cancle);
         //暂不更新
         Button dialog_cancel = (Button) layout.findViewById(R.id.dialog_cancel);
-        View line_cancle = (View) layout.findViewById(R.id.line_cancle);
+
         TextView lay_text_view = (TextView) layout.findViewById(R.id.lay_text_view);
-        if (forceUpdateFlg.equals("1")) {
-            dialog_cancel.setVisibility(View.GONE);
-            line_cancle.setVisibility(View.GONE);
+        TextView dialog_text = (TextView) layout.findViewById(R.id.dialog_text);
+        TextView updateVersion = (TextView) layout.findViewById(R.id.updateVersion);
+        updateVersion.setText("Updated to " + version + " version");
+        if (forceUpdateFlg.equals("1")) {//强制更新
+            dialog_commit.setVisibility(View.VISIBLE);
+            ll_cancle.setVisibility(View.GONE);
         } else {
-            dialog_cancel.setVisibility(View.VISIBLE);
-            line_cancle.setVisibility(View.VISIBLE);
+            dialog_commit.setVisibility(View.GONE);
+            ll_cancle.setVisibility(View.VISIBLE);
         }
         lay_text_view.setText(update_content);
         dialog_cancel.setOnClickListener(new View.OnClickListener() {
@@ -595,83 +607,17 @@ public class DialogUtil {
                 }
             }
         });
+        dialog_commit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog2.dismiss();
+                if (handler != null) {
+                    handler.sendEmptyMessage(100);
+                }
+            }
+        });
 
 
     }
-
-
-
-
-   /* *//**
-     * 版本更新对话框
-     *
-     * @param context
-     * @param isForse
-     *//*
-    public static void versionUpdateDialog(final Context context, String update_content, String version_name, final String down_name, final String down_url, final int isForse) {
-        View layout = initDialog(context, R.layout.layout_dialog_check_version_update);
-        //立即更新
-        Button dialog_commit = (Button) layout.findViewById(R.id.dialog_commit);
-        dialog_commit.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (isForse == 1) {
-                } else {
-                    dialog.dismiss();
-                }
-
-                if (GloableData.IN_DOWNLOAD_APP) {
-                    ToastUtils.show(context, "已进入下载，请在通知栏查看下载进度");
-                    return;
-                }
-                // 显示下载对话框
-                Intent intent = new Intent(context, MMKUpdateService.class);
-                intent.putExtra("app_name", context.getResources().getString(R.string.app_name));
-                intent.putExtra("down_name", down_name);
-                intent.putExtra("down_url", down_url);
-                context.startService(intent);
-                EventBus.getDefault().post(GloableData.IN_DOWNLOAD);
-            }
-        });
-        //版本描述
-        TextView mTextView = (TextView) layout.findViewById(R.id.dialog_text);
-        //2017.6.1 隐藏版本提醒
-//        mTextView.setText("发现新版本  " + version_name);
-        //内容描述
-        LinearLayout view = (LinearLayout) layout.findViewById(R.id.lay_text_view);
-        String[] msgArr = update_content.split("\r");
-        TextView textView = null;
-
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        float value = dm.scaledDensity;
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        for (int i = 0; i < msgArr.length; i++) {
-            textView = new TextView(context);
-            textView.setTextColor(context.getResources().getColor(R.color.txt_666666));
-            textView.setGravity(Gravity.CENTER_VERTICAL);
-//            textView.setTextSize(screenWidth / 82);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            textView.setText(msgArr[i]);
-            textView.setLayoutParams(lp);
-            view.addView(textView);
-        }
-        //关闭按钮
-        ImageView btnClose = (ImageView) layout.findViewById(R.id.closeImgv);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-            }
-        });
-
-        if (isForse == 0) {
-            return;
-        }
-        btnClose.setVisibility(View.GONE);
-    }*/
 
 }
