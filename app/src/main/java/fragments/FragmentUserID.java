@@ -3,7 +3,7 @@ package fragments;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import net.Consts;
 

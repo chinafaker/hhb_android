@@ -16,7 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.loveplusplus.update.DownloadService;
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import net.OnDataGetListener;
 

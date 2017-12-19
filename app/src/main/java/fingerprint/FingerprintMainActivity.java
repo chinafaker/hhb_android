@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import utils.DialogUtil;
 import utils.WeakHandler;

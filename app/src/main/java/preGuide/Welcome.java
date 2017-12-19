@@ -2,7 +2,7 @@ package preGuide;
 
 import android.widget.TextView;
 
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import net.OnDataGetListener;
 

@@ -18,7 +18,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import net.Consts;
 import net.NetUtils;
@@ -30,11 +30,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 
 import base.BaseActivity;
-import base.MainActivity;
 import butterknife.BindView;
-import preGuide.GuideActivity;
 import utils.DialogUtil;
-import utils.GoPageUtil;
 import utils.Logger;
 import utils.SharedPrefUtil;
 import utils.StringUtils;

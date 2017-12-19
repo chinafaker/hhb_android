@@ -12,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

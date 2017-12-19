@@ -1,4 +1,4 @@
-package com.rqm.rqm;
+package com.daikin.rqm;
 
 import org.junit.Test;
 

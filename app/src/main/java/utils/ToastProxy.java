@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 
 /**

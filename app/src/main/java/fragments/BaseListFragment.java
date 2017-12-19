@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import net.Consts;
 

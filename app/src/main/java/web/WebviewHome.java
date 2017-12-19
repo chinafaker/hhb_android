@@ -7,7 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.rqm.rqm.R;
+import com.daikin.rqm.R;
 
 import net.Consts;
 
