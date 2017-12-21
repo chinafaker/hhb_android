@@ -9,23 +9,31 @@
         layout="@layout/layout_title_gradientcolor"
         android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/iv_activity"
+    <RelativeLayout
+        android:id="@+id/rl_toppic"
         android:layout_width="match_parent"
-        android:layout_height="208dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/pictop" />
+        android:layout_height="18dp">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/pic_cont"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/iv_activity"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/pictop" />
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/pic_cont"

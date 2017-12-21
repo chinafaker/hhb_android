@@ -1,5 +1,9 @@
 package fragments;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -10,10 +14,14 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.daikin.rqm.R;
 
@@ -63,6 +71,12 @@ public class HomeFragment extends BaseFragment {
     TabLayout tabs;
     @BindView(R.id.ll_touchid_setting)
     LinearLayout ll_touchid_setting;
+    @BindView(R.id.iv_activity)
+    ImageView iv_activity;
+    @BindView(R.id.tv_version)
+    TextView tv_version;
+    @BindView(R.id.rl_toppic)
+    RelativeLayout rl_toppic;
 
     @Override
     public int initInflateView() {
@@ -72,6 +86,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void getMyViews() {
+        initTopView();
         initFingerprintCore();
         adapter = new MyPagerAdapter(activity.getSupportFragmentManager());
         pager.setAdapter(adapter);
@@ -112,6 +127,32 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void initTopView() {
+        try {
+            String pkName = activity.getPackageName();
+            String appVersionName = activity.getPackageManager().getPackageInfo(
+                    pkName, 0).versionName;
+
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.pictop);
+            int bwidth = bitmap.getWidth();
+            int bHeight = bitmap.getHeight();
+            WindowManager wm = (WindowManager) getContext()
+                    .getSystemService(Context.WINDOW_SERVICE);
+            int width = wm.getDefaultDisplay().getWidth();
+            Log.e("====", bwidth + " " + bHeight + " " + width);
+            int height = width * bHeight / bwidth;
+            ViewGroup.LayoutParams para = iv_activity.getLayoutParams();
+            para.height = height;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    width, height);
+            rl_toppic.setLayoutParams(params);
+            iv_activity.setLayoutParams(para);
+            tv_version.setText("Ver " + appVersionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
