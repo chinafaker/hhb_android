@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\android_code\\rqm_android\\library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ur\\values-ur.xml",
+            "outputFile": "D:\\DEMO\\rqm_android\\library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ur\\values-ur.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\61730\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\4d6ae6e6c0bdd928e7651c0dd8cd189a\\res\\values-ur\\values-ur.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\96036f1a4db6464f83e697148f43bf25\\res\\values-ur\\values-ur.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
