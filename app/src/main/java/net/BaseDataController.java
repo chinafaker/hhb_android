@@ -420,7 +420,8 @@ public class BaseDataController {
             public void onResponse(String result) {
                 Logger.i("===== " + method + " 返回数据：" + result);
                 if (Utils.isEmpty(result)) {
-                    listener.onGetDataFailed(response_nothing, mContext.getResources().getString(R.string.net_exception));
+                    listener.onGetDataFailed(no_net, "");
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
                 } else {
                     try {
                         JSONObject jo = new JSONObject(result);
@@ -437,7 +438,8 @@ public class BaseDataController {
                         if (Logger.B_LOG_OPEN) {
                             e.printStackTrace();
                         }
-                        listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                        listener.onGetDataFailed(no_net, "");
+                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
                     }
                 }
 
@@ -449,7 +451,9 @@ public class BaseDataController {
                     if (mContext instanceof BaseActivity) {
                         ((BaseActivity) mContext).disProDialog();
                     }
-                    listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
+                  //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
+                    listener.onGetDataFailed(no_net, "");
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
                     return;
                 }
                 Logger.e("失败原因：" + error.getMessage());
@@ -457,7 +461,9 @@ public class BaseDataController {
                 Logger.i("onFailure(" + method + ")----->" + result);
 
                 if (Utils.isEmpty(result)) {
-                    listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
+                  //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
+                    listener.onGetDataFailed(no_net, "");
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
                 } else {
                     try {
                         JSONObject jo = new JSONObject(result);
@@ -469,7 +475,9 @@ public class BaseDataController {
                         if (Logger.B_LOG_OPEN) {
                             e.printStackTrace();
                         }
-                        listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+//                        listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
+                        listener.onGetDataFailed(no_net, "");
+                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
                     }
                 }
             }
