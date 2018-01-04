@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -15,16 +14,13 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.loveplusplus.update.DownloadService;
 import com.daikin.rqm.R;
+import com.loveplusplus.update.DownloadService;
 
 import net.OnDataGetListener;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -36,10 +32,7 @@ import javaBean.AppversionBean;
 import javaBean.MaintenanceInfo;
 import javaBean.MaintenanceInfoBean;
 import utils.DialogUtil;
-import utils.GloableData;
-import utils.InstallApkMsg;
 import utils.JsonUtil;
-import utils.StringUtils;
 import utils.ToastUtils;
 import utils.VersionManagementUtil;
 import utils.WeakHandler;
@@ -221,52 +214,11 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(String data) {
-        if (!StringUtils.isEmpty(data)) {
-            if (data.equals(GloableData.IN_DOWNLOAD)) {
-                GloableData.IN_DOWNLOAD_APP = true;
-                ToastUtils.show(this, "Downloading...");
-            }
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(InstallApkMsg installApkMsg) {
-        GloableData.IN_DOWNLOAD_APP = false;
-        if (installApkMsg != null) {
-            if (!StringUtils.isEmpty(installApkMsg.getPath())) {
-                startApkInstall(installApkMsg.getPath());
-            }
-        }
-    }
-
-    public void startApkInstall(final String filePath) {
-
-        final File apkfile = new File(filePath);
-        if (!apkfile.exists()) {
-            return;
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
-                startActivity(i);
-            }
-        }, 500);
-    }
-
-
     private ProgressDialog progressDialog;
     private String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final int PERMS_REQUEST_CODE = 200;
-
     /**
      * 开始下载
-     *
      * @param downloadUrl 下载url
      */
     private void startUpload(String downloadUrl) {

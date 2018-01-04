@@ -21,6 +21,10 @@ import android.widget.TextView;
 
 import com.daikin.rqm.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -374,6 +378,17 @@ public abstract class BaseActivity extends MainbaseActivity {
         // / 这一步必须要做,否则不会显示.
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         leftIcon.setCompoundDrawables(null, null, drawable, null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(String data) {
+
     }
 
 
