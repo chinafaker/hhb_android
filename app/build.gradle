@@ -6,8 +6,8 @@ android {
         applicationId "com.daikin.rqm"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 101
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -16,15 +16,14 @@ android {
     signingConfigs {
         config {
             keyAlias 'android.keystore'
-            keyPassword 'guangqun2014'
+            keyPassword 'android'
             storeFile file('./android.keystore')
-            storePassword 'guangqun2014'
+            storePassword 'android'
             v2SigningEnabled false
         }
     }
     buildTypes {
         release {
-            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             signingConfig signingConfigs.config
         }
@@ -34,6 +33,22 @@ android {
     }
     // 23 之后的api移除了apache http相关类
     useLibrary 'org.apache.http.legacy'
+    //修改生成的文件
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def formattedDate = new Date().format('yyyyMMdd')
+            if (variant.buildType.name == "release") {
+                //输出apk名称改为RQM_101_20180104_release.apk
+                outputFileName = "RQM_${defaultConfig.versionName}_${formattedDate}_release.apk"
+            } else if (variant.buildType.name == "debug") {
+                //输出apk名称改为RQM_101_20180104_debug.apk
+                outputFileName = "RQM_${defaultConfig.versionName}_${formattedDate}_debug.apk"
+            } else if (variant.buildType.name == "dev") {
+                //输出apk名称改为RQM_101_20180104_dev.apk
+                outputFileName = "RQM_${defaultConfig.versionName}_${formattedDate}_dev.apk"
+            }
+        }
+    }
 }
 
 
