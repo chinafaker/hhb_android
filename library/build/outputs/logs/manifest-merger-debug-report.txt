@@ -1,65 +1,65 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
 	package
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:3:5-38
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:3:5-38
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:1-27:12
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:11-69
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:6:5-67
+ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:6:5-67
 	android:name
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:6:22-64
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:6:22-64
 application
-ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:8:5-25:19
+ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:8:5-25:19
 service#com.loveplusplus.update.DownloadService
-ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:9:9-11:40
+ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:9:9-11:40
 	android:exported
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:11:13-37
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:11:13-37
 	android:name
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:10:13-44
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:10:13-44
 provider#com.loveplusplus.update.UpdateApkFileProvider
-ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:13:9-23:20
+ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:13:9-23:20
 	android:grantUriPermissions
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:17:13-47
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:17:13-47
 	android:authorities
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:15:13-67
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:15:13-67
 	android:exported
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:16:13-37
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:16:13-37
 	android:name
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:14:13-50
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:14:13-50
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:19:13-21:60
+ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:19:13-21:60
 	android:resource
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:21:17-57
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:21:17-57
 	android:name
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:20:17-67
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml:20:17-67
 uses-sdk
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-		ADDED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
-		INJECTED from D:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		ADDED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
+		INJECTED from E:\DEMO\rqm_android\library\src\main\AndroidManifest.xml
