@@ -13,6 +13,7 @@ android {
         multiDexEnabled true
     }
 
+
     signingConfigs {
         config {
             keyAlias 'android.keystore'
@@ -22,12 +23,26 @@ android {
             v2SigningEnabled false
         }
     }
+
+//    release   正式版    dev 开发版  debug  测试版
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            buildConfigField 'String', 'SERVER_URL', getReleaseUrl()
+            resValue "string", "appversion_type", versionRelease()
             signingConfig signingConfigs.config
         }
+
+        dev {
+            buildConfigField 'String', 'SERVER_URL', getDev()
+            resValue "string", "appversion_type", versionDev()
+            matchingFallbacks = ['dev', 'debug', 'release']
+            signingConfig signingConfigs.config
+        }
+
         debug {
+            buildConfigField 'String', 'SERVER_URL', getDebug()
+            resValue "string", "appversion_type", versionDebug()
             signingConfig signingConfigs.config
         }
     }
@@ -51,6 +66,36 @@ android {
     }
 }
 
+//正式版接口IP：203.211.246.52
+//开发版本接口IP：121.40.150.64
+//测试版本接口IP：203.211.246.55
+
+//正式版接口
+static def getReleaseUrl() {
+    "\"http://203.211.246.52:8080/rqmweb\""
+}
+//开发版本接口
+static def getDev() {
+    "\"http://121.40.150.64:8080/rqmweb\""
+}
+//测试版本接口
+static def getDebug() {
+    "\"http://203.211.246.55:8080/rqmweb\""
+}
+
+//正式版
+def versionRelease() {
+    return ""
+}
+//开发版
+def versionDev() {
+    return "DEV"
+}
+
+//测试版
+def versionDebug() {
+    return "TEST"
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

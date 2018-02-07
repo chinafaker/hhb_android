@@ -75,6 +75,9 @@ public class HomeFragment extends BaseFragment {
     ImageView iv_activity;
     @BindView(R.id.tv_version)
     TextView tv_version;
+
+    @BindView(R.id.tv_versionType)
+    TextView tv_versionType;
     @BindView(R.id.rl_toppic)
     RelativeLayout rl_toppic;
 
@@ -150,6 +153,7 @@ public class HomeFragment extends BaseFragment {
             rl_toppic.setLayoutParams(params);
             iv_activity.setLayoutParams(para);
             tv_version.setText("Ver " + appVersionName);
+            tv_versionType.setText(R.string.appversion_type);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
