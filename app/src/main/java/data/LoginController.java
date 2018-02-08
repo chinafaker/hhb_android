@@ -11,8 +11,8 @@ public class LoginController extends BaseDataController {
     public LoginController(Context context, OnDataGetListener listener) {
         super(context, listener);
     }
-    public void getData(String DIL, String test) {
 
+    public void getData(String DIL, String test) {
         String method = "/rest/user/login";
         params.put("loginName", DIL);
         params.put("password", test);

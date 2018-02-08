@@ -451,7 +451,7 @@ public class BaseDataController {
                     if (mContext instanceof BaseActivity) {
                         ((BaseActivity) mContext).disProDialog();
                     }
-                  //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
+                    //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
                     listener.onGetDataFailed(no_net, "");
                     DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
                     return;
@@ -461,7 +461,7 @@ public class BaseDataController {
                 Logger.i("onFailure(" + method + ")----->" + result);
 
                 if (Utils.isEmpty(result)) {
-                  //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
+                    //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
                     listener.onGetDataFailed(no_net, "");
                     DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
                 } else {
