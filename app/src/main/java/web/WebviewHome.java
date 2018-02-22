@@ -150,7 +150,7 @@ public class WebviewHome extends BaseWebview {
                     // 杀死自己的进程
                     android.os.Process.killProcess(android.os.Process.myPid());
                 } else {
-                    ToastUtils.show(this, "Press again to exit the program");
+                    ToastUtils.show(this, "Press BACK again to exit the program");
                     startTime = endTime;
                 }
             }

@@ -6,8 +6,8 @@ android {
         applicationId "com.daikin.rqm"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 101
-        versionName "1.0.1"
+        versionCode 100
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -56,8 +56,8 @@ android {
                 //输出apk名称改为RQM_101_20180104_release.apk
                 outputFileName = "RQM_${defaultConfig.versionName}_${formattedDate}_release.apk"
             } else if (variant.buildType.name == "debug") {
-                //输出apk名称改为RQM_101_20180104_debug.apk
-                outputFileName = "RQM_${defaultConfig.versionName}_${formattedDate}_debug.apk"
+                //输出apk名称改为RQM_101_20180104_test.apk
+                outputFileName = "RQM_${defaultConfig.versionName}_${formattedDate}_test.apk"
             } else if (variant.buildType.name == "dev") {
                 //输出apk名称改为RQM_101_20180104_dev.apk
                 outputFileName = "RQM_${defaultConfig.versionName}_${formattedDate}_dev.apk"
@@ -72,7 +72,7 @@ android {
 
 //正式版接口
 static def getReleaseUrl() {
-    "\"http://203.211.246.51:8080\""
+    "\"http://service.daikin.com\""
 }
 //开发版本接口
 static def getDev() {
