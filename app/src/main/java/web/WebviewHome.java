@@ -3,7 +3,6 @@ package web;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,7 +13,7 @@ import net.Consts;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import base.ApplicationManager;
+import base.MainActivity;
 import butterknife.BindView;
 import utils.DialogUtil;
 import utils.GoPageUtil;
@@ -24,8 +23,7 @@ import utils.WeakHandler;
 
 
 public class WebviewHome extends BaseWebview {
-    // 系统时间
-    public long startTime, endTime;
+
     @BindView(R.id.iv_leftIcon)
     ImageView iv_leftIcon;
 
@@ -45,11 +43,8 @@ public class WebviewHome extends BaseWebview {
         setRightIconGone();
 
         iv_rightIcon.setVisibility(View.VISIBLE);
-        if (url.contains(Consts.RQM_CONTAINER_LIST_URL)) {   //Consts.RQM_CONTAINER_LIST_URL.equals(url)
-            iv_leftIcon.setVisibility(View.GONE);
-        } else {
-            iv_leftIcon.setVisibility(View.VISIBLE);
-        }
+        iv_leftIcon.setVisibility(View.VISIBLE);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -65,19 +60,7 @@ public class WebviewHome extends BaseWebview {
         int id = v.getId();
         switch (id) {
             case R.id.iv_leftIcon:
-                //http://121.40.150.64:8080/rqmweb/page/top_notice.html
-                //http://121.40.150.64:8080/rqmweb/page/top_notice.html?muaitesaki=9000&mudelflg=0&muid=testdil&mukubun=12&muname=TestDIl
-                if (url.contains(Consts.RQM_TOP_NOTICE_URL)) {   //Consts.RQM_TOP_NOTICE_URL.equals(url)
-
-                    if (!webView.canGoBack()) {
-                        DialogUtil.isSureExitDialog(this, weakhandler);
-                    } else {
-                        onBackPressed();
-                    }
-
-                } else {
-                    onBackPressed();
-                }
+                onBackPressed();
                 break;
             case R.id.iv_rightIcon:
                 if (!StringUtils.isEmpty(rightUrl)) {
@@ -100,7 +83,9 @@ public class WebviewHome extends BaseWebview {
                 case 110:
                     break;
                 case 120:
-                    onBackPressed();
+                    Intent intent   = new Intent(WebviewHome.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     break;
                 default:
                     break;
@@ -120,16 +105,15 @@ public class WebviewHome extends BaseWebview {
 
     @Override
     public void onBackPressed() {
-        if (ifCloseWhenClickBack) {
-            WebviewHome.this.finish();
+        if (!webView.canGoBack()) {
+            DialogUtil.isSureExitDialog(this, weakhandler);
         } else {
-            if (webView.canGoBack()) {
-                webView.goBack();
+            if (sharedPrefUtil.getSharedBoolean(Consts.NOTDISPLAYTODAY, false)&&url.contains(Consts.RQM_CONTAINER_LIST_URL)) {
+                DialogUtil.isSureExitDialog(this, weakhandler);
             } else {
-                WebviewHome.this.finish();
+                webView.goBack();
             }
         }
-
     }
 
     @Override
@@ -137,36 +121,6 @@ public class WebviewHome extends BaseWebview {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (url.contains(Consts.RQM_CONTAINER_LIST_URL)) { //Consts.RQM_CONTAINER_LIST_URL.equals(url)
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-                // 时间锁连续两次时间间隔小于2秒
-                endTime = System.currentTimeMillis();
-                if (endTime - startTime < 2000) {
-                    // 安全退出
-                    ApplicationManager.getInstance().finishAllActivity();
-                    // 杀死自己的进程
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                } else {
-                    ToastUtils.show(this, "Press BACK again to exit the program");
-                    startTime = endTime;
-                }
-            }
-            return false;
-        } else if (url.contains(Consts.RQM_TOP_NOTICE_URL)) {   //Consts.RQM_TOP_NOTICE_URL.equals(url)
-            if (!webView.canGoBack()) {
-                DialogUtil.isSureExitDialog(this, weakhandler);
-            } else {
-                onBackPressed();
-            }
-            //   DialogUtil.isSureExitDialog(this, weakhandler);
-            return false;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(String data) {

@@ -250,7 +250,6 @@ public class HomeFragment extends BaseFragment {
                             activity.finish();
                         } else {
                             GoPageUtil.jumpTobyUrlLink(activity, Consts.RQM_TOP_NOTICE_URL + sharedPrefUtil.getSharedStr(Consts.urllinkend, ""));
-//                            GoPageUtil.jumpTobyUrlLink(activity, Consts.BAIDU);
                         }
 
                     } else {

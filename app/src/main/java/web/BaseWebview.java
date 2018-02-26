@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -100,18 +99,9 @@ public class BaseWebview extends BaseActivity {
 
         }
 
-        //     initRefresh();
-
         initWebView();
     }
 
-    private void initRefresh() {
-//        if (swipeLayout == null) {
-//            return;
-//        }
-//        swipeLayout.setColorSchemeResources(R.color.bg_229EFF);
-//        swipeLayout.setOnRefreshListener(listener);
-    }
 
     SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -198,7 +188,8 @@ public class BaseWebview extends BaseActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Logger.e("新url：" + url);
                 if (url.contains(Consts.RQM_CONTAINER_LIST_URL)) {      //Consts.RQM_CONTAINER_LIST_URL.equals(url)
-                    rlleft.setVisibility(View.GONE);
+//                    rlleft.setVisibility(View.GONE);
+                    rlleft.setVisibility(View.VISIBLE);
                     EventBus.getDefault().post(url);
                 } else {
                     rlleft.setVisibility(View.VISIBLE);
@@ -239,17 +230,6 @@ public class BaseWebview extends BaseActivity {
                 if (webView != null && !webView.getSettings().getLoadsImagesAutomatically()) {
                     webView.getSettings().setLoadsImagesAutomatically(true);
                 }
-
-         /*       if (swipeLayout == null) {
-                    return;
-                }
-                swipeLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeLayout.setRefreshing(false);
-                    }
-                }, 200);*/
-
             }
 
             @Override
@@ -374,7 +354,7 @@ public class BaseWebview extends BaseActivity {
 
     //处理WebView内存泄漏
     public void onDestroy() {
-        Logger.i("-------", "onDestroy");
+
         EventBus.getDefault().unregister(this);
         if (webView != null) {
             webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
@@ -398,11 +378,9 @@ public class BaseWebview extends BaseActivity {
         if (istrue) {
             sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, true);
             sharedPrefUtil.setSharedStr(Consts.LASTTIMESTR, TimeUtils.getCurrentDateString());
-            Log.e("save  time---", TimeUtils.getCurrentDateString());
         } else {
             sharedPrefUtil.setSharedBoolean(Consts.NOTDISPLAYTODAY, false);
             sharedPrefUtil.setSharedStr(Consts.LASTTIMESTR, "");
-            Log.e("save  time---", "");
         }
     }
 
@@ -410,27 +388,6 @@ public class BaseWebview extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(String data) {
 
-    }
-
-    @Override
-    protected void onRestart() {
-     /*   if (System.currentTimeMillis()
-                - Long.valueOf(db.getSharedStr("outTime")) >= 4 * 60 * 1000) {//4*60*60 * 1000
-            Intent intent = new Intent(activity,
-                    MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-        } else {
-
-        }*/
-        super.onRestart();
-    }
-
-    @Override
-    protected void onStop() {
-        //      db.setSharedStr("outTime", System.currentTimeMillis() + "");
-        super.onStop();
     }
 
 }
