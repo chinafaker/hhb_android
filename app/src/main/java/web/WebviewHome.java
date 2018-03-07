@@ -17,6 +17,7 @@ import base.MainActivity;
 import butterknife.BindView;
 import utils.DialogUtil;
 import utils.GoPageUtil;
+import utils.Logger;
 import utils.StringUtils;
 import utils.ToastUtils;
 import utils.WeakHandler;

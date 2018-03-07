@@ -186,11 +186,10 @@ public class BaseWebview extends BaseActivity {
             // 这个方法在用户试图点开页面上的某个链接时被调用
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Logger.e("新url：" + url);
+
+                EventBus.getDefault().post(url);
                 if (url.contains(Consts.RQM_CONTAINER_LIST_URL)) {      //Consts.RQM_CONTAINER_LIST_URL.equals(url)
-//                    rlleft.setVisibility(View.GONE);
                     rlleft.setVisibility(View.VISIBLE);
-                    EventBus.getDefault().post(url);
                 } else {
                     rlleft.setVisibility(View.VISIBLE);
                 }
@@ -212,6 +211,7 @@ public class BaseWebview extends BaseActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                EventBus.getDefault().post(url);
                 if (ifShowProgressbar) {
                     showProDialogCancel();
                 }
@@ -250,10 +250,12 @@ public class BaseWebview extends BaseActivity {
         if (StringUtils.isEmpty(url)) {
             return;
         }
-
         String postData = getPostData();
-        Logger.e("加载url地址：" + url + postData);
+        Logger.e("加载url地址：" + url);
+        Logger.e("加载url+postData地址：" + url + postData);
+        Logger.e("加载url地址RQM_CONTAINER_LIST_URL :",Consts.RQM_CONTAINER_LIST_URL);
 
+        EventBus.getDefault().post(url);
         if (!NetUtils.isConnected(this)) {
             DialogUtil.normalSureBtn(this, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
             return;
@@ -354,7 +356,6 @@ public class BaseWebview extends BaseActivity {
 
     //处理WebView内存泄漏
     public void onDestroy() {
-
         EventBus.getDefault().unregister(this);
         if (webView != null) {
             webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
