@@ -131,11 +131,11 @@ public class BaseWebview extends BaseActivity {
         webView.setVerticalScrollBarEnabled(false); //垂直不显示
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        settings.setDomStorageEnabled(true);   // 开启 DOM storage API 功能
-        settings.setBuiltInZoomControls(true);// 设置支持缩放
-        settings.setSupportZoom(true);//设定支持缩放
-        settings.setUseWideViewPort(true);// 设置此属性，可任意比例缩放。
-        settings.setJavaScriptEnabled(true);// 设置支持javascript脚本
+        settings.setDomStorageEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setSupportZoom(true);
+        settings.setUseWideViewPort(true);
+        settings.setJavaScriptEnabled(true);
         settings.setLoadsImagesAutomatically(true);
         settings.setAllowFileAccess(true); // 允许访问文件
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -146,10 +146,9 @@ public class BaseWebview extends BaseActivity {
         }
         //这两句基本上就可以做到屏幕适配了
         settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);//关键点
+        settings.setUseWideViewPort(true);
         settings.setBlockNetworkLoads(false);
-        settings.setBlockNetworkImage(false);//4.4.4以后加载图片
-        //设置html页面定位的支持
+        settings.setBlockNetworkImage(false);
         settings.setGeolocationEnabled(true);
         //添加对js功能的支持
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -205,7 +204,7 @@ public class BaseWebview extends BaseActivity {
                     }
                 }
 
-                return true;// 返回true表示在本WebView跳转（不跳转到系统的浏览器）默认为false;
+                return true;
             }
 
             @Override
@@ -251,10 +250,6 @@ public class BaseWebview extends BaseActivity {
             return;
         }
         String postData = getPostData();
-        Logger.e("加载url地址：" + url);
-        Logger.e("加载url+postData地址：" + url + postData);
-        Logger.e("加载url地址RQM_CONTAINER_LIST_URL :",Consts.RQM_CONTAINER_LIST_URL);
-
         EventBus.getDefault().post(url);
         if (!NetUtils.isConnected(this)) {
             DialogUtil.normalSureBtn(this, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);

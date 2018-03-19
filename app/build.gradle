@@ -81,6 +81,7 @@ static def getDev() {
 //测试版本接口
 static def getDebug() {
     "\"http://203.211.246.55:5000\""
+
 }
 
 //正式版

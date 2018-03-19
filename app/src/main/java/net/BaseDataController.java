@@ -421,7 +421,7 @@ public class BaseDataController {
                 Logger.i("===== " + method + " 返回数据：" + result);
                 if (Utils.isEmpty(result)) {
                     listener.onGetDataFailed(no_net, "");
-                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
                 } else {
                     try {
                         JSONObject jo = new JSONObject(result);
@@ -439,7 +439,7 @@ public class BaseDataController {
                             e.printStackTrace();
                         }
                         listener.onGetDataFailed(no_net, "");
-                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
+                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
                     }
                 }
 
@@ -451,9 +451,8 @@ public class BaseDataController {
                     if (mContext instanceof BaseActivity) {
                         ((BaseActivity) mContext).disProDialog();
                     }
-                    //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.tip_timeout));
                     listener.onGetDataFailed(no_net, "");
-                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
                     return;
                 }
                 Logger.e("失败原因：" + error.getMessage());
@@ -461,9 +460,8 @@ public class BaseDataController {
                 Logger.i("onFailure(" + method + ")----->" + result);
 
                 if (Utils.isEmpty(result)) {
-                    //  listener.onGetDataFailed(timeout, mContext.getResources().getString(R.string.net_exception));
                     listener.onGetDataFailed(no_net, "");
-                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
                 } else {
                     try {
                         JSONObject jo = new JSONObject(result);
@@ -475,9 +473,8 @@ public class BaseDataController {
                         if (Logger.B_LOG_OPEN) {
                             e.printStackTrace();
                         }
-//                        listener.onGetDataFailed(response_notFormat, mContext.getResources().getString(R.string.net_exception));
                         listener.onGetDataFailed(no_net, "");
-                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "The Internet connection failed. Please check the network setting.", null, true);
+                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
                     }
                 }
             }
