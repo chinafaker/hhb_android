@@ -421,7 +421,7 @@ public class BaseDataController {
                 Logger.i("===== " + method + " 返回数据：" + result);
                 if (Utils.isEmpty(result)) {
                     listener.onGetDataFailed(no_net, "");
-                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when getting data.", null, true);
                 } else {
                     try {
                         JSONObject jo = new JSONObject(result);
@@ -439,7 +439,7 @@ public class BaseDataController {
                             e.printStackTrace();
                         }
                         listener.onGetDataFailed(no_net, "");
-                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
+                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when getting data.", null, true);
                     }
                 }
 
@@ -452,7 +452,7 @@ public class BaseDataController {
                         ((BaseActivity) mContext).disProDialog();
                     }
                     listener.onGetDataFailed(no_net, "");
-                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when getting data.", null, true);
                     return;
                 }
                 Logger.e("失败原因：" + error.getMessage());
@@ -461,7 +461,7 @@ public class BaseDataController {
 
                 if (Utils.isEmpty(result)) {
                     listener.onGetDataFailed(no_net, "");
-                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
+                    DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when getting data.", null, true);
                 } else {
                     try {
                         JSONObject jo = new JSONObject(result);
@@ -474,7 +474,7 @@ public class BaseDataController {
                             e.printStackTrace();
                         }
                         listener.onGetDataFailed(no_net, "");
-                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when flushing data.", null, true);
+                        DialogUtil.normalSureBtn(mContext, "OK", "Kindly  Reminder", "Exception occurred when getting data.", null, true);
                     }
                 }
             }
