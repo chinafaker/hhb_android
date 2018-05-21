@@ -13,11 +13,10 @@ import net.Consts;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import base.MainActivity;
+import base.LvjianActivity;
 import butterknife.BindView;
 import utils.DialogUtil;
 import utils.GoPageUtil;
-import utils.Logger;
 import utils.StringUtils;
 import utils.ToastUtils;
 import utils.WeakHandler;
@@ -84,7 +83,7 @@ public class WebviewHome extends BaseWebview {
                 case 110:
                     break;
                 case 120:
-                    Intent intent   = new Intent(WebviewHome.this, MainActivity.class);
+                    Intent intent   = new Intent(WebviewHome.this, LvjianActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     break;

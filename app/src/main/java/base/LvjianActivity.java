@@ -37,7 +37,7 @@ import utils.ToastUtils;
 import utils.VersionManagementUtil;
 import utils.WeakHandler;
 
-public class MainActivity extends BaseActivity {
+public class LvjianActivity extends BaseActivity {
     private static final int investment_fragment_num = 1;//首页
     private HomeFragment homeFragment;
     private MainPagerAdapter mainPagerAdapter;

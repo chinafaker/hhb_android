@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -618,4 +619,71 @@ public class DialogUtil {
 
     }
 
+
+
+
+    public static void BjlLoginDialog(final Context context, final WeakHandler handler, boolean dismissFlag, String usetid) {
+        final InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        screenWidth = display.getWidth();
+        screenHeight = display.getHeight();
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+        final RelativeLayout layout = (RelativeLayout) inflaterDl.inflate(R.layout.layout_dialog_bjllogin, null);
+        //对话框
+        dialog = new AlertDialog.Builder(context).create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+        dialog.getWindow().setContentView(layout);
+        //背景透明
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.dimAmount = 0.4f;//完全不透明1.0f;
+        dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        //背景不可点击
+        dialog.setCanceledOnTouchOutside(dismissFlag);
+        dialog.setCancelable(dismissFlag);
+        final   EditText userEdi = (EditText) layout.findViewById(R.id.userEdi);
+        final  EditText passwordEdi = (EditText) layout.findViewById(R.id.passwordEdi);
+        TextView tv_tips = (TextView) layout.findViewById(R.id.tv_tips);
+        Button registerBtn = (Button) layout.findViewById(R.id.btn_login);
+        ImageView iv_close = (ImageView) layout.findViewById(R.id.iv_close);
+        userEdi.setSelection(userEdi.getText().toString().trim().length());
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                if (handler != null) {
+                    handler.sendEmptyMessage(8002);
+                }
+            }
+        });
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringUtils.isEmpty(userEdi.getText().toString())) {
+                    ToastUtils.show(context, "请输入账号");
+                    return;
+                }
+                if (StringUtils.isEmpty(passwordEdi.getText().toString())) {
+                    ToastUtils.show(context, "请输入密码");
+                    return;
+                }
+                if (handler != null) {
+                    Message message = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("accountID", userEdi.getText().toString());
+                    bundle.putString("password", passwordEdi.getText().toString());
+                    message.setData(bundle);//bundle传值，耗时，效率低
+                    handler.sendMessage(message);//发送message信息
+                    message.what = 8001;
+                }
+                imm.hideSoftInputFromWindow(layout.getWindowToken(), 0); //强制隐藏键盘
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
 }

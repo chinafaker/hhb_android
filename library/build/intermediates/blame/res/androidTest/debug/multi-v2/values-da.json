@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\DEMO\\rqm_android\\library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-da\\values-da.xml",
+            "outputFile": "E:\\git_demo\\rqm_android\\library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-da\\values-da.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\96036f1a4db6464f83e697148f43bf25\\res\\values-da\\values-da.xml",
+                    "source": "C:\\Users\\huanghaibin\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\aa30a90707fe6bca07ac24a4a662e6f2\\res\\values-da\\values-da.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
